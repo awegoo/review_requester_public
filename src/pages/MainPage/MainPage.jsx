@@ -8,7 +8,7 @@ const MainPage = () => {
     <div>
       <AutomationPanel />
       <SectionGraphs />
-      <SectionTotal />   
+      <SectionTotal />  
     </div>
   );
 };

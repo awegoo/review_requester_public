@@ -6,39 +6,38 @@ import { secret } from "@aws-amplify/backend";
 
 export const schema = configure({
     database: {
-        identifier: "IDSrcvNqebWXkbkdYokmASvA",
+        identifier: "IDMAyOOl69UHy6C4Y5voqAeg",
         engine: "postgresql",
         connectionUri: secret("SQL_CONNECTION_STRING"),
         vpcConfig: {
-            vpcId: "vpc-62812308",
+            vpcId: "vpc-189bc370",
             securityGroupIds: [
-                "sg-032ee3b70b73cada8"
+                "sg-09c7cfc33586f0dea"
             ],
             subnetAvailabilityZones: [
                 {
-                    subnetId: "subnet-272da74d",
-                    availabilityZone: "eu-central-1a"
+                    subnetId: "subnet-2383647c",
+                    availabilityZone: "ca-central-1d"
                 },
                 {
-                    subnetId: "subnet-4082550c",
-                    availabilityZone: "eu-central-1c"
+                    subnetId: "subnet-4f831935",
+                    availabilityZone: "ca-central-1b"
                 },
                 {
-                    subnetId: "subnet-ae8444d2",
-                    availabilityZone: "eu-central-1b"
+                    subnetId: "subnet-7fda9417",
+                    availabilityZone: "ca-central-1a"
                 }
             ]
         }
     }
 }).schema({
     "orders_ca_short": a.model({
-        index: a.integer().required(),
-        amazon_order_id: a.string(),
+        amazon_order_id: a.string().required(),
         merchant_order_id: a.string(),
         purchase_date: a.string(),
         last_updated_date: a.string(),
-        sku: a.string(),
-        asin: a.string(),
+        sku: a.string().required(),
+        asin: a.string().required(),
         order_status: a.string(),
         item_status: a.string(),
         quantity: a.integer(),
@@ -62,19 +61,22 @@ export const schema = configure({
         partition_0: a.string(),
         partition_1: a.string()
     }).identifier([
-        "index"
+        "amazon_order_id",
+        "sku",
+        "asin"
     ]),
     "reviews_data_ca": a.model({
-        index: a.integer().required(),
-        amazon_order_id: a.string(),
+        amazon_order_id: a.string().required(),
         merchant_order_id: a.string(),
         purchase_date: a.string(),
-        sku: a.string(),
-        asin: a.string(),
+        sku: a.string().required(),
+        asin: a.string().required(),
         quantity: a.integer(),
         review_text: a.string(),
         review_stars: a.integer()
     }).identifier([
-        "index"
+        "amazon_order_id",
+        "sku",
+        "asin"
     ])
 });
