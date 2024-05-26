@@ -18,8 +18,8 @@ const sqlSchema = generatedSqlSchema.authorization(allow => allow.guest())
 ])
 .setAuthorization((models) => [
 // Model-level authorization rules
-  models.orders_ca_short.authorization((allow) => [allow.publicApiKey(), allow.guest()]),
-  models.reviews_data_ca.authorization((allow) => [allow.publicApiKey(), allow.guest()])
+  models.orders_ca_short.authorization((allow) => [allow.guest()]),
+  models.reviews_data_ca.authorization((allow) => [allow.guest()])//allow.publicApiKey(), allow.guest()
 // Field-level authorization rules
   // models.orders_ca_short.fields.amazon_order_id.authorization(allow => [allow.publicApiKey(), allow.guest()]),
   // models.orders_ca_short.fields.asin.authorization(allow => [allow.publicApiKey(), allow.guest()])
