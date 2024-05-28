@@ -23,7 +23,7 @@ function FetchData() {
     const { data: reviews, errors } = await client.models.test_reviews.get({review_id: '1',}); //success
     setReviews(reviews);
     // console.log(errors);
-    // console.log(reviews);
+    console.log(reviews);
   };
 
   useEffect(() => {
