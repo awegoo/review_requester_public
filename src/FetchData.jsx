@@ -34,7 +34,7 @@ function FetchData() {
   return (
     <main>
       <h1>My data</h1>
-      <p>{reviews_data.review_id.toString()}, {reviews_data.review_text.toString()}, {reviews_data.review_stars.toString()}</p>
+{/*       <p>{reviews_data.review_id.toString()}, {reviews_data.review_text.toString()}, {reviews_data.review_stars.toString()}</p> */}
       {/* <ul>
         {reviews_data.map(({ review_id, review_text, review_stars }) => (
           <li key={review_id}>{review_text}, {review_stars}</li>
