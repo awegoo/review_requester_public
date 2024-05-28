@@ -2,7 +2,7 @@ import { type ClientSchema, a, defineData } from '@aws-amplify/backend';
 import { schema as generatedSqlSchema } from './schema.sql';
 
 // Add a global authorization rule
-const sqlSchema = generatedSqlSchema.authorization(allow => allow.authenticated("userPools"))//guest() authenticated("userPools")
+const sqlSchema = generatedSqlSchema.authorization(allow => allow.authenticated("userPools"))
 // .setRelationships((models) => [
 //   models.orders_ca_short.relationships({
 //     reviews: a.hasOne("reviews_data_ca", ["amazon_order_id", "asin", "sku"]), //primary keys
@@ -28,6 +28,5 @@ export const data = defineData({
   schema: combinedSchema,
   authorizationModes: {
     defaultAuthorizationMode: 'userPool',
-    apiKeyAuthorizationMode: { expiresInDays: 30 }
   }
 });
