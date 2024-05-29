@@ -13,10 +13,9 @@ const Templates = () => (
         minHeight: '100%',
         justifyContent: 'center',
         textAlign: 'center',
-        marginTop: '20px',
       }}
     >
-      <Grid item xs={12} style={{ maxWidth: '1240px' }}>
+      <Grid item xs={12} style={{ maxWidth: '1240px', marginTop: '70px' }}>
         <Outlet />
       </Grid>
     </Grid>

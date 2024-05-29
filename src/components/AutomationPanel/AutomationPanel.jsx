@@ -19,9 +19,12 @@ const AutomationPanel = () => {
       fontSize: '24px',
     }
   };
+
+
   return (
   <div style={styles.container}>
     <h1 style={styles.heading}>Automation Panel</h1>
+    <p>test</p>
   </div>
   );
 };
