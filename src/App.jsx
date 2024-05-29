@@ -5,7 +5,7 @@ import Templates from './components/Templates/Templates';
 import MainPage from './pages/MainPage/MainPage';
 import RequestPage from './pages/RequestPage/RequestPage';
 import NoteFound from './pages/NoteFound/NoteFound';
-import FetchData from './FetchData'
+import FetchData from './pages/FetchDataTest/FetchData'
 
 const App = () => {
   return (
