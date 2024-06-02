@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom/client'
 import App from './App.jsx'
 import './index.css'
 import { Authenticator } from '@aws-amplify/ui-react';
+import '@aws-amplify/ui-react/styles.css';
 import { ThemeProvider } from "styled-components";
 import { theme } from "./styles/theme.js";
 import { Amplify } from "aws-amplify";
