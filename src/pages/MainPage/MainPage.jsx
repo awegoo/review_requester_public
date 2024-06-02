@@ -7,9 +7,9 @@ import SectionTable from '../../components/SectionTable/SectionTable';
 const MainPage = () => {
   return (
     <div>
+      <SectionTotal /> 
       <AutomationPanel />
-      <SectionGraphs />
-      <SectionTotal />  
+      <SectionGraphs />       
       <SectionTable />
     </div>
   );

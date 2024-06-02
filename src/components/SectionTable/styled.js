@@ -37,4 +37,29 @@ export const StyledDiv = styled.div`
     transform: translateY(-50%);
     left: 4%;
   }
+
+  &&.box_icon_country {
+    border-radius: 50%;
+    width: 20px;
+    height: 20px;    
+  }
+
+  &&.bell {
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 0;
+    outline: none;
+
+    &:hover img {
+      animation: shake 0.5s infinite;
+    }
+  
+    @keyframes shake {
+      0%, 100% { transform: rotate(0deg); }
+      25% { transform: rotate(10deg); }
+      50% { transform: rotate(-10deg); }
+      75% { transform: rotate(10deg); }
+    }
+  }
 `;
