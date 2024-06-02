@@ -9,15 +9,15 @@ import FetchData from './pages/FetchDataTest/FetchData.jsx';
 
 const App = () => {
   return (
-    <FetchData />
-  //   <BrowserRouter>
-  //   <Routes>
-  //     <Route path='/*' element={<NoteFound />} />
-  //     <Route element={<Templates />}>
-  //       <Route path='/' element={<MainPage />} />
-  //     </Route>
-  //   </Routes>
-  // </BrowserRouter>
+  // <FetchData />
+    <BrowserRouter>
+    <Routes>
+      <Route path='/*' element={<NoteFound />} />
+      <Route element={<Templates />}>
+        <Route path='/' element={<MainPage />} />
+      </Route>
+    </Routes>
+  </BrowserRouter>
   );
 };
 
