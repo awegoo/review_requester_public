@@ -29,7 +29,7 @@ export const theme = {
       align-items: flex-start;
       gap: 10px;
       border-radius: 100px;
-      border: 1px solid ${({ theme }) => theme.colors.blue};
+      border: 1.5px solid ${({ theme }) => theme.colors.blue};
     `,
     tertiary: css`
       all: unset;
