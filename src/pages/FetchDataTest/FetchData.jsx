@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 // import {Schema} from "../amplify/data/resource";
 import { generateClient, head } from "aws-amplify/data";
-import { getAllReviews } from '../../../amplify/fetchDataFromDB/handler'
+import { handler } from '../../../amplify/fetchDataFromDB/handler'
 
 /**
  * @type {import('aws-amplify/data').Client<import('../../../amplify/data/resource').Schema>}
@@ -19,7 +19,7 @@ function FetchData() {
 
   //test
   async function writeAllReviews(){
-    const items = await getAllReviews();
+    const items = await handler();
     console.log(items);
     setReviews(items);
   };
