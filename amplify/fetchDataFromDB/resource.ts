@@ -1,6 +1,6 @@
 import { defineFunction } from "@aws-amplify/backend";
     
-export const myFirstFunction = defineFunction({
+export const fetchDataFromDB = defineFunction({
   name: "fetchDataFromDB",
   entry: " ./handler.ts"
 });
