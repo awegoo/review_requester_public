@@ -4,7 +4,7 @@ import { Handler } from 'aws-lambda';
 
 const client = generateClient<Schema>();
 
-export const getAllReviews: Handler = async (event, context) => {
+export const handler: Handler = async (event, context) => {
     const { data: items, errors } = await client.queries.listItems();
     if (errors) {
         return errors;
