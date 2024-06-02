@@ -17,6 +17,7 @@ function FetchData() {
     writeAllReviews()
   }, [])
 
+  //test
   async function writeAllReviews(){
     const items = await getAllReviews();
     console.log(items);
