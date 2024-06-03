@@ -8,16 +8,11 @@ import { signOut } from "aws-amplify/auth";
 const MainPage = () => {
   return (
     <div>
-<<<<<<< HEAD
+
       <SectionTotal /> 
-      <AutomationPanel />
-      <SectionGraphs />       
-=======
       <button onClick={signOut}>sign out</button>
       <AutomationPanel />
       <SectionGraphs />
-      <SectionTotal />
->>>>>>> 3dcc0da07e13255461bc70f5baace6c2dabd6d2d
       <SectionTable />
     </div>
   );
