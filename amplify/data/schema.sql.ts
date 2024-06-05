@@ -31,11 +31,46 @@ export const schema = configure({
         }
     }
 }).schema({
-    "test_reviews": a.model({
-        review_id: a.string().required(),
-        review_text: a.string(),
-        review_stars: a.integer()
+    "orders_ca_short": a.model({
+        amazon_order_id: a.string().required(),
+        merchant_order_id: a.string(),
+        purchase_date: a.string(),
+        last_updated_date: a.string(),
+        sku: a.string().required(),
+        asin: a.string().required(),
+        order_status: a.string(),
+        item_status: a.string(),
+        quantity: a.integer(),
+        fulfillment_channel: a.string(),
+        sales_channel: a.string(),
+        order_channel: a.string(),
+        ship_service_level: a.string(),
+        currency: a.string(),
+        item_price: a.float(),
+        item_tax: a.float(),
+        shipping_price: a.float(),
+        shipping_tax: a.float(),
+        gift_wrap_price: a.float(),
+        gift_wrap_tax: a.float(),
+        item_promotion_discount: a.float(),
+        ship_promotion_discount: a.float(),
+        promotion_ids: a.string(),
+        is_business_order: a.boolean(),
+        purchase_order_number: a.string(),
+        price_designation: a.string(),
+        partition_0: a.string(),
+        partition_1: a.string()
     }).identifier([
-        "review_id"
+        "amazon_order_id",
+        "sku",
+        "asin"
+    ]),
+    "sent_requests_ca": a.model({
+        amazon_order_id: a.string().required(),
+        purchase_date: a.date(),
+        request_sent_date: a.date(),
+        sent_success: a.boolean()
+    }).identifier([
+        "amazon_order_id"
     ])
 });
