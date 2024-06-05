@@ -3,15 +3,15 @@ import { schema as generatedSqlSchema } from "./schema.sql";
 
 const sqlSchema = generatedSqlSchema
   .authorization((allow) => [allow.authenticated()])
-  .renameModels(() => [["test_reviews", "Reviews"]])
+  .renameModels(() => [["orders_ca_short", "Orders"], ["sent_requests_ca", "Requests"]])
   .addToSchema({
     listItems: a
       .query()
-      .returns(a.ref("Reviews").array())
+      .returns(a.ref("Requests").array())
       .handler(
         a.handler.inlineSql(`SELECT
   *
-FROM test_reviews;`)
+FROM sent_requests_ca;`)
       ),
   });
 

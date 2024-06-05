@@ -29,7 +29,7 @@ function FetchData() {
       <h1>My data</h1>
     <ul>
     {reviews_data.map((reviews, review_id) => 
-      (<li key={review_id}>{review_id} {reviews.review_text} {reviews.review_stars}</li>))}
+      (<li key={review_id}>{review_id} {reviews.amazon_oreder_id} {reviews.purchase_date}</li>))}
     </ul>
     </main>
   );

@@ -14,8 +14,8 @@ export async function getAllReviews() {
 
 // Function for fetching single review from database by id
 export async function getSingleReview(id: string) {
-  const { data: review, errors } = await client.models.Reviews.get({
-    review_id: id,
+  const { data: review, errors } = await client.models.Requests.get({
+    amazon_order_id: id,
   });
   if (errors) {
     return errors;
