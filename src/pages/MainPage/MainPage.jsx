@@ -1,15 +1,25 @@
-import React from "react";
+import React, { useEffect } from "react";
 import AutomationPanel from "../../components/AutomationPanel/AutomationPanel";
 import SectionGraphs from "../../components/SectionGraphs/SectionGraphs";
 import SectionTotal from "../../components/SectionTotal/SectionTotal";
 import SectionTable from "../../components/SectionTable/SectionTable";
 import { signOut } from "aws-amplify/auth";
+import { generateClient } from "aws-amplify/data";
+import { getDates } from "../../utils/fetchData";
+import { handler as getAccessToken } from "../../../amplify/functions/getAccessToken/handler";
+import { get } from 'aws-amplify/api';
+
+
+const client = generateClient();
 
 const MainPage = () => {
+
   return (
     <div>
+      <SectionTotal />
       <button onClick={signOut}>sign out</button>
       <AutomationPanel />
+      <SectionGraphs />
       <SectionGraphs />
       <SectionTotal />
       <SectionTable />
