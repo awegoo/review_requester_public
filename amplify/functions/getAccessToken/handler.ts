@@ -9,7 +9,7 @@ const body = {
   client_secret: import.meta.env.VITE_LWA_CLIENT_SECRET as string,
 };
 
-export const handler: Handler = async (): Promise<any> => {
+export const handler: Handler = async (event): Promise<any> => {
   try {
     const response = await fetch(baseAuthUrl, {
       method: "POST",
@@ -30,7 +30,8 @@ export const handler: Handler = async (): Promise<any> => {
       "Content-Type": "application/json",
       "x-amz-access-token": accessToken,
     };
-    return reQheaders;
+    event = {reQheaders:reQheaders}
+    return {reQheaders, event};
   } catch (error: unknown | Error) {
     if (error instanceof Error) {
       throw new Error(`Error fetching access token:", ${error.message}`);
