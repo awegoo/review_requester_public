@@ -7,7 +7,6 @@ interface ISendedRequest {
   sent_success: boolean;
 }
 
-// !Разбить функцию на две отдельные
 export const handler: Handler = async (event) => {
   const sp_api_host = import.meta.env.VITE_SP_API_HOST;
   const { reqHeaders, orders } = event;
@@ -47,7 +46,7 @@ export const handler: Handler = async (event) => {
         result.push(requestObject);
         event = result;
       }
-      return { event, result };
+      return result;
     }
   } catch (error: any) {
     throw new Error(`Checker of solicitation: ${error.message}`);

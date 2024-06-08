@@ -30,8 +30,7 @@ export const handler: Handler = async (event): Promise<any> => {
       "Content-Type": "application/json",
       "x-amz-access-token": accessToken,
     };
-    event = {reQheaders:reQheaders}
-    return {reQheaders, event};
+    return reQheaders;
   } catch (error: unknown | Error) {
     if (error instanceof Error) {
       throw new Error(`Error fetching access token:", ${error.message}`);

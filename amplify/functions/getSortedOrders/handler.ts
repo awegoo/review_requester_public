@@ -6,7 +6,7 @@ import { getDates } from "../../utils/getDates";
 const client = generateClient<Schema>();
 
 export const handler: Handler = async (event) => {
-  let result:any[] = [];
+  let result: any[] = [];
   const { reqHeaders } = event;
   const { startDateString, endDateString } = await getDates();
   const { data: orders, errors } = await client.queries.getDateSortedOrders({
@@ -25,20 +25,16 @@ export const handler: Handler = async (event) => {
         };
         result.push(requestObject);
         event = {
-          ...event,
-          orders:result,
+          reqHeaders: reqHeaders,
+          orders: result,
         };
-        return { event, result };
+        return result;
       }
     }
   } else {
     if (orders !== null) {
       result.push(orders);
-      event = {
-        ...event,
-        orders:result,
-      };
-      return event;
+      return result;
     }
   }
 };
