@@ -3,7 +3,6 @@ import { Stack } from "aws-cdk-lib";
 import {
   AuthorizationType,
   CognitoUserPoolsAuthorizer,
-
   LambdaIntegration,
   RestApi,
 } from "aws-cdk-lib/aws-apigateway";
@@ -15,6 +14,12 @@ import { getAccessToken } from "./functions/getAccessToken/resource";
 import { checkReviewRequest } from "./functions/checkReviewRequest/resource";
 import { getSortedOrders } from "./functions/getSortedOrders/resource";
 import { postSendedReviewToDataBase } from "./functions/postReviewRequest/resource";
+//
+// import { defineBackend } from '@aws-amplify/backend';
+// import { auth } from './auth/resource';
+// import { data } from './data/resource';
+// import { myFirstFunction } from './my-first-function/resource'
+// import { fetchDataFromDB } from './fetchDataFromDB/resource'
 
 /**
  * @see https://docs.amplify.aws/react/build-a-backend/ to add storage, functions, and more
@@ -27,6 +32,8 @@ const backend = defineBackend({
   checkReviewRequest,
   postSendedReviewToDataBase,
   // myApiFunction,
+//   myFirstFunction,
+//   fetchDataFromDB
 });
 
 // const apiStack = backend.createStack("api-stack");

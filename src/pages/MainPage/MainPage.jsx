@@ -15,7 +15,6 @@ const MainPage = () => {
       <button onClick={signOut}>sign out</button>
       <AutomationPanel />
       <SectionGraphs />
-      <SectionGraphs />
       <SectionTotal />
       <SectionTable />
     </div>
