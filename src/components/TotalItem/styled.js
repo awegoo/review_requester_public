@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 
 export const StyledItem = styled.div`
-  
+  width: 310px;
   padding: 24px;
   background-color: #fff;
   border-radius: 4px;
@@ -13,10 +13,10 @@ export const StyledItem = styled.div`
   justify-content: space-between;
   position: relative;
 
-  div {
+  div {    
     display: flex;
     justify-content: space-between;
-    align-items: stretch;
+    align-items: center;
     margin-bottom: 16px;
 
     &.no_margin {
@@ -40,17 +40,15 @@ export const StyledItem = styled.div`
     &.info_text {
       ${({ theme }) => theme.fonts.bodyMedium};
       color: #0F6C56;
+      letter-spacing: -0.1px;
     }
   }
 
   img {
     &.item_bg {
-      width: 90px;
-      height: auto;
       position: absolute;
       bottom: 0;
-      right: -1px;
-      opacity: 0.4;
+      right: 0;
     }
 
     &.icon_info{
@@ -59,9 +57,13 @@ export const StyledItem = styled.div`
     }
 
     &.box {
-      width: 24px;
-      height: auto;
       margin-right: 12px;
+    }
+    
+    &.chart_chip {
+      width: 91px;
+      height: 28px;
+      margin-right: 8px;
     }
   }
 `;

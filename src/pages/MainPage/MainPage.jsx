@@ -10,9 +10,10 @@ const MainPage = () => {
     <div>
       <SectionTotal /> 
       <button onClick={signOut}>sign out</button>
-      <AutomationPanel />
-      <SectionGraphs />       
       <SectionTable />
+      <AutomationPanel />
+      <SectionGraphs />
+      
     </div>
   );
 };
