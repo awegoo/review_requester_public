@@ -36,11 +36,6 @@ FROM orders_ca_short;`)
       FROM orders_ca_short
       WHERE last_updated_date::date BETWEEN :startDate::date AND :endDate::date
       ORDER BY last_updated_date DESC;`)
-//       .returns(a.ref("Requests").array())
-//       .handler(
-//         a.handler.inlineSql(`SELECT
-//   *
-// FROM sent_requests_ca;`)
       ),
   });
 

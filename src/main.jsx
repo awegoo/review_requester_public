@@ -6,9 +6,10 @@ import { Authenticator } from "@aws-amplify/ui-react";
 import "@aws-amplify/ui-react/styles.css";
 import { ThemeProvider } from "styled-components";
 import { theme } from "./styles/theme.js";
+
+import AuthenticatorComponent from "./components/Authenticator/Authenticator.jsx";
 import { Amplify } from "aws-amplify";
 import outputs from "../amplify_outputs.json";
-// import AuthenticatorComponent from "./components/Authenticator/Authenticator.jsx";
 
 Amplify.configure(outputs);
 
