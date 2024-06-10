@@ -12,6 +12,7 @@ import {
 } from "./styled";
 import { StyledButton } from "../Button/styled";
 import { StyledDiv } from "../SectionTable/styled";
+import { signOut } from "aws-amplify/auth";
 
 const Header = () => {
   const [region, setRegion] = React.useState("");
@@ -140,6 +141,10 @@ const Header = () => {
           <StyledButton className="avatar">
             <a href="#">DB</a>
           </StyledButton>
+          <StyledButton className="avatar">
+          <a href="#" onClick={signOut}>Sign Out</a>
+          </StyledButton>
+          {/* <button onClick={signOut}>sign out</button> */}
         </StyledRightContainer>
       </StyledContainer>
     </StyledHeader>

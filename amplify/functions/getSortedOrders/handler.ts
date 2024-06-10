@@ -20,8 +20,8 @@ export const handler: Handler = async (event) => {
     for (const element of orders) {
       if (element !== null) {
         const requestObject = {
-          amazon_order_id: element.amazon_order_id as string,
-          purchase_date: element.last_updated_date as string,
+          amazon_order_id: element!.amazon_order_id as string, //added ! for element, because of error
+          purchase_date: element!.last_updated_date as string,
         };
         result.push(requestObject);
         event = {
