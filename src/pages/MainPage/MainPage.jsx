@@ -13,9 +13,6 @@ const MainPage = () => {
     <div>
       <SectionTotal />
       <button onClick={signOut}>sign out</button>
-      <AutomationPanel />
-      <SectionGraphs />
-      <SectionTotal />
       <SectionTable />
     </div>
   );
