@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 // import {Schema} from "../amplify/data/resource";
 import { generateClient, head } from "aws-amplify/data";
-import { handler } from '../../../amplify/fetchDataFromDB/handler'
+// import { handler } from '../../../amplify/fetchDataFromDB/handler';
 
 /**
  * @type {import('aws-amplify/data').Client<import('../../../amplify/data/resource').Schema>}
@@ -29,7 +29,7 @@ function FetchData() {
       <h1>My data</h1>
     <ul>
     {reviews_data.map((reviews, review_id) => 
-      (<li key={review_id}>{review_id} {reviews.review_text} {reviews.review_stars}</li>))}
+      (<li key={review_id}>{review_id} {reviews.amazon_oreder_id} {reviews.purchase_date}</li>))}
     </ul>
     </main>
   );
