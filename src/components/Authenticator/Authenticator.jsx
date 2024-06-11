@@ -1,15 +1,9 @@
 import React from "react";
-import ReactDOM from "react-dom/client";
-import App from "./App.jsx";
-import "./index.css";
-// import { Authenticator } from "@aws-amplify/ui-react";
-import "@aws-amplify/ui-react/styles.css";
-import { ThemeProvider } from "styled-components";
-import { theme } from "./styles/theme.js";
+
+import { Authenticator, Button, Heading, Text, ThemeProvider, View, useAuthenticator } from "@aws-amplify/ui-react";
+import { theme } from "../../styles/theme";
 import { Amplify } from "aws-amplify";
-import outputs from "../amplify_outputs.json";
-import { Authenticator, Button, Heading, Text, View, useAuthenticator, useTheme } from "@aws-amplify/ui-react";
-// import AuthenticatorComponent from "./components/Authenticator/Authenticator.jsx";
+import outputs from "../../../amplify_outputs.json";
 
 Amplify.configure(outputs);
 
@@ -216,13 +210,26 @@ const formFields = {
   },
 };
 
-ReactDOM.createRoot(document.getElementById("root")).render(
+const customTheme = {
+  name: 'my-theme',
+  tokens: {
+    colors: {
+      font: {
+        primary: { value: '#008080' },
+        // ...
+      },
+    },
+  },
+};
 
-    <React.StrictMode>
-      <ThemeProvider theme={theme}>
-      <Authenticator formFields={formFields} components={components} hideSignUp >
-        <App />
-        </Authenticator>
-      </ThemeProvider>
-    </React.StrictMode>  
-);
+const AuthenticatorComponent = () => {
+  return (
+    <ThemeProvider theme={theme.customAuthenticator} >
+    <Authenticator formFields={formFields} components={components}>
+     
+    </Authenticator>
+    </ThemeProvider>
+  );
+};
+
+export default AuthenticatorComponent;
