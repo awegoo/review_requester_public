@@ -3,18 +3,16 @@ import { Stack } from "aws-cdk-lib";
 import {
   AuthorizationType,
   CognitoUserPoolsAuthorizer,
-
   LambdaIntegration,
   RestApi,
 } from "aws-cdk-lib/aws-apigateway";
 import { Policy, PolicyStatement } from "aws-cdk-lib/aws-iam";
-import { myApiFunction } from "./functions/api-functions/resource";
 import { auth } from "./auth/resource";
 import { data } from "./data/resource";
 import { getAccessToken } from "./functions/getAccessToken/resource";
-import { checkReviewRequest } from "./functions/checkReviewRequest/resource";
-import { getSortedOrders } from "./functions/getSortedOrders/resource";
+import { checkReviewRequest } from "./functions/sendReviewRequest/resource";
 import { postSendedReviewToDataBase } from "./functions/postReviewRequest/resource";
+import { getDates } from "./functions/getDates/resource";
 
 /**
  * @see https://docs.amplify.aws/react/build-a-backend/ to add storage, functions, and more
@@ -23,91 +21,93 @@ const backend = defineBackend({
   auth,
   data,
   getAccessToken,
-  getSortedOrders,
   checkReviewRequest,
   postSendedReviewToDataBase,
-  // myApiFunction,
+  getDates,
 });
 
-// const apiStack = backend.createStack("api-stack");
+const apiStack = backend.createStack("api-stack");
 
-// // create a new REST API
-// const myRestApi = new RestApi(apiStack, "RestApi", {
-//   restApiName: "myRestApi",
-//   deploy: true,
-//   defaultCorsPreflightOptions: {
-//     allowOrigins: ["*"], // Restrict this to domains you trust
-//     allowMethods: ["OPTIONS", "GET", "POST"], // Specify only the methods you need to allow
-//     allowHeaders: [
-//       "Content-Type",
-//       "Authorization",
-//       "X-Amz-Date",
-//       "x-amz-access-token",
-//       "x-amz-security-token",
-//       "X-Api-Key",
-//     ],
-//   },
-// });
+const myRestApi = new RestApi(apiStack, "RestApi", {
+  restApiName: "reviewRequest",
+  deploy: true,
+  defaultCorsPreflightOptions: {
+    allowOrigins: ["*"],
+    allowMethods: ["OPTIONS", "GET", "POST"],
+    allowHeaders: [
+      "Content-Type",
+      "Authorization",
+      "X-Amz-Date",
+      "x-amz-access-token",
+      "x-amz-security-token",
+      "X-Api-Key",
+    ],
+  },
+});
 
-// const lambdaIntegration = new LambdaIntegration(
-//   backend.myApiFunction.resources.lambda
-// );
+const lambdaGetToken = new LambdaIntegration(
+  backend.getAccessToken.resources.lambda
+);
 
-// const ordersPath = myRestApi.root.addResource("orders", {
-//   defaultMethodOptions: {
-//     authorizationType: AuthorizationType.IAM,
-//   },
-// });
+const lambdaGetDates = new LambdaIntegration(backend.getDates.resources.lambda);
 
-// ordersPath.addMethod("GET", lambdaIntegration);
-// ordersPath.addMethod("POST", lambdaIntegration);
+const cognitoAuth = new CognitoUserPoolsAuthorizer(apiStack, "CognitoAuth", {
+  cognitoUserPools: [backend.auth.resources.userPool],
+});
 
-// ordersPath.addProxy({
-//   anyMethod: true,
-//   defaultIntegration: lambdaIntegration,
-// });
+const tokenPath = myRestApi.root.addResource("gettoken");
+const datesPath = myRestApi.root.addResource("getdates");
 
-// const cognitoAuth = new CognitoUserPoolsAuthorizer(apiStack, "CognitoAuth", {
-//   cognitoUserPools: [backend.auth.resources.userPool],
-// });
+// !поменять на авторизацию IAM для aws console.
+tokenPath.addMethod("GET", lambdaGetToken, {
+  authorizationType: AuthorizationType.COGNITO,
+  authorizer: cognitoAuth,
+});
 
-// // create a new resource path with Cognito authorization
-// const booksPath = myRestApi.root.addResource("cognito-auth-path");
-// booksPath.addMethod("GET", lambdaIntegration, {
-//   authorizationType: AuthorizationType.COGNITO,
-//   authorizer: cognitoAuth,
-// });
+// !поменять на авторизацию IAM для aws console.
+datesPath.addMethod("GET", lambdaGetDates, {
+  authorizationType: AuthorizationType.COGNITO,
+  authorizer: cognitoAuth,
+});
 
-// // create a new IAM policy to allow Invoke access to the API
-// const apiRestPolicy = new Policy(apiStack, "RestApiPolicy", {
-//   statements: [
-//     new PolicyStatement({
-//       actions: ["execute-api:Invoke"],
-//       resources: [
-//         `${myRestApi.arnForExecuteApi("orders")}`,
-//         `${myRestApi.arnForExecuteApi("cognito-auth-path")}`,
-//       ],
-//     }),
-//   ],
-// });
+tokenPath.addProxy({
+  anyMethod: true,
+  defaultIntegration: lambdaGetToken,
+});
 
-// // attach the policy to the authenticated and unauthenticated IAM roles
-// backend.auth.resources.authenticatedUserIamRole.attachInlinePolicy(
-//   apiRestPolicy
-// );
-// backend.auth.resources.unauthenticatedUserIamRole.attachInlinePolicy(
-//   apiRestPolicy
-// );
+datesPath.addProxy({
+  anyMethod: true,
+  defaultIntegration: lambdaGetDates,
+});
 
-// // add outputs to the configuration file
-// backend.addOutput({
-//   custom: {
-//     API: {
-//       [myRestApi.restApiName]: {
-//         endpoint: myRestApi.url,
-//         region: Stack.of(myRestApi).region,
-//         apiName: myRestApi.restApiName,
-//       },
-//     },
-//   },
-// });
+const apiRestPolicy = new Policy(apiStack, "RestApiPolicy", {
+  statements: [
+    new PolicyStatement({
+      actions: ["execute-api:Invoke"],
+      resources: [
+        `${myRestApi.arnForExecuteApi("gettoken")}`,
+        `${myRestApi.arnForExecuteApi("getdates")}`,
+        `${myRestApi.arnForExecuteApi("getorders")}`,
+      ],
+    }),
+  ],
+});
+
+backend.auth.resources.authenticatedUserIamRole.attachInlinePolicy(
+  apiRestPolicy
+);
+backend.auth.resources.unauthenticatedUserIamRole.attachInlinePolicy(
+  apiRestPolicy
+);
+
+backend.addOutput({
+  custom: {
+    API: {
+      [myRestApi.restApiName]: {
+        endpoint: myRestApi.url,
+        region: Stack.of(myRestApi).region,
+        apiName: myRestApi.restApiName,
+      },
+    },
+  },
+});

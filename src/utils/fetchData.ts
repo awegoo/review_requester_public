@@ -1,5 +1,7 @@
 import { generateClient } from "aws-amplify/data";
 import { type Schema } from "../../amplify/data/resource";
+import { fetchAuthSession } from "aws-amplify/auth";
+import {handler as getNotifications} from '../../amplify/functions/sendReviewRequest/handler';
 
 const client = generateClient<Schema>();
 
@@ -49,4 +51,41 @@ export async function getDates() {
   const endDateString = endDate.toISOString().slice(0, 10);
 
   return { startDateString, endDateString };
+}
+
+export async function fetchDatafromApi() {
+  const session = await fetchAuthSession();
+  const token = session.tokens?.idToken;
+  // const response = await fetch(
+  //   "https://vzln9d92l5.execute-api.ca-central-1.amazonaws.com/prod/gettoken",
+  //   {
+  //     headers: {
+  //       Authorization: `${token}`,
+  //     },
+  //   }
+  // );
+  // const data = await response.json();
+
+  const context = {
+    functionName: 'localTestFunction',
+    memoryLimitInMB: '128',
+    invokedFunctionArn: 'arn:aws:lambda:local:1:function:localTestFunction',
+    awsRequestId: 'localTestRequestId',
+    logGroupName: '/aws/lambda/localTestFunction',
+    logStreamName: 'localTestLogStream',
+    getRemainingTimeInMillis: () => 30000,
+    done: () => null,
+    fail: () => null,
+    succeed: () => null,
+  };
+
+  const callback = (error: any, result: any) => {
+    if (error) {
+      console.error('Callback error:', error);
+    } else {
+      console.log('Callback result:', result);
+    }
+  };
+  const data = await getNotifications({token},context,callback)
+  console.log(data);
 }

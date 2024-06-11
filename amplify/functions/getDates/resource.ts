@@ -1,6 +1,6 @@
 import { defineFunction } from '@aws-amplify/backend';
 
-export const getSortedOrders = defineFunction({
-    name:'getSortedOrders',
+export const getDates = defineFunction({
+    name:'getDates',
     entry:'./handler.ts',
 })

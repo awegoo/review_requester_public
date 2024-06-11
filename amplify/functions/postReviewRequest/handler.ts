@@ -4,6 +4,8 @@ import { type Schema } from "../../data/resource";
 
 const client = generateClient<Schema>();
 
+
+// !FOR AWS need to change FOR API
 export const handler: Handler = async (event) => {
   const sendedReview = event;
   try {
