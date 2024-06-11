@@ -1,0 +1,35 @@
+export const data = [
+  {
+    title: "Net New Reviews",
+    number: "4,51",
+    star: "./static/images/icons/star.svg",
+    img: "./static/images/icons/box.svg",
+    className: "box",
+    text: "Average rating for all products",
+    backgroundImg: "./static/images/illustrative/Illustrative_1.png",
+  },
+  {
+    title: "Total Requests Sent",
+    number: "175,795",
+    img: "./static/images/icons/ChartChip.png",
+    className: "chart_chip",
+    text: "vs last month",
+    backgroundImg: "./static/images/illustrative/Illustrative_2.png",
+  },
+  {
+    title: "Months Requests Sent",
+    number: "11,900",
+    img: "./static/images/icons/medal.svg",
+    className: "box",
+    text: "Goal: 10,000 requests",
+    backgroundImg: "./static/images/illustrative/Illustrative_3.png",
+  },
+  {
+    title: "Total Skipped Requests",
+    number: "97",
+    img: "./static/images/icons/ChartChipGreen.png",
+    className: "chart_chip",
+    text: "vs last month",
+    backgroundImg: "./static/images/illustrative/Illustrative_4.png",
+  },
+];

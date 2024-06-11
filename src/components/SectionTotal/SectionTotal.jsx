@@ -1,25 +1,27 @@
-import React from 'react';
-import TotalItem from '../TotalItem/TotalItem';
+import React from "react";
+import TotalItem from "../TotalItem/TotalItem";
+import { StyledContainer } from "./styled";
+import { data } from "../constants/constants";
 
 const SectionTotal = () => {
-const styles = {
-    container: {
-      display: 'flex',
-      flexWrap: 'wrap',
-      alignItems: 'center',
-      justifyContent: 'space-between',
-      marginBottom: '20px',
-    },
-};
+  const itemInfo = data;
 
   return (
-    <div style={styles.container}>
-      <TotalItem />
-      <TotalItem />
-      <TotalItem />
-      <TotalItem />
-    </div>
+    <StyledContainer>
+      {itemInfo.map((item) => (
+        <TotalItem
+          key={item.title}
+          title={item.title}
+          number={item.number}
+          star={item.star}
+          img={item.img}
+          text={item.text}
+          backgroundImg={item.backgroundImg}
+          className={item.className}
+        />
+      ))}
+    </StyledContainer>
   );
 };
- 
+
 export default SectionTotal;
