@@ -47,7 +47,7 @@ export const handler: Handler = async (event) => {
       return errors;
     }
 
-    if (Array.isArray(orders) && orders !== null) {
+    if (Array.isArray(orders) && orders !== null && orders.length !== 0) {
       for (const element of orders) {
         if (element !== null && element !== undefined) {
           const url_get = `${sp_api_host}/solicitations/v1/orders/${element.amazon_order_id}?marketplaceIds=A2EUQ1WTGCTBG2`;
@@ -63,52 +63,43 @@ export const handler: Handler = async (event) => {
           }
           const content = await response.json();
           if (content._links.actions.length === 0) {
-            const requestObject = {
-              amazon_order_id: element.amazon_order_id as string,
-              purchase_date: element.last_updated_date as string,
-              request_sent_date: new Date(),
-              sent_success: false,
-            };
             // !Сделать API endpoint к функции пост отзыва и вызывать тут метов ПОСТ
             const { errors, data: newRequest } =
               await client.models.SendedRequest.create({
-                amazon_order_id: requestObject.amazon_order_id,
-                purchase_date: requestObject.purchase_date,
-                request_sent_date: requestObject.request_sent_date
-                  .toISOString()
-                  .slice(0, 10),
-                sent_success: requestObject.sent_success,
+                amazon_order_id: element.amazon_order_id,
+                purchase_date: element.purchase_date,
+                request_sent_date: new Date().toISOString().slice(0, 10),
+                sent_success: false,
               });
-            result.push(requestObject);
+            if (errors) {
+              return errors;
+            }
+            result.push(newRequest as ISendedRequest);
             return result;
           }
           // !Сделать API endpoint к функции пост отзыва и вызывать тут метов ПОСТ
-          const requestObject = {
-            amazon_order_id: element.amazon_order_id as string,
-            purchase_date: element.last_updated_date as string,
-            request_sent_date: new Date(),
-            sent_success: true,
-          };
           const { errors, data: newRequest } =
             await client.models.SendedRequest.create({
-              amazon_order_id: requestObject.amazon_order_id,
-              purchase_date: requestObject.purchase_date,
-              request_sent_date: requestObject.request_sent_date
-                .toISOString()
-                .slice(0, 10),
-              sent_success: requestObject.sent_success,
+              amazon_order_id: element.amazon_order_id,
+              purchase_date: element.purchase_date,
+              request_sent_date: new Date().toISOString().slice(0, 10),
+              sent_success: true,
             });
-          result.push(requestObject);
+          if (errors) {
+            return errors;
+          }
+          result.push(newRequest as ISendedRequest);
         }
       }
       return result;
     }
+    return "No exist orders for sending review requests";
   } catch (error: any) {
     if (error instanceof Error) {
       return {
         statusCode: 500,
         body: JSON.stringify({
-          error: `Order does not exist: ${error.message}`,
+          error: `check notifications: ${error.message}`,
         }),
       };
     } else {

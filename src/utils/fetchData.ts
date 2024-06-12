@@ -1,7 +1,7 @@
 import { generateClient } from "aws-amplify/data";
 import { type Schema } from "../../amplify/data/resource";
 import { fetchAuthSession } from "aws-amplify/auth";
-import {handler as getNotifications} from '../../amplify/functions/sendReviewRequest/handler';
+import {handler as getNotifications} from '../../amplify/functions/checkReviewRequest/handler';
 
 const client = generateClient<Schema>();
 

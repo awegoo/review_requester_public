@@ -10,7 +10,7 @@ import { Policy, PolicyStatement } from "aws-cdk-lib/aws-iam";
 import { auth } from "./auth/resource";
 import { data } from "./data/resource";
 import { getAccessToken } from "./functions/getAccessToken/resource";
-import { checkReviewRequest } from "./functions/sendReviewRequest/resource";
+import { checkReviewRequest } from "./functions/checkReviewRequest/resource";
 import { postSendedReviewToDataBase } from "./functions/postReviewRequest/resource";
 import { getDates } from "./functions/getDates/resource";
 
