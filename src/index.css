@@ -34,11 +34,14 @@ button {
 .authenticator-container {
   display: flex;
   justify-content: end;
-  align-items: center;
   height: 100vh;
-  background: url('./../public/static/images/bg_sign.png')  no-repeat;
-  margin-right: 28%;
+  background: url('./static/images/bg_sign.png')  no-repeat;
   flex-wrap: wrap;  
+}
+
+.authenticator-container .authenticator-custom {
+  margin-right: 28%;
+  align-items: center;
 }
 
 @media screen and (max-width: 1280px) {

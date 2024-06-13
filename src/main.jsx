@@ -20,9 +20,9 @@ ReactDOM.createRoot(document.getElementById("root")).render(
           className="authenticator-custom"
           formFields={formFields}
           components={components}
-        >
+        > 
           <App />
-        </Authenticator>
+        </Authenticator> 
       </div>
     </ThemeProvider>
   </React.StrictMode>
