@@ -11,9 +11,9 @@ const client = generateClient();
 
 const MainPage = () => {
 
-  // useEffect(() => {
-  //   fetchDatafromApi()
-  // },[])
+  useEffect(() => {
+    fetchDatafromApi()
+  },[])
 
   return (
     <div>
