@@ -1,10 +1,6 @@
-import { Amplify } from "aws-amplify";
 import { Handler } from "aws-lambda";
-import { generateClient } from "aws-amplify/data";
-import { type Schema } from "../../data/resource";
 import { env } from "$amplify/env/checkReviewRequest";
-
-const client = generateClient<Schema>();
+import { Client } from "pg";
 
 interface ISendedRequest {
   amazon_order_id: string;
@@ -13,27 +9,47 @@ interface ISendedRequest {
   sent_success: boolean;
 }
 
-// !How to fetch data from RDS PostgreSQL from lambda function without const client = generateClient<Schema>();
+const client = new Client({
+  connectionString: env.STRING_CONNECTION,
+  ssl: {
+    rejectUnauthorized: false,
+  },
+});
 
 // Function for save new request to data base
 async function addRequest(data: ISendedRequest) {
-  const { errors, data: newRequest } = await client.models.SendedRequest.create(
-    {
-      amazon_order_id: data.amazon_order_id,
-      purchase_date: data.purchase_date,
-      request_sent_date: data.request_sent_date as string,
-      sent_success: data.sent_success,
+  await client.connect();
+  const addQuery = `
+    INSERT INTO sent_requests_ca (amazon_order_id, purchase_date, request_sent_date, sent_success)
+    VALUES ($1, $2, $3, $4)
+    RETURNING *;
+  `;
+  try {
+    const res = await client.query(addQuery, [
+      data.amazon_order_id,
+      data.purchase_date,
+      data.request_sent_date,
+      data.sent_success,
+    ]);
+    await client.end();
+    return res.rows[0];
+  } catch (error) {
+    if (error instanceof Error) {
+      return { error: `add request to db: ${error.message}` };
     }
-  );
-  if (errors) {
-    return errors;
   }
-  return newRequest;
 }
 
 // Function for checking notifications and pass orders data to the addRequest function if solicications of notifications is available
 export const handler: Handler = async (event) => {
   const { token } = event;
+  const sortOrdersQuery = `
+  SELECT *
+      FROM orders_ca_short
+      WHERE last_updated_date::date BETWEEN $1::date AND $2::date
+      ORDER BY last_updated_date DESC;
+`;
+  await client.connect();
   const sp_api_host = import.meta.env.VITE_SP_API_HOST;
   // const sp_api_host = env.SP_API_HOST;
 
@@ -57,14 +73,12 @@ export const handler: Handler = async (event) => {
       }
     );
     const dates = await resDates.json();
-
-    const { data: orders, errors } = await client.queries.getDateSortedOrders({
-      startDate: dates.startDateString,
-      endDate: dates.endDateString,
-    });
-    if (errors) {
-      return errors;
-    }
+    const res = await client.query(sortOrdersQuery, [
+      dates.startDateString,
+      dates.endDateString,
+    ]);
+    await client.end();
+    const orders = res.rows;
 
     if (Array.isArray(orders) && orders !== null && orders.length !== 0) {
       for (const element of orders) {
@@ -88,7 +102,7 @@ export const handler: Handler = async (event) => {
               request_sent_date: new Date().toISOString().slice(0, 10),
               sent_success: false,
             };
-            // !Сделать API endpoint к функции пост отзыва и вызывать тут метов ПОСТ
+
             const result = await addRequest(request);
             return result;
           }
