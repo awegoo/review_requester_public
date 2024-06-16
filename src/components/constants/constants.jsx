@@ -152,7 +152,7 @@ export const components = {
           <Text>
             Already have an account?{" "}
             <CustomLink href="#" color="#1C58CF" onClick={toSignIn}>
-              Back to Sign In
+              Sign In now
             </CustomLink>
           </Text>
         </View>
