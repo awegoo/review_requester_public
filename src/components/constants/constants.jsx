@@ -130,8 +130,16 @@ export const components = {
         <Heading
           padding={`${tokens.space.xl} 0 0 ${tokens.space.xl}`}
           level={3}
+          style={{
+            color: "#231F20",
+            fontFamily: "Wix Madefor Text",
+            fontSize: "36px",
+            fontStyle: "normal",
+            fontWeight: 700,
+            lineHeight: "46px",
+          }}
         >
-          Create a new account
+          Sign Up
         </Heading>
       );
     },
@@ -140,14 +148,13 @@ export const components = {
 
       return (
         <View textAlign="center">
-          <Button
-            fontWeight="normal"
-            onClick={toSignIn}
-            size="small"
-            variation="link"
-          >
-            Back to Sign In
-          </Button>
+          
+          <Text>
+            Already have an account?{" "}
+            <CustomLink href="#" color="#1C58CF" onClick={toSignIn}>
+              Back to Sign In
+            </CustomLink>
+          </Text>
         </View>
       );
     },
@@ -263,15 +270,34 @@ export const formFields = {
     },
   },
   signUp: {
-    password: {
-      label: 'Password:',
-      placeholder: 'Enter your Password:',
-      isRequired: false,
-      order: 2,
+    username: {
+      placeholder: "oooo.yellow@gmail.com",
+      color: "#231F20",
+      label: "Email",
+      fontFamily: "Wix Madefor Text",
+      fontSize: "16px",
+      fontStyle: "normal",
+      fontWeight: 600,
+      lineHeight: "24px",
+      marginBottom: "8px",
     },
+    password: {
+      placeholder: "Enter your password",
+      label: "Password",
+      fontFamily: "Wix Madefor Text",
+      fontSize: "16px",
+      fontStyle: "normal",
+      fontWeight: 600,
+      lineHeight: "24px",
+    },    
     confirm_password: {
-      label: 'Confirm Password:',
-      order: 1,
+      placeholder: "Please confirm your password",
+      label: 'Confirm password',
+      fontFamily: "Wix Madefor Text",
+      fontSize: "16px",
+      fontStyle: "normal",
+      fontWeight: 600,
+      lineHeight: "24px",
     },
   },
   // forceNewPassword: {
