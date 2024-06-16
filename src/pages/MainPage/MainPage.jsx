@@ -10,11 +10,11 @@ const client = generateClient();
 
 const MainPage = () => {
   return (
-    <div>
+    <>
       <SectionTotal />
       <DraftChart />
       <SectionTable />
-    </div>
+    </>
   );
 };
 
