@@ -54,8 +54,9 @@ export async function getDates() {
 }
 
 export async function fetchDatafromApi() {
-  const session = await fetchAuthSession();
-  const token = session.tokens?.idToken;
+  const {data:requests, errors} = await client.queries.listAllRequests();
+  // const session = await fetchAuthSession();
+  // const token = session.tokens?.idToken;
   // const response = await fetch(
   //   "https://vzln9d92l5.execute-api.ca-central-1.amazonaws.com/prod/gettoken",
   //   {
@@ -66,26 +67,26 @@ export async function fetchDatafromApi() {
   // );
   // const data = await response.json();
 
-  const context = {
-    functionName: 'localTestFunction',
-    memoryLimitInMB: '128',
-    invokedFunctionArn: 'arn:aws:lambda:local:1:function:localTestFunction',
-    awsRequestId: 'localTestRequestId',
-    logGroupName: '/aws/lambda/localTestFunction',
-    logStreamName: 'localTestLogStream',
-    getRemainingTimeInMillis: () => 30000,
-    done: () => null,
-    fail: () => null,
-    succeed: () => null,
-  };
+  // const context = {
+  //   functionName: 'localTestFunction',
+  //   memoryLimitInMB: '128',
+  //   invokedFunctionArn: 'arn:aws:lambda:local:1:function:localTestFunction',
+  //   awsRequestId: 'localTestRequestId',
+  //   logGroupName: '/aws/lambda/localTestFunction',
+  //   logStreamName: 'localTestLogStream',
+  //   getRemainingTimeInMillis: () => 30000,
+  //   done: () => null,
+  //   fail: () => null,
+  //   succeed: () => null,
+  // };
 
-  const callback = (error: any, result: any) => {
-    if (error) {
-      console.error('Callback error:', error);
-    } else {
-      console.log('Callback result:', result);
-    }
-  };
-  const data = await getNotifications({token},context,callback)
-  console.log(data);
+  // const callback = (error: any, result: any) => {
+  //   if (error) {
+  //     console.error('Callback error:', error);
+  //   } else {
+  //     console.log('Callback result:', result);
+  //   }
+  // };
+  // const data = await getNotifications({token},context,callback)
+  // console.log(data);
 }

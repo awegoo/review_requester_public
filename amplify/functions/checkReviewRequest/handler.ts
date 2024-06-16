@@ -1,4 +1,5 @@
 import { Handler } from "aws-lambda";
+import { addQuery, sortOrdersQuery } from "./sqlQuerys";
 import { env } from "$amplify/env/checkReviewRequest";
 import { Client } from "pg";
 
@@ -19,11 +20,6 @@ const client = new Client({
 // Function for save new request to data base
 async function addRequest(data: ISendedRequest) {
   await client.connect();
-  const addQuery = `
-    INSERT INTO sent_requests_ca (amazon_order_id, purchase_date, request_sent_date, sent_success)
-    VALUES ($1, $2, $3, $4)
-    RETURNING *;
-  `;
   try {
     const res = await client.query(addQuery, [
       data.amazon_order_id,
@@ -31,8 +27,9 @@ async function addRequest(data: ISendedRequest) {
       data.request_sent_date,
       data.sent_success,
     ]);
+    const result = await res.rows[0];
     await client.end();
-    return res.rows[0];
+    return result;
   } catch (error) {
     if (error instanceof Error) {
       return { error: `add request to db: ${error.message}` };
@@ -43,18 +40,12 @@ async function addRequest(data: ISendedRequest) {
 // Function for checking notifications and pass orders data to the addRequest function if solicications of notifications is available
 export const handler: Handler = async (event) => {
   const { token } = event;
-  const sortOrdersQuery = `
-  SELECT *
-      FROM orders_ca_short
-      WHERE last_updated_date::date BETWEEN $1::date AND $2::date
-      ORDER BY last_updated_date DESC;
-`;
   await client.connect();
   const sp_api_host = import.meta.env.VITE_SP_API_HOST;
   // const sp_api_host = env.SP_API_HOST;
 
   try {
-    const resToken = await fetch(
+    const spApiToken = await fetch(
       "https://vzln9d92l5.execute-api.ca-central-1.amazonaws.com/prod/gettoken",
       {
         headers: {
@@ -62,7 +53,8 @@ export const handler: Handler = async (event) => {
         },
       }
     );
-    const accessToken = await resToken.json();
+
+    const accessToken = await spApiToken.json();
 
     const resDates = await fetch(
       "https://vzln9d92l5.execute-api.ca-central-1.amazonaws.com/prod/getdates",
@@ -73,12 +65,14 @@ export const handler: Handler = async (event) => {
       }
     );
     const dates = await resDates.json();
-    const res = await client.query(sortOrdersQuery, [
+
+    // fetch sorted orders from postgres Data base
+    const data = await client.query(sortOrdersQuery, [
       dates.startDateString,
       dates.endDateString,
     ]);
     await client.end();
-    const orders = res.rows;
+    const orders = await data.rows;
 
     if (Array.isArray(orders) && orders !== null && orders.length !== 0) {
       for (const element of orders) {
