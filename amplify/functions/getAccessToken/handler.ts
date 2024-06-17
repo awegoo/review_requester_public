@@ -11,6 +11,18 @@ import { env } from "$amplify/env/getAccessToken";
 // };
 
 export const handler: Handler = async (event): Promise<any> => {
+  
+
+  // !For dev
+  // const baseAuthUrl = import.meta.env.VITE_BASE_URL as string;
+  // const body = {
+  //   grant_type: "refresh_token",
+  //   refresh_token: import.meta.env.VITE_LWA_REFRESH_TOKEN as string,
+  //   client_id: import.meta.env.VITE_LWA_APP_ID as string,
+  //   client_secret: import.meta.env.VITE_LWA_CLIENT_SECRET as string,
+  // };
+  
+  //AWS
   const baseAuthUrl = env.BASE_URL as string;
   const body = {
     grant_type: "refresh_token",
@@ -18,6 +30,8 @@ export const handler: Handler = async (event): Promise<any> => {
     client_id: env.LWA_APP_ID as string,
     client_secret: env.LWA_CLIENT_SECRET as string,
   };
+
+
   try {
     const response = await fetch(baseAuthUrl, {
       method: "POST",

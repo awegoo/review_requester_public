@@ -1,7 +1,7 @@
 import { APIGatewayProxyHandler } from "aws-lambda";
 import { generateClient } from "aws-amplify/data";
 import { type Schema } from "../../data/resource";
-import { env } from "$amplify/env/sendReviewRequest";
+import { env } from "$amplify/env/sendReviewRequest"; 
 
 const client = generateClient<Schema>();
 

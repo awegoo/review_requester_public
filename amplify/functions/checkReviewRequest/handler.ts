@@ -1,6 +1,6 @@
 import { Handler } from "aws-lambda";
 import { addQuery, sortOrdersQuery } from "./sqlQuerys";
-import { env } from "$amplify/env/checkReviewRequest";
+// import { env } from "$amplify/env/checkReviewRequest";
 import { Client } from "pg";
 
 interface ISendedRequest {
@@ -11,7 +11,7 @@ interface ISendedRequest {
 }
 
 const client = new Client({
-  connectionString: env.STRING_CONNECTION,
+  connectionString: import.meta.env.STRING_CONNECTION, //env.STRING_CONNECTION,
   ssl: {
     rejectUnauthorized: false,
   },
