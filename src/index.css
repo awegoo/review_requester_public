@@ -80,7 +80,7 @@ button {
   }
 }
 
-[data-amplify-authenticator-signin] {
+[data-amplify-authenticator-signin], [data-amplify-authenticator-signup] {
   .amplify-button--primary{
     background-color: #1C58CF;
     border-radius: 100px;
