@@ -1,46 +1,29 @@
-import { Handler, APIGatewayProxyHandler } from "aws-lambda";
+import { APIGatewayProxyHandler } from "aws-lambda";
 import { generateClient } from "aws-amplify/data";
 import { type Schema } from "../../data/resource";
+import { env } from "$amplify/env/sendReviewRequest";
 
 const client = generateClient<Schema>();
 
 // !FOR AWS need to change FOR API
 export const handler: APIGatewayProxyHandler = async (event) => {
+  // const sp_api_host = import.meta.env.VITE_SP_API_HOST;
+  const sp_api_host = env.SP_API_HOST;
   const requestBody = event.body;
   if (requestBody !== null) {
-    const sendedReview = await JSON.parse(requestBody);
+    const body = JSON.parse(requestBody);
     try {
-      if (Array.isArray(sendedReview)) {
-        let dataArr = [];
-        for (const element of sendedReview) {
-          const { errors, data: newRequest } =
-            await client.models.SendedRequest.create({
-              amazon_order_id: element.amazon_order_id,
-              purchase_date: element.purchase_date,
-              request_sent_date: element.request_sent_date,
-              sent_success: element.sent_success,
-            });
-          dataArr.push(newRequest);
-        }
-        return {
-          statusCode: 200,
-          headers: {
-            "Access-Control-Allow-Origin": "*",
-            "Access-Control-Allow-Headers": "*",
-          },
-          body: JSON.stringify({
-            message: "Sended requests saved successfully",
-            data: dataArr,
-          }),
-        };
+      const url_post = `${sp_api_host}/solicitations/v1/orders/${body.amazon_order_id}/solicitations/productReviewAndSellerFeedback?marketplaceIds=A2EUQ1WTGCTBG2`;
+      const response = await fetch(url_post, {
+        method: "POST",
+        headers: new Headers({
+          "Content-Type": "application/json",
+          "x-amz-access-token": body.accessToken,
+        }),
+      });
+      if (!response.ok) {
+        throw new Error("Can't send solicitations to the buyer");
       }
-      const { errors, data: newRequest } =
-        await client.models.SendedRequest.create({
-          amazon_order_id: sendedReview.amazon_order_id,
-          purchase_date: sendedReview.purchase_date,
-          request_sent_date: sendedReview.request_sent_date,
-          sent_success: sendedReview.sent_success,
-        });
       return {
         statusCode: 200,
         headers: {
@@ -48,8 +31,7 @@ export const handler: APIGatewayProxyHandler = async (event) => {
           "Access-Control-Allow-Headers": "*",
         },
         body: JSON.stringify({
-          message: "Sended requests saved successfully",
-          data: newRequest,
+          message: "Solicication sent successfully",
         }),
       };
     } catch (error) {
@@ -57,7 +39,7 @@ export const handler: APIGatewayProxyHandler = async (event) => {
         return {
           statusCode: 500,
           body: JSON.stringify({
-            error: `Error saved sended request to the db: ${error.message}`,
+            error: `Error sent solicication to the buyer: ${error.message}`,
           }),
         };
       } else {

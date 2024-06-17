@@ -100,6 +100,23 @@ export const handler: Handler = async (event) => {
             const result = await addRequest(request);
             return result;
           }
+          const body = {
+            amazon_order_id: element.amazon_order_id,
+            accessToken: accessToken,
+          };
+          const senRequest = await fetch(
+            "https://vzln9d92l5.execute-api.ca-central-1.amazonaws.com/prod/sendrequest",
+            {
+              method: "POST",
+              headers: {
+                Authorization: `${token}`,
+              },
+              body: JSON.stringify(body),
+            }
+          );
+          if (!senRequest.ok) {
+            throw new Error("Can't send solicitations to the buyer");
+          }
           const request: ISendedRequest = {
             amazon_order_id: element.amazon_order_id,
             purchase_date: element.purchase_date as string,

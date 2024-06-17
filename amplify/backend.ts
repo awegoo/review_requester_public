@@ -11,7 +11,7 @@ import { auth } from "./auth/resource";
 import { data } from "./data/resource";
 import { getAccessToken } from "./functions/getAccessToken/resource";
 import { checkReviewRequest } from "./functions/checkReviewRequest/resource";
-import { postSendedReviewToDataBase } from "./functions/postReviewRequest/resource";
+import { sendReviewRequest } from "./functions/postReviewRequest/resource";
 import { getDates } from "./functions/getDates/resource";
 
 /**
@@ -22,7 +22,7 @@ const backend = defineBackend({
   data,
   getAccessToken,
   checkReviewRequest,
-  postSendedReviewToDataBase,
+  sendReviewRequest,
   getDates,
 });
 
@@ -51,12 +51,17 @@ const lambdaGetToken = new LambdaIntegration(
 
 const lambdaGetDates = new LambdaIntegration(backend.getDates.resources.lambda);
 
+const lambdaPostRequest = new LambdaIntegration(
+  backend.sendReviewRequest.resources.lambda
+);
+
 const cognitoAuth = new CognitoUserPoolsAuthorizer(apiStack, "CognitoAuth", {
   cognitoUserPools: [backend.auth.resources.userPool],
 });
 
 const tokenPath = myRestApi.root.addResource("gettoken");
 const datesPath = myRestApi.root.addResource("getdates");
+const sendRequest = myRestApi.root.addResource("sendrequest");
 
 // !поменять на авторизацию IAM для aws console.
 tokenPath.addMethod("GET", lambdaGetToken, {
@@ -66,6 +71,11 @@ tokenPath.addMethod("GET", lambdaGetToken, {
 
 // !поменять на авторизацию IAM для aws console.
 datesPath.addMethod("GET", lambdaGetDates, {
+  authorizationType: AuthorizationType.COGNITO,
+  authorizer: cognitoAuth,
+});
+
+sendRequest.addMethod("POST", lambdaGetDates, {
   authorizationType: AuthorizationType.COGNITO,
   authorizer: cognitoAuth,
 });
@@ -80,6 +90,11 @@ datesPath.addProxy({
   defaultIntegration: lambdaGetDates,
 });
 
+sendRequest.addProxy({
+  anyMethod: true,
+  defaultIntegration: lambdaPostRequest,
+});
+
 const apiRestPolicy = new Policy(apiStack, "RestApiPolicy", {
   statements: [
     new PolicyStatement({
@@ -87,7 +102,7 @@ const apiRestPolicy = new Policy(apiStack, "RestApiPolicy", {
       resources: [
         `${myRestApi.arnForExecuteApi("gettoken")}`,
         `${myRestApi.arnForExecuteApi("getdates")}`,
-        `${myRestApi.arnForExecuteApi("getorders")}`,
+        `${myRestApi.arnForExecuteApi("sendrequest")}`,
       ],
     }),
   ],
