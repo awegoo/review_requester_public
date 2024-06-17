@@ -2,24 +2,25 @@ import React from "react";
 import ReactDOM from "react-dom/client";
 import App from "./App.jsx";
 import "./index.css";
-import { Authenticator } from "@aws-amplify/ui-react";
 import "@aws-amplify/ui-react/styles.css";
 import { ThemeProvider } from "styled-components";
 import { theme } from "./styles/theme.js";
 import { Amplify } from "aws-amplify";
 import outputs from "../amplify_outputs.json";
-// import AuthenticatorComponent from "./components/Authenticator/Authenticator.jsx";
+import { Authenticator } from "@aws-amplify/ui-react";
+import { components, formFields } from "./components/constants/constants.jsx";
 
 Amplify.configure(outputs);
 
 ReactDOM.createRoot(document.getElementById("root")).render(
-   <React.StrictMode>
+  <React.StrictMode>
     <ThemeProvider theme={theme}>
       <div className="authenticator-container">
         <Authenticator
           className="authenticator-custom"
           formFields={formFields}
-          components={components}> 
+          components={components}
+        > 
           <App />
         </Authenticator> 
       </div>
