@@ -13,11 +13,16 @@ import outputs from "../amplify_outputs.json";
 Amplify.configure(outputs);
 
 ReactDOM.createRoot(document.getElementById("root")).render(
-  <Authenticator>
-    <React.StrictMode>
-      <ThemeProvider theme={theme}>
-        <App />
-      </ThemeProvider>
-    </React.StrictMode>
-  </Authenticator>
+   <React.StrictMode>
+    <ThemeProvider theme={theme}>
+      <div className="authenticator-container">
+        <Authenticator
+          className="authenticator-custom"
+          formFields={formFields}
+          components={components}> 
+          <App />
+        </Authenticator> 
+      </div>
+    </ThemeProvider>
+  </React.StrictMode>
 );
