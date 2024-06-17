@@ -6,10 +6,10 @@ import "@aws-amplify/ui-react/styles.css";
 import { ThemeProvider } from "styled-components";
 import { theme } from "./styles/theme.js";
 import { Amplify } from "aws-amplify";
-import outputs from "../amplify_outputs.json";
 import { Authenticator } from "@aws-amplify/ui-react";
 import { components, formFields } from "./components/constants/constants.jsx";
 
+import outputs from "../amplify_outputs.json";
 Amplify.configure(outputs);
 
 ReactDOM.createRoot(document.getElementById("root")).render(

@@ -1,5 +1,7 @@
 import { generateClient } from "aws-amplify/data";
 import { type Schema } from "../../amplify/data/resource";
+import { fetchAuthSession } from "aws-amplify/auth";
+import { handler as getNotifications } from "../../amplify/functions/checkReviewRequest/handler";
 
 const client = generateClient<Schema>();
 
@@ -49,4 +51,13 @@ export async function getDates() {
   const endDateString = endDate.toISOString().slice(0, 10);
 
   return { startDateString, endDateString };
+}
+
+//! Function for fetch sended requests
+export async function fetchDatafromApi() {
+  const { data: requests, errors } = await client.queries.listAllRequests();
+  if (errors !== undefined) {
+    return errors;
+  }
+  return requests;
 }

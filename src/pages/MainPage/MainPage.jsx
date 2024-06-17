@@ -9,6 +9,11 @@ import DraftChart from "../../components/DraftChart/DraftChart";
 const client = generateClient();
 
 const MainPage = () => {
+
+  // useEffect(() => {
+  //   fetchDatafromApi()
+  // },[])
+
   return (
     <>
       <SectionTotal />
