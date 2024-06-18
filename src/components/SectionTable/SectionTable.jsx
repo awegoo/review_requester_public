@@ -1,10 +1,11 @@
 import React from "react";
 import TableComponent from "../Table/Table";
-import { styled } from '@mui/system';
-// import styled from '@emotion/styled';
+import { StyledDiv } from "./styled";
 
 const SectionTable = () => {
-  return <TableComponent />;
+  return (
+      <TableComponent />
+  );
 };
 
 export default SectionTable;
