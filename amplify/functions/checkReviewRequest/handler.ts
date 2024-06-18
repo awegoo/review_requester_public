@@ -27,7 +27,6 @@ const client = new Client({
 
 // Function for save new request to data base
 async function addRequest(data: ISendedRequest) {
-  await client.connect();
   try {
     const res = await client.query(addQuery, [
       data.amazon_order_id,
@@ -36,7 +35,6 @@ async function addRequest(data: ISendedRequest) {
       data.sent_success,
     ]);
     const result = await res.rows[0];
-    await client.end();
     return result;
   } catch (error) {
     if (error instanceof Error) {
@@ -47,30 +45,19 @@ async function addRequest(data: ISendedRequest) {
 
 // Function for checking notifications and pass orders data to the addRequest function if solicications of notifications is available
 export const handler: Handler = async (event) => {
-  const { token } = event;
   await client.connect();
   // const sp_api_host = import.meta.env.VITE_SP_API_HOST;
   const sp_api_host = env.SP_API_HOST;
 
   try {
     const spApiToken = await fetch(
-      "https://vzln9d92l5.execute-api.ca-central-1.amazonaws.com/prod/gettoken",
-      {
-        headers: {
-          Authorization: `${token}`,
-        },
-      }
+      "https://vzln9d92l5.execute-api.ca-central-1.amazonaws.com/prod/gettoken"
     );
 
     const accessToken = await spApiToken.json();
 
     const resDates = await fetch(
-      "https://vzln9d92l5.execute-api.ca-central-1.amazonaws.com/prod/getdates",
-      {
-        headers: {
-          Authorization: `${token}`,
-        },
-      }
+      "https://vzln9d92l5.execute-api.ca-central-1.amazonaws.com/prod/getdates"
     );
     const dates = await resDates.json();
 
@@ -79,7 +66,7 @@ export const handler: Handler = async (event) => {
       dates.startDateString,
       dates.endDateString,
     ]);
-    await client.end();
+
     const orders = await data.rows;
 
     if (Array.isArray(orders) && orders !== null && orders.length !== 0) {
@@ -90,7 +77,7 @@ export const handler: Handler = async (event) => {
             method: "GET",
             headers: new Headers({
               "Content-Type": "application/json",
-              "x-amz-access-token": accessToken,
+              "x-amz-access-token": accessToken["accessToken"],
             }),
           });
           if (!response.ok) {
@@ -106,25 +93,18 @@ export const handler: Handler = async (event) => {
             };
 
             const result = await addRequest(request);
-            return result;
           }
           const body = {
             amazon_order_id: element.amazon_order_id,
-            accessToken: accessToken,
+            accessToken: accessToken.accessToken,
           };
           const senRequest = await fetch(
             "https://vzln9d92l5.execute-api.ca-central-1.amazonaws.com/prod/sendrequest",
             {
               method: "POST",
-              headers: {
-                Authorization: `${token}`,
-              },
               body: JSON.stringify(body),
             }
           );
-          if (!senRequest.ok) {
-            throw new Error("Can't send solicitations to the buyer");
-          }
           const request: ISendedRequest = {
             amazon_order_id: element.amazon_order_id,
             purchase_date: element.purchase_date as string,
@@ -132,10 +112,12 @@ export const handler: Handler = async (event) => {
             sent_success: true,
           };
           const result = await addRequest(request);
-          return result;
         }
       }
+      await client.end();
+      return "Requests sended successfully";
     }
+    await client.end();
     return "No exist orders for sending review requests";
   } catch (error: any) {
     if (error instanceof Error) {

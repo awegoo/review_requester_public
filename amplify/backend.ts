@@ -55,30 +55,21 @@ const lambdaPostRequest = new LambdaIntegration(
   backend.sendReviewRequest.resources.lambda
 );
 
-const cognitoAuth = new CognitoUserPoolsAuthorizer(apiStack, "CognitoAuth", {
-  cognitoUserPools: [backend.auth.resources.userPool],
-});
+// const cognitoAuth = new CognitoUserPoolsAuthorizer(apiStack, "CognitoAuth", {
+//   cognitoUserPools: [backend.auth.resources.userPool],
+// });
 
 const tokenPath = myRestApi.root.addResource("gettoken");
 const datesPath = myRestApi.root.addResource("getdates");
 const sendRequest = myRestApi.root.addResource("sendrequest");
 
 // !поменять на авторизацию IAM для aws console.
-tokenPath.addMethod("GET", lambdaGetToken, {
-  authorizationType: AuthorizationType.COGNITO,
-  authorizer: cognitoAuth,
-});
+tokenPath.addMethod("GET", lambdaGetToken,{authorizationType:AuthorizationType.NONE});
 
 // !поменять на авторизацию IAM для aws console.
-datesPath.addMethod("GET", lambdaGetDates, {
-  authorizationType: AuthorizationType.COGNITO,
-  authorizer: cognitoAuth,
-});
+datesPath.addMethod("GET", lambdaGetDates,{authorizationType:AuthorizationType.NONE});
 
-sendRequest.addMethod("POST", lambdaGetDates, {
-  authorizationType: AuthorizationType.COGNITO,
-  authorizer: cognitoAuth,
-});
+sendRequest.addMethod("POST", lambdaGetDates,{authorizationType:AuthorizationType.NONE});
 
 tokenPath.addProxy({
   anyMethod: true,
