@@ -17,6 +17,16 @@ const client = new Client({
   },
 });
 
+//import.meta.env.
+
+// const client = new Client({
+//   connectionString: import.meta.env.STRING_CONNECTION,
+//   ssl: {
+//     rejectUnauthorized: false,
+//   },
+// });
+
+
 // Function for save new request to data base
 async function addRequest(data: ISendedRequest) {
   await client.connect();
@@ -41,8 +51,8 @@ async function addRequest(data: ISendedRequest) {
 export const handler: Handler = async (event) => {
   const { token } = event;
   await client.connect();
-  const sp_api_host = import.meta.env.VITE_SP_API_HOST;
-  // const sp_api_host = env.SP_API_HOST;
+  // const sp_api_host = import.meta.env.VITE_SP_API_HOST;
+  const sp_api_host = env.SP_API_HOST;
 
   try {
     const spApiToken = await fetch(
