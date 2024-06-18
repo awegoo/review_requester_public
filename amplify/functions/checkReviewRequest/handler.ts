@@ -39,31 +39,18 @@ async function addRequest(data: ISendedRequest) {
 
 // Function for checking notifications and pass orders data to the addRequest function if solicications of notifications is available
 export const handler: Handler = async (event) => {
-  const { token } = event;
   await client.connect();
   const sp_api_host = import.meta.env.VITE_SP_API_HOST;
   // const sp_api_host = env.SP_API_HOST;
 
   try {
     const spApiToken = await fetch(
-      "https://vzln9d92l5.execute-api.ca-central-1.amazonaws.com/prod/gettoken",
-      {
-        headers: {
-          Authorization: `${token}`,
-        },
-      }
-    );
+      "https://vzln9d92l5.execute-api.ca-central-1.amazonaws.com/prod/gettoken");
 
     const accessToken = await spApiToken.json();
 
     const resDates = await fetch(
-      "https://vzln9d92l5.execute-api.ca-central-1.amazonaws.com/prod/getdates",
-      {
-        headers: {
-          Authorization: `${token}`,
-        },
-      }
-    );
+      "https://vzln9d92l5.execute-api.ca-central-1.amazonaws.com/prod/getdates");
     const dates = await resDates.json();
 
     // fetch sorted orders from postgres Data base
@@ -108,9 +95,6 @@ export const handler: Handler = async (event) => {
             "https://vzln9d92l5.execute-api.ca-central-1.amazonaws.com/prod/sendrequest",
             {
               method: "POST",
-              headers: {
-                Authorization: `${token}`,
-              },
               body: JSON.stringify(body),
             }
           );
