@@ -33,3 +33,13 @@ export async function fetchDatafromApi() {
   }
   return requests;
 }
+
+
+//! Function for fetching all necessary data for graphs
+export async function fetchDataForGraphs() {
+  const { data: graphdata, errors } = await client.queries.listCountRequestsAndCountOrders();
+  if (errors !== undefined) {
+    return errors;
+  }
+  return graphdata;
+}
