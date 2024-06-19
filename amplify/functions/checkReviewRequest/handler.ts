@@ -69,17 +69,6 @@ export const handler: Handler = async (event) => {
     if (Array.isArray(orders) && orders !== null && orders.length !== 0) {
       for (const element of orders) {
         if (element !== null && element !== undefined) {
-          // const url_get = `${sp_api_host}/solicitations/v1/orders/${element.amazon_order_id}?marketplaceIds=A2EUQ1WTGCTBG2`;
-          // const response = await fetch(url_get, {
-          //   method: "GET",
-          //   headers: new Headers({
-          //     "Content-Type": "application/json",
-          //     "x-amz-access-token": accessToken["accessToken"],
-          //   }),
-          // });
-          // if (!response.ok) {
-          //   throw new Error(`Order does not exist: ${response.status}`);
-          // }
           const content: any = await addRequestToQueue(
             element.amazon_order_id,
             accessToken["accessToken"]
