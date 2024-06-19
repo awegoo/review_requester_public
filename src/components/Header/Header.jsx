@@ -103,48 +103,64 @@ const Header = () => {
               <img src="./static/images/flag.png" alt="icon country" />
             </StyledDiv>
             <StyledSelector
-            sx={{
-              width: '108px',
-              padding: '0',
-              '& .MuiOutlinedInput-notchedOutline': {
-                border: 'none',
-                padding: '0',
-              },
-              '& .MuiSelect-select': {
-                paddingRight: '0 !important',
-                padding: 0,
-                display: 'flex',
-                gap: '16px',
-              },
-              '& .MuiSvgIcon-root': {
-                color: '#1C58CF',
-                paddingRight: 0,
-                right: '-7px',
-              },
-            }}
+              sx={{
+                width: "108px",
+                padding: "0",
+                zIndex: "2000",
+                "& .MuiOutlinedInput-notchedOutline": {
+                  border: "none",
+                  padding: "0",
+                },
+                "& .MuiSelect-select": {
+                  paddingRight: "0 !important",
+                  padding: 0,
+                  display: "flex",
+                  gap: "16px",
+                },
+                "& .MuiSvgIcon-root": {
+                  color: "#1C58CF",
+                  paddingRight: 0,
+                  right: "-7px",
+                },
+                "& .MuiMenu-paper": {
+                  zIndex: "3000",
+                  borderRadius: "8px",
+                  boxShadow: "0px 4px 4px rgba(0, 0, 0, 0.25)",
+                },
+              }}
               className="select"
               value={region}
               displayEmpty
               onChange={handleChange}
             >
-              <StyledMenuItem  value="">
+              <StyledMenuItem value="">
                 <em>Reimb.ro CA</em>
               </StyledMenuItem>
-              <StyledMenuItem className="select_li" value={1}>Reimb.ro CA</StyledMenuItem>
-              <StyledMenuItem className="select_li" value={2}>Reimb.ro CA</StyledMenuItem>
-              <StyledMenuItem className="select_li" value={3}>Reimb.ro CA</StyledMenuItem>
+              <StyledMenuItem className="select_li" value={1}>
+                Reimb.ro CA
+              </StyledMenuItem>
+              <StyledMenuItem className="select_li" value={2}>
+                Reimb.ro CA
+              </StyledMenuItem>
+              <StyledMenuItem className="select_li" value={3}>
+                Reimb.ro CA
+              </StyledMenuItem>
             </StyledSelector>
           </StyledButton>
           <StyledDiv className="bell">
-            <StyledImg src="./static/images/icons/notifications.svg" alt="icon notifications" />
+            <StyledImg
+              src="./static/images/icons/notifications.svg"
+              alt="icon notifications"
+            />
           </StyledDiv>
           <StyledButton className="avatar">
             <a href="#">DB</a>
           </StyledButton>
-          <StyledButton className="avatar">
-          <a href="#" onClick={signOut}>Sign Out</a>
+          <StyledButton className="bt_sign_out">
+            <a href="#" onClick={signOut}>
+              Sign Out
+            </a>
           </StyledButton>
-          {/* <button onClick={signOut}>sign out</button> */}
         </StyledRightContainer>
       </StyledContainer>
     </StyledHeader>
