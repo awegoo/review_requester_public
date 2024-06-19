@@ -8,5 +8,6 @@ export const sortOrdersQuery = `
 SELECT *
     FROM orders_ca_short
     WHERE last_updated_date::date BETWEEN $1::date AND $2::date
-    ORDER BY last_updated_date DESC;
+    ORDER BY last_updated_date DESC
+    LIMIT 350;
 `;
