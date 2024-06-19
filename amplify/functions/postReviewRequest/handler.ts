@@ -1,5 +1,8 @@
 import { APIGatewayProxyHandler } from "aws-lambda";
 import { env } from "$amplify/env/sendReviewRequest";
+// import { generateClient } from "aws-amplify/data";
+// import { type Schema } from "../../data/resource";
+// import { env } from "$amplify/env/sendReviewRequest"; 
 
 // !FOR AWS need to change FOR API
 export const handler: APIGatewayProxyHandler = async (event) => {

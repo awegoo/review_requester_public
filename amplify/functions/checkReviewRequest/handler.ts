@@ -12,11 +12,19 @@ interface ISendedRequest {
 }
 
 const client = new Client({
-  connectionString: env.STRING_CONNECTION,
+  connectionString: env.STRING_CONNECTION, //import.meta.env.STRING_CONNECTION, //env.STRING_CONNECTION,
   ssl: {
     rejectUnauthorized: false,
   },
 });
+
+// const client = new Client({
+//   connectionString: import.meta.env.STRING_CONNECTION,
+//   ssl: {
+//     rejectUnauthorized: false,
+//   },
+// });
+
 
 // Function for save new request to data base
 async function addRequest(data: ISendedRequest) {
@@ -39,8 +47,8 @@ async function addRequest(data: ISendedRequest) {
 // Function for checking notifications and pass orders data to the addRequest function if solicications of notifications is available
 export const handler: Handler = async (event) => {
   await client.connect();
-  const sp_api_host = import.meta.env.VITE_SP_API_HOST;
-  // const sp_api_host = env.SP_API_HOST;
+  // const sp_api_host = import.meta.env.VITE_SP_API_HOST;
+  const sp_api_host = env.SP_API_HOST;
 
   try {
     const spApiToken = await fetch(
