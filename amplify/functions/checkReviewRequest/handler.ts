@@ -1,5 +1,6 @@
 import { Handler } from "aws-lambda";
 import { addQuery, sortOrdersQuery } from "./sqlQuerys";
+import { addRequestToQueue } from "../../utils/queuesRequests";
 import { env } from "$amplify/env/checkReviewRequest";
 import { Client } from "pg";
 
@@ -68,22 +69,19 @@ export const handler: Handler = async (event) => {
     ]);
 
     const orders = await data.rows;
+    if (!Array.isArray(orders) || orders.length === 0) {
+      await client.end();
+      return "No orders to process";
+    }
 
     if (Array.isArray(orders) && orders !== null && orders.length !== 0) {
       for (const element of orders) {
         if (element !== null && element !== undefined) {
-          const url_get = `${sp_api_host}/solicitations/v1/orders/${element.amazon_order_id}?marketplaceIds=A2EUQ1WTGCTBG2`;
-          const response = await fetch(url_get, {
-            method: "GET",
-            headers: new Headers({
-              "Content-Type": "application/json",
-              "x-amz-access-token": accessToken["accessToken"],
-            }),
-          });
-          if (!response.ok) {
-            throw new Error(`Order does not exist: ${response.status}`);
-          }
-          const content = await response.json();
+          const content: any = await addRequestToQueue(
+            element.amazon_order_id,
+            accessToken["accessToken"]
+          );
+
           if (content._links.actions.length === 0) {
             const request: ISendedRequest = {
               amazon_order_id: element.amazon_order_id,
@@ -105,20 +103,20 @@ export const handler: Handler = async (event) => {
               body: JSON.stringify(body),
             }
           );
-          const request: ISendedRequest = {
-            amazon_order_id: element.amazon_order_id,
-            purchase_date: element.purchase_date as string,
-            request_sent_date: new Date().toISOString().slice(0, 10),
-            sent_success: true,
-          };
-          const result = await addRequest(request);
+          if (senRequest.ok) {
+            const request: ISendedRequest = {
+              amazon_order_id: element.amazon_order_id,
+              purchase_date: element.purchase_date as string,
+              request_sent_date: new Date().toISOString().slice(0, 10),
+              sent_success: true,
+            };
+            const result = await addRequest(request);
+          }
         }
       }
       await client.end();
       return "Requests sended successfully";
     }
-    await client.end();
-    return "No exist orders for sending review requests";
   } catch (error: any) {
     if (error instanceof Error) {
       return {
