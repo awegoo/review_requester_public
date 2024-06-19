@@ -1,4 +1,4 @@
-import { Select } from "@mui/material";
+import { Menu, Select } from "@mui/material";
 import { HeaderRow } from "@table-library/react-table-library";
 import styled from "styled-components";
 
@@ -46,10 +46,16 @@ export const StyledLabel = styled.label`
 
 export const StyledSelect = styled(Select)`
   display: flex;
+  position: relative;
   align-items: center;
   width: 421px;
   padding: 12px 16px;
   border-radius: 6px;
   border: 1.5px solid ${({theme}) => theme.colors.lightGrey};
   background:  ${({theme}) => theme.colors.white};
+`;
+
+export const StyledTableWrapper = styled.div`
+  min-height: 300px;
+  margin-top: 20px;
 `;

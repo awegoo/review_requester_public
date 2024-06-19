@@ -8,8 +8,9 @@ import FetchData from './pages/FetchDataTest/FetchData.jsx';
 
 
 const App = () => {
+  
   return (
-  // <FetchData />
+  //<FetchData />
     <BrowserRouter>
     <Routes>
       <Route path='/*' element={<NoteFound />} />

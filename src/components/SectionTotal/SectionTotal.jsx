@@ -1,7 +1,7 @@
 import React from "react";
 import TotalItem from "../TotalItem/TotalItem";
 import { StyledContainer } from "./styled";
-import { data } from "../constants/constants";
+import { data } from "../constants/constants.jsx";
 
 const SectionTotal = () => {
   const itemInfo = data;

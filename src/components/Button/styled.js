@@ -26,4 +26,13 @@ export const StyledButton = styled.button`
   &&.select_country {
     align-items: center;
   }
+  &&.bt_sign_out{
+    &:hover {
+      transform: scale(0.95);
+    }
+  }
+ 
+  &&.bt_sign_out a {
+   color: ${({ theme }) => theme.colors.blue};    
+  }
 `;

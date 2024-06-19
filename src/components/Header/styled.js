@@ -10,7 +10,7 @@ export const StyledHeader = styled.header`
   margin-bottom: 20px;
   position: fixed;
   border-bottom: 1px solid #D7DCE4;
-  z-index: 2000;
+  z-index: 1;
 `;
 
 export const StyledContainer = styled.div`
@@ -66,7 +66,7 @@ export const StyledUl = styled.ul`
   list-style: none;
 `;
 
-export const StyledSelector = styled(Select)`  
+export const StyledSelector = styled(Select)`    
   em {
     font-style: normal;
     ${({ theme }) => theme.fonts.buttonSmall};
