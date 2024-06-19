@@ -37,9 +37,9 @@ const DraftChart = () => {
     <>
       <Card sx={{ mt: 4 }}>
         <CardContent>
-          <Typography variant="h5" component="div">
+          {/* <Typography variant="h5" component="div">
             Order Requests
-          </Typography>
+          </Typography> */}
           <Box sx={{ display: 'flex', justifyContent: 'center', mt: 2 }}>
             <Box sx={{ width: '100%', maxWidth: 1200 }}>
               <ResponsiveContainer width="100%" height={400}>
@@ -50,7 +50,7 @@ const DraftChart = () => {
                   <Tooltip cursor={{ stroke: 'none'}}/>
                   <Legend />
                   <Bar 
-                    dataKey="eligible" 
+                    dataKey="orders" 
                     fill="#1C58CF33" 
                     shape={<CustomBarShape />} 
                     barSize={30} 

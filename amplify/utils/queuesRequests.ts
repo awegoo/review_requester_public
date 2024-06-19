@@ -1,3 +1,5 @@
+import { env } from "$amplify/env/sendReviewRequest";
+
 interface IQueue {
   items: IItem[];
   addQueue: (item: IItem) => void;
@@ -12,7 +14,8 @@ interface IItem {
   reject: (value: any) => void;
 }
 
-const sp_api_host = import.meta.env.VITE_SP_API_HOST;
+// const sp_api_host = import.meta.env.VITE_SP_API_HOST;
+const sp_api_host = "https://sellingpartnerapi-na.amazon.com" //env.SP_API_HOST;
 
 export class Queue implements IQueue {
   items: IItem[];

@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 // import {Schema} from "../amplify/data/resource";
 import { generateClient, head } from "aws-amplify/data";
-import {handler} from '../../../amplify/functions/checkReviewRequest/handler';
+// import {handler} from '../../../amplify/functions/checkReviewRequest/handler';
 import {fetchDatafromApi} from '../../utils/fetchData';
 
 /**
