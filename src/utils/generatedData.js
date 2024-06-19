@@ -6,6 +6,7 @@ const generateRandomData = () => {
       data.push({ day, requests, orders });
     }
     return data;
+
   };
   
  export const data = generateRandomData();
