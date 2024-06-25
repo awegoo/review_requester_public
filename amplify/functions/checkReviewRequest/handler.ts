@@ -63,10 +63,7 @@ export const handler: Handler = async (event) => {
     const dates = await resDates.json();
 
     // fetch sorted orders from postgres Data base
-    const data = await client.query(sortOrdersQuery, [
-      dates.startDateString,
-      dates.endDateString,
-    ]);
+    const data = await client.query(sortOrdersQuery);
 
     const orders = await data.rows;
     if (!Array.isArray(orders) || orders.length === 0) {
