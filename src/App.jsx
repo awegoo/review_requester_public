@@ -8,16 +8,17 @@ import NoteFound from './pages/NoteFound/NoteFound';
 
 
 const App = () => {
+  
   return (
-  <FetchData />
-  //   <BrowserRouter>
-  //   <Routes>
-  //     <Route path='/*' element={<NoteFound />} />
-  //     <Route element={<Templates />}>
-  //       <Route path='/' element={<MainPage />} />
-  //     </Route>
-  //   </Routes>
-  // </BrowserRouter>
+  // <FetchData />
+    <BrowserRouter>
+    <Routes>
+      <Route path='/*' element={<NoteFound />} />
+      <Route element={<Templates />}>
+        <Route path='/' element={<MainPage />} />
+      </Route>
+    </Routes>
+  </BrowserRouter>
   );
 };
 

@@ -36,7 +36,14 @@ button {
   justify-content: end;
   height: 100vh;
   background: url('./static/images/bg_sign.png')  no-repeat;
-  flex-wrap: wrap;  
+  background-size: contain;
+  flex-wrap: wrap;
+}
+
+.img_sign_in{
+  display: flex;
+  align-self: center;
+  margin-right: 70px;
 }
 
 .authenticator-container .authenticator-custom {
@@ -45,12 +52,41 @@ button {
 }
 
 @media screen and (max-width: 1280px) {
-  .authenticator-container {
+  .authenticator-container .authenticator-custom {
     margin-right: 0;
     justify-content: center;
-  }  
+  } 
+ 
 }
 
+@media screen and (max-width: 1475px) {
+  .img_sign_in img{
+    width: 450px;
+    height: 475px;
+  }
+}
+
+@media screen and (max-width: 1390px) {
+  .img_sign_in img{
+    width: 425px;
+    height: 450px;
+  }
+}
+@media screen and (max-width: 1355px) {
+  .img_sign_in img{
+    width: 400px;
+    height: 425px;
+  }
+  .authenticator-container .authenticator-custom {
+    margin-right: 0;
+    justify-content: center;
+  } 
+}
+@media screen and (max-width: 950px) {
+  .img_sign_in{
+    display: none;
+  }
+}
 .authenticator-custom {
   border: none;
   box-shadow: none;

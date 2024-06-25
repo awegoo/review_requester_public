@@ -5,6 +5,7 @@ import SectionTotal from "../../components/SectionTotal/SectionTotal";
 import SectionTable from "../../components/SectionTable/SectionTable";
 import { generateClient } from "aws-amplify/data";
 import DraftChart from "../../components/DraftChart/DraftChart";
+import ProdChart from "../../components/DraftChart/ProdChart";
 
 const client = generateClient();
 
@@ -17,7 +18,8 @@ const MainPage = () => {
   return (
     <>
       <SectionTotal />
-      <DraftChart />
+      {/* <DraftChart /> */}
+      <ProdChart/>
       <SectionTable />
     </>
   );
