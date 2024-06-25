@@ -7,6 +7,7 @@ RETURNING *;
 export const sortOrdersQuery = `
 SELECT *
     FROM orders_ca_short
-    WHERE last_updated_date::date BETWEEN $1::date AND $2::date
-    ORDER BY last_updated_date DESC;
+    WHERE now()::date BETWEEN last_updated_date::date + interval ‘5’ day AND last_updated_date::date + interval ‘30’ day
+    ORDER BY last_updated_date DESC
+    LIMIT 50;
 `;
