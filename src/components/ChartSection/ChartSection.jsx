@@ -1,9 +1,10 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Card, CardContent, Typography, Box } from '@mui/material';
 import DraftChart from '../DraftChart/DraftChart';
 import ProdChart from '../DraftChart/ProdChart';
 import { data } from '../../utils/testData';
 import styled from "styled-components";
+import { fetchDataForGraphs } from '../../utils/fetchData';
 
 const MonthButton = styled.button`
   margin: 5px;
@@ -24,6 +25,20 @@ const MonthSwitchBar = styled.div`
 
 const ChartSection = () => {
     const [currentMonth, setCurrentMonth] = useState(0);
+
+    const [graph_data, setGraphData] = useState([]);
+
+    useEffect(() => {
+        fetchGraphData()
+    }, [])
+  
+    async function fetchGraphData(){
+      const graphdata = await fetchDataForGraphs();
+      console.log(graphdata);
+      setGraphData(graphdata);
+    };
+  
+    console.log(graph_data)
 
     const months = [
         "Jan",
@@ -48,8 +63,8 @@ const ChartSection = () => {
         setCurrentMonth((prevMonth) => (prevMonth === 11 ? 0 : prevMonth + 1));
     };
 
-    const filteredData = data.filter(
-        (item) => new Date(item.day).getMonth() === currentMonth
+    const filteredData = graph_data.filter( //data
+        (item) => new Date(item.purchase_date).getMonth() === currentMonth
     );
 
     const monthLabel = `${months[currentMonth]} 2024`;
@@ -58,9 +73,9 @@ const ChartSection = () => {
       <>
         <Card sx={{ mt: 4 }}>
           <CardContent>
-            <Typography variant="h5" component="div">
+            {/* <Typography variant="h5" component="div">
               Order Requests
-            </Typography>
+            </Typography> */}
             <MonthSwitchBar>
                 <MonthButton onClick={handlePreviousMonth}>Prev</MonthButton>
                 <h2>{monthLabel}</h2>
@@ -68,8 +83,8 @@ const ChartSection = () => {
             </MonthSwitchBar>
             <Box sx={{ display: 'flex', justifyContent: 'center', mt: 2 }}>
               <Box sx={{ width: '100%', maxWidth: 1200 }}>               
-                <DraftChart data={filteredData} />
-                <ProdChart/>              
+                {/* <DraftChart data={filteredData} /> */}
+                <ProdChart data = {filteredData}/>              
               </Box>
             </Box>
           </CardContent>
