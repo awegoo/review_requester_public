@@ -1,75 +1,74 @@
 import { type ClientSchema, a, defineData } from "@aws-amplify/backend";
 import { schema as generatedSqlSchema } from "./schema.sql";
 
-
 const sqlSchema = generatedSqlSchema
   .authorization((allow) => [allow.authenticated()])
   .renameModels(() => [
     ["orders_ca_short", "Orders"],
-    ["sent_requests_ca", "SentRequest"], //changed SendedRequest to SentRequest
+    ["sent_requests_ca", "SentRequest"],
   ])
   .addToSchema({
     listAllOrders: a
       .query()
       .returns(a.ref("Orders").array())
-      .handler(
-        a.handler.inlineSql(`SELECT
-  *
-FROM orders_ca_short;`)
-      ),
+      .handler(a.handler.sqlReference("./sqlQueris/listAllOrders.sql")),
     listAllRequests: a
       .query()
       .returns(a.ref("SentRequest").array())
-      .handler(
-        a.handler.inlineSql(`SELECT
-      *
-    FROM sent_requests_ca;`)
-      ),
+      .handler(a.handler.sqlReference("./sqlQueris/listAllRequests.sql")),
     listCountRequestsAndCountOrders: a
       .query()
-      .returns(a.ref("CountRequestsAndCountOrders").array()) //a.ref("SentRequest").array()
+      .returns(a.ref("CountRequestsAndCountOrders").array())
       .handler(
-        a.handler.inlineSql(`select
-	tbl_cnt_purchased_orders.*
-	,coalesce(tbl_sent_requests.count_sent_requests, 0) as count_success_sent_requests
-from
-	(
-		select distinct
-			cast(purchase_date as date) as purchase_date
-			,count(distinct amazon_order_id) as count_purchased_orders
-		from public.orders_ca_short
-		group by
-			purchase_date
-	) as tbl_cnt_purchased_orders
-left join
-	(
-		select 
-			purchase_date
-			,count(amazon_order_id) as count_sent_requests
-		from public.sent_requests_ca src 
-		where
-			src.sent_success = true 
-		group by
-			purchase_date
-	) as tbl_sent_requests
-on
-	cast(tbl_cnt_purchased_orders.purchase_date as date) = tbl_sent_requests.purchase_date;`
-    )),
-    getDateSortedOrders: a
-      .query()
-      .returns(a.ref("CountRequestsAndCountOrders").array()) //a.ref("SentRequest").array()
-      .handler(
-        a.handler.inlineSql(`SELECT *
-      FROM orders_ca_short
-      WHERE last_updated_date::date BETWEEN :startDate::date AND :endDate::date
-      ORDER BY last_updated_date DESC;`)
+        a.handler.sqlReference(
+          "./sqlQueris/listCountRequestsAndCountOrders.sql"
+        )
       ),
-    // Defines a custom type that matches the response shape of the query
+    getTotalSendedRequestYear: a
+      .query()
+      .arguments({ year: a.integer() })
+      .returns(a.ref("TotalRequestsYearandMonth").array())
+      .handler(
+        a.handler.sqlReference("./sqlQueris/getTotalSendedRequestsInYear.sql")
+      ),
+    getTotalSendedRequestMonth: a
+      .query()
+      .arguments({ month: a.integer(), year: a.integer() })
+      .returns(a.ref("TotalRequestsYearandMonth").array())
+      .handler(
+        a.handler.sqlReference("./sqlQueris/getTotalSendedRequestsInMonth.sql")
+      ),
+    getTotalSkipRequests: a
+      .query()
+      .returns(a.ref("TotalRequestsYearandMonth").array())
+      .handler(a.handler.sqlReference("./sqlQueris/getTotalSkipRequests.sql")),
+    getRequestsWithStatusYear: a
+      .query()
+      .arguments({ year: a.integer() })
+      .returns(a.json().array())
+      .handler(
+        a.handler.sqlReference("./sqlQueris/getRequestsWithStatusYear.sql")
+      ),
+    getRequestsWithStatusMonth: a
+      .query()
+      .arguments({ year: a.integer(), month: a.integer() })
+      .returns(a.ref("RequestsWithStatus").array())
+      .handler(
+        a.handler.sqlReference("./sqlQueris/getRequestsWithStatusMonth.sql")
+      ),
+    RequestsWithStatus: a.customType({
+      amazon_order_id: a.string(),
+      purchase_date: a.date(),
+      amazon_order_status: a.string(),
+    }),
     CountRequestsAndCountOrders: a.customType({
       purchase_date: a.date(),
       count_purchased_orders: a.integer(),
       count_success_sent_requests: a.integer(),
-    })   
+    }),
+    TotalRequestsYearandMonth: a.customType({
+      requests_count: a.integer(),
+    }),
   });
 
 export type Schema = ClientSchema<typeof sqlSchema>;
