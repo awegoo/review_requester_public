@@ -1,0 +1,161 @@
+@import url('https://fonts.googleapis.com/css2?family=Wix+Madefor+Text:ital,wght@0,400..800;1,400..800&display=swap');
+
+*,
+*::before,
+*::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: "Wix Madefor Text", sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  padding-right: 0 !important;
+  overflow: visible !important;
+
+}
+
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
+li {
+  list-style-type: none;
+}
+
+button {
+  outline: none;
+  box-shadow: none;
+}
+
+.authenticator-container {
+  display: flex;
+  justify-content: end;
+  height: 100vh;
+  background: url('./static/images/bg_sign.png')  no-repeat;
+  background-size: contain;
+  flex-wrap: wrap;
+}
+
+.img_sign_in{
+  display: flex;
+  align-self: center;
+  margin-right: 70px;
+}
+
+.authenticator-container .authenticator-custom {
+  margin-right: 28%;
+  align-items: center;
+}
+
+@media screen and (max-width: 1280px) {
+  .authenticator-container .authenticator-custom {
+    margin-right: 0;
+    justify-content: center;
+  } 
+ 
+}
+
+@media screen and (max-width: 1475px) {
+  .img_sign_in img{
+    width: 450px;
+    height: 475px;
+  }
+}
+
+@media screen and (max-width: 1390px) {
+  .img_sign_in img{
+    width: 425px;
+    height: 450px;
+  }
+}
+@media screen and (max-width: 1355px) {
+  .img_sign_in img{
+    width: 400px;
+    height: 425px;
+  }
+  .authenticator-container .authenticator-custom {
+    margin-right: 0;
+    justify-content: center;
+  } 
+}
+@media screen and (max-width: 950px) {
+  .img_sign_in{
+    display: none;
+  }
+}
+.authenticator-custom {
+  border: none;
+  box-shadow: none;
+  float: right;
+}
+
+[data-amplify-router] {
+  --amplify-components-authenticator-router-border-style: none;
+  --amplify-components-authenticator-router-box-shadow: none;
+  --amplify-components-authenticator-router-border-width: 0;
+
+  --amplify-internal-button-background-color: #1C58CF;
+}
+
+[data-amplify-form] {
+  --amplify-components-authenticator-form-padding: 32px 32px 8px 32px;
+  .amplify-text {
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 24px;
+    color: #000;
+  }
+
+  .amplify-button {
+    font-weight: 500!important;
+  }
+}
+
+[data-amplify-authenticator-signin], [data-amplify-authenticator-signup] {
+  .amplify-button--primary{
+    background-color: #1C58CF;
+    border-radius: 100px;
+    padding: 16px 32px;
+  }
+
+  .amplify-button {
+    border-color: #d7dce4;
+    border-left: none;
+
+  }
+  .amplify-textfield:last-child {
+    margin-bottom: 1rem;
+  }
+  .amplify-input {
+    border-radius: 6px;
+    border: 1.5px solid #d7dce4;
+    padding: 12px 16px;
+  }
+  .amplify-label {
+    color: #231F20;
+    font-family: "Wix Madefor Text";
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: 24px;
+  }
+  .amplify-text {
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 24px;
+    color: #000;
+  }
+}
+
+[data-amplify-router] {
+  .amplify-tabs__list {
+    opacity: 0;
+    position: absolute;
+  }
+}
