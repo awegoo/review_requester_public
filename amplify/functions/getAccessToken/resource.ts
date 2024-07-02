@@ -5,9 +5,9 @@ export const getAccessToken = defineFunction({
     entry:'./handler.ts',
     // ! for dev
     environment:{
-        REFRESH_TOKEN: 'Atzr|IwEBIFyjs8ZqVxsWA1lw2sYz35Dz2RoENPY4FLTLKx_d8bL6u_inifSn4fw2PuJx2QQN1Tp2VB-hPjfRT0SA9Ob5PNWkOiXr03AC_J-kZt9TMaLZWILuYBKPi-CayruEUL92EHDoHjpfrYbmWleccU1Aw3q8GSOXFHTCphnasCnRDSWxr2bn0b9WDW7wTTglNNHO4i4bxGPFVs0TaIbG5AfUOoKaaakaNLm2mlDrV7nGvlbpXE8BHVaNoDOIBj9hjG_8AGoC2fUX36eAguXDqpkiDh56WUu0pFUGD8QRgXF9UCVOBBJBDpqfKiNTNQDnp7L6n4U',
-        LWA_APP_ID: 'amzn1.application-oa2-client.85380e3cd0414a08b6170ef09176183c',
-        LWA_CLIENT_SECRET: 'amzn1.oa2-cs.v1.3f0ebaaf5489d6a534bf9bdb7e6ac1a43f0511dbb964b06fc646f325ab30e4b4',
-        BASE_URL:'https://api.amazon.com/auth/o2/token',
+        REFRESH_TOKEN: 'Atzr|IwEBIM6pfjjXGEPDhe0Y23Bo0tmLzTsxj3H829DchYPesoM9dea3d7IUUUAjLgqJRY_dmDvlEEw8YHr-gbsCQi7zE-lvSbAtPhdjD5Ph4rLa_rIZHGPobdWTcFM-WiHH8gYtcOfh_N1lDShAJoJ5MVrJjPx6F8nCL9Ez5-Y3RlO0Whps_MnUVt6oajMI_PV4E0U9SbUDyoN50M7S6IuqLrsD4K5Jfmyc-YAaUcD37j99_o99lZGROHS8fF3QTshig06q7y9Wm5m0fcBBc87cLXOSOZf4HBD8wEzlkc7Om9I9Hh_GvW8AvSCfZa7hBy38s7zZKeMbjDS-pcM0T-_2ehKsJUVN', //import.meta.env.VITE_LWA_REFRESH_TOKEN,
+        LWA_APP_ID: 'amzn1.application-oa2-client.153a3f456f2543fcbbe724ea21baa1c9', //import.meta.env.VITE_LWA_APP_ID,
+        LWA_CLIENT_SECRET: "amzn1.oa2-cs.v1.a23507f4cad48378cba3d1be18d3da4079ca6f9104094624af519f8f1c92af75", //import.meta.env.VITE_LWA_CLIENT_SECRET,
+        BASE_URL: 'https://api.amazon.com/auth/o2/token' //import.meta.env.VITE_BASE_URL,
     }
 })

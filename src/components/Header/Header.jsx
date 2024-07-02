@@ -71,7 +71,7 @@ const Header = () => {
               />
             </svg>
           </StyledLink>
-          <nav>
+          {/* <nav>
             <StyledUl>
               <li>
                 <StyledLink className="nav_link" href="#">
@@ -94,7 +94,7 @@ const Header = () => {
                 </StyledLink>
               </li>
             </StyledUl>
-          </nav>
+          </nav> */}
         </StyledLeftContainer>
 
         <StyledRightContainer>

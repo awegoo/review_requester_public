@@ -10,7 +10,7 @@ import NoteFound from './pages/NoteFound/NoteFound';
 const App = () => {
   
   return (
-  //<FetchData />
+  // <FetchData />
     <BrowserRouter>
     <Routes>
       <Route path='/*' element={<NoteFound />} />

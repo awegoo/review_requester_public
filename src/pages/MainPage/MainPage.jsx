@@ -5,19 +5,21 @@ import SectionTotal from "../../components/SectionTotal/SectionTotal";
 import SectionTable from "../../components/SectionTable/SectionTable";
 import { generateClient } from "aws-amplify/data";
 import DraftChart from "../../components/DraftChart/DraftChart";
+import ProdChart from "../../components/DraftChart/ProdChart";
+import ChartSection from "../../components/ChartSection/ChartSection";
 
 const client = generateClient();
 
 const MainPage = () => {
 
   // useEffect(() => {
-  //   fetchDatafromApi()
+  //   fetchRequestsWithStatusMonth({year:2024, month:6})
   // },[])
 
   return (
     <>
       <SectionTotal />
-      <DraftChart />
+      <ChartSection/>
       <SectionTable />
     </>
   );
