@@ -26,13 +26,19 @@ const TableComponent = () => {
   const [hiddenColumns, setHiddenColumns] = useState([]);
   const [requestData, setRequestData] = useState([]);
 
-  
+  const transformData = (data) => {
+    return data.map(item => ({
+      ...item,
+      id: item.amazon_order_id
+    }));
+  };
 
   useEffect(() => {
     const fetchData = async () => {
       try {
         const response = await getAllOrders();
-        setRequestData(response);
+        const transformedData = transformData(response);
+        setRequestData(transformedData);
       } catch (error) {
         console.log(error);
       }
@@ -41,7 +47,7 @@ const TableComponent = () => {
 
 
   }, []);
- console.log(requestData);
+
   const handleSearch = (event) => {
     setSearch(event.target.value);
   };
@@ -78,9 +84,9 @@ const TableComponent = () => {
         size: "10px",
       },
       sortFns: {
-        UNITS: (array) => array.sort((a, b) => a.units - b.units),
+        UNITS: (array) => array.sort((a, b) => a.quantity - b.quantity),
         PURCHASE_DATE: (array) =>
-          array.sort((a, b) => b.purchaseDate - a.purchaseDate),
+          array.sort((a, b) => b.purchase_date - a.purchase_date),
       },
     }
   );
@@ -130,7 +136,7 @@ const TableComponent = () => {
     },
     {
       label: "Units",
-      renderCell: (item) => item.item_price,
+      renderCell: (item) => item.quantity,
       sort: { sortKey: "UNITS" },
       hide: hiddenColumns.includes("UNITS"),
       width: "1fr",

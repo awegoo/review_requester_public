@@ -189,7 +189,7 @@ export const themeTable = useTheme([
   },
   {
     HeaderRow: `
-      background: #E0EEFF;
+      background: #E0FFF2;
   `,
   },
   {
@@ -213,7 +213,7 @@ export const themeTable = useTheme([
   {
     Row: `
     &.row-select-single-selected {
-      background: #E0EEFF;}`,
+      background: #E0FFF2;}`,
   },
   {
     BaseCell: `
@@ -261,4 +261,3 @@ export const themeTable = useTheme([
     },
   },
 ]);
-
