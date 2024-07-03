@@ -21,6 +21,25 @@ export const StyledItem = styled.div`
 
     &.no_margin {
       margin-bottom: 0;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    
+    &.blue_bg {
+      background-color: #93B2F0;
+      padding: 2px 8px;
+      border-radius: 100px;
+      display: flex;
+      align-items: center;
+    }
+    
+    &.yellow_bg {
+      background-color: #FEF1AE;
+      padding: 2px 8px;
+      border-radius: 100px;
+      display: flex;
+      align-items: center;
     }
   }
 
@@ -39,8 +58,16 @@ export const StyledItem = styled.div`
     
     &.info_text {
       ${({ theme }) => theme.fonts.bodyMedium};
-      color: #0F6C56;
+      color: #103275;
       letter-spacing: -0.1px;
+    }
+    
+    &.black_text {
+      ${({ theme }) => theme.colors.black}
+    }
+
+    &.red_text {
+      color: #6E1D0C;
     }
   }
 
@@ -54,10 +81,6 @@ export const StyledItem = styled.div`
     &.icon_info{
       width: 24px;
       height: 24px;
-    }
-
-    &.box {
-      margin-right: 12px;
     }
     
     &.chart_chip {

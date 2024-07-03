@@ -10,7 +10,7 @@ export const StyledHeader = styled.header`
   margin-bottom: 20px;
   position: fixed;
   border-bottom: 1px solid #D7DCE4;
-  z-index: 1;
+  z-index: 10;
 `;
 
 export const StyledContainer = styled.div`

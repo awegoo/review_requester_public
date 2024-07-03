@@ -1,4 +1,6 @@
 import { css } from 'styled-components';
+import { useTheme } from '@table-library/react-table-library/theme';
+import { getTheme } from '@table-library/react-table-library/baseline';
 
 export const theme = {
   colors: {
@@ -175,4 +177,87 @@ export const theme = {
   },
 };
 
+export const themeTable = useTheme([
+  getTheme(),
+  {
+    Table: `
+      border-radius: 6px;
+      border: 1px solid #D7DCE4;
+      --data-table-library_grid-template-columns: minmax(0px, 2fr) minmax(0px, 2fr) minmax(0px, 4fr) minmax(0px, 1fr) minmax(0px, 1.5fr) ;
+      margin-bottom: 16px;
+    `,
+  },
+  {
+    HeaderRow: `
+      background: #E0FFF2;
+  `,
+  },
+  {
+    HeaderCell: `
+    justify-content: flex-start;
+    padding: 12px 16px;
+    align-items: flex-start;
+    font-family: 'Wix Madefor Text';
+    font-size: 18px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 30px;
 
+    div {
+      &.css-cz6xlx div:after {
+        content: '';
+      }
+    }
+  `,
+  },
+  {
+    Row: `
+    &.row-select-single-selected {
+      background: #E0FFF2;}`,
+  },
+  {
+    BaseCell: `
+      text-align: center;
+      display: flex;
+      align-items: center;
+
+      &:first-of-type {
+        text-align: left;
+        border-right: 1px solid #D7DCE4;
+      }
+
+      &:nth-of-type(3) {
+        text-align: left;
+      }
+
+      &:focus {
+        background: #E0EEFF;
+      }
+
+      div {
+        display: flex;
+        align-items: center;
+      }
+
+      img {
+        margin-right: 16px;
+      }
+    `,
+  },
+  {
+    typography: {
+      fontWeightRegular: `
+        font-family: 'Wix Madefor Text';
+        font-size: 18px;
+        font-style: normal;
+        font-weight: 400;
+      `,
+      fontWeightMedium: `
+        font-family: 'Wix Madefor Text';
+        font-size: 18px;
+        font-style: normal;
+        font-weight: 700;
+      `,
+    },
+  },
+]);

@@ -13,7 +13,7 @@ const Templates = () => (
         minHeight: "100%",
         justifyContent: "center",
         textAlign: "center",
-        backgroundColor: "#F4F9FF",
+        backgroundColor: "#FAFFFD",
       }}
     >
       <Grid

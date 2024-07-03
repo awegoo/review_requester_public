@@ -36,7 +36,7 @@ button {
   justify-content: end;
   height: 100vh;
   background: url('./static/images/bg_sign.png')  no-repeat;
-  background-size: contain;
+  background-size: cover;
   flex-wrap: wrap;
 }
 
@@ -47,7 +47,7 @@ button {
 }
 
 .authenticator-container .authenticator-custom {
-  margin-right: 28%;
+  margin-right: 25%;
   align-items: center;
 }
 
@@ -118,7 +118,8 @@ button {
 
 [data-amplify-authenticator-signin], [data-amplify-authenticator-signup] {
   .amplify-button--primary{
-    background-color: #1C58CF;
+    color: #231F20;
+    background-color: #3DC2A2;
     border-radius: 100px;
     padding: 16px 32px;
   }
