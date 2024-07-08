@@ -1,5 +1,4 @@
 import React from 'react';
-import { Card, CardContent, Typography, Box } from '@mui/material';
 import {
   Line,
   XAxis,
@@ -19,7 +18,7 @@ const DraftChart = ({ data }) => {
   
   const monthlyDataWithDates = data.map(item => ({
     ...item,
-    dayNum: new Date(item.day).getDate()
+    dayNum: new Date(item.purchase_date).getDate()
   }));
   
   return (
@@ -32,18 +31,18 @@ const DraftChart = ({ data }) => {
           <Tooltip cursor={{ stroke: 'none'}}/>
           <Legend />
           <Bar 
-            dataKey="eligibleOrders" 
-            fill="#1C58CF33" 
+            dataKey="count_purchased_orders" 
+            fill="#3DC2A233" 
             shape={<CustomBarShape />} 
             barSize={30} 
-            activeBar={<Rectangle radius={[10, 10, 0, 0]} fill="#1C58CF99"/>}
+            activeBar={<Rectangle radius={[10, 10, 0, 0]} fill="#3DC2A299"/>}
           />
           <Line 
-            dataKey="requestsSent"
-            stroke="#30E3B9" 
+            dataKey="count_success_sent_requests"
+            stroke="#1C58CF" 
             type="linear"
-            strokeWidth={3}
-            dot={{ r: 6 }}
+            strokeWidth={4}
+            dot={{ r: 5, strokeWidth: 1}}
             activeDot={{ r: 8 }}
           />
         </ComposedChart>
