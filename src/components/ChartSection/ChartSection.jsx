@@ -87,7 +87,8 @@ const ChartSection = () => {
             </MonthSwitchBar>
             <Box sx={{ display: 'flex', justifyContent: 'center', mt: 2 }}>
               <Box sx={{ width: '100%', maxWidth: 1200 }}>               
-                <DraftChart data={filteredData} />
+                <DraftChart data={filteredData}/> 
+                {/* style={{marginTop: "20px"}} */}
               </Box>
             </Box>
           </CardContent>

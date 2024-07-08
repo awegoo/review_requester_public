@@ -15,6 +15,18 @@ import CustomBarShape from './CustomBarShape';
 // import { data } from '../../utils/generatedData';
 
 const DraftChart = ({ data }) => {
+
+  const divStyle = {
+    backgroundColor: 'yellow', 
+    marginTop: '20px',
+    marginBottom: '20px',
+    $ul: {
+      display: 'flex',
+      justifyContent: 'space-between' 
+    } 
+    // display: 'flex',
+    // justifyContent: 'space-between'  
+  };
   
   const monthlyDataWithDates = data.map(item => ({
     ...item,
@@ -29,7 +41,7 @@ const DraftChart = ({ data }) => {
           <XAxis dataKey="dayNum" /> 
           <YAxis />
           <Tooltip cursor={{ stroke: 'none'}}/>
-          <Legend />
+          <Legend iconType="circle" verticalAlign="top" wrapperStyle={divStyle}/>
           <Bar 
             dataKey="count_purchased_orders" 
             fill="#3DC2A233" 
