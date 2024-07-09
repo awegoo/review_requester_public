@@ -18,13 +18,13 @@ ReactDOM.createRoot(document.getElementById("root")).render(
     <Loading />
       <ThemeProvider theme={theme}>
         <div className="authenticator-container">
-          <Authenticator
+          {/* <Authenticator
             className="authenticator-custom"
             formFields={formFields}
             components={components}
-          >
+          > */}
             <App />
-          </Authenticator>
+          {/* </Authenticator> */}
         </div>
       </ThemeProvider>
   </React.StrictMode>

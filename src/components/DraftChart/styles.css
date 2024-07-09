@@ -1,0 +1,6 @@
+.recharts-default-legend {
+    display: flex;
+    justify-content: space-between;
+}
+
+/* for recharts legend ul layout */

@@ -1,5 +1,4 @@
 import React from 'react';
-import { Card, CardContent, Typography, Box } from '@mui/material';
 import {
   Line,
   XAxis,
@@ -14,12 +13,24 @@ import {
 } from 'recharts';
 import CustomBarShape from './CustomBarShape';
 // import { data } from '../../utils/generatedData';
+import './styles.css'
+
+const renderColorfulLegendText = (value, entry) => {
+  const { color } = entry;
+
+  return <span style={{ color }}>{value}</span>;
+};
 
 const DraftChart = ({ data }) => {
+
+  const divStyle = {
+    backgroundColor: 'yellow', 
+    top: '-10px',
+  };
   
   const monthlyDataWithDates = data.map(item => ({
     ...item,
-    dayNum: new Date(item.day).getDate()
+    dayNum: new Date(item.purchase_date).getDate()
   }));
   
   return (
@@ -30,20 +41,27 @@ const DraftChart = ({ data }) => {
           <XAxis dataKey="dayNum" /> 
           <YAxis />
           <Tooltip cursor={{ stroke: 'none'}}/>
-          <Legend />
+          <Legend 
+            iconType="circle" 
+            verticalAlign="top" 
+            wrapperStyle={divStyle} 
+            height={40}
+            formatter={renderColorfulLegendText}
+          /> 
+          {/* payload={[{ value: 'item name 1', type: 'line', id: 'ID01' }, { value: 'item name 2', type: 'line', id: 'ID01' }]} */}
           <Bar 
-            dataKey="eligibleOrders" 
-            fill="#1C58CF33" 
+            dataKey="count_purchased_orders" 
+            fill="#3DC2A233" 
             shape={<CustomBarShape />} 
             barSize={30} 
-            activeBar={<Rectangle radius={[10, 10, 0, 0]} fill="#1C58CF99"/>}
+            activeBar={<Rectangle radius={[10, 10, 0, 0]} fill="#3DC2A299"/>}
           />
           <Line 
-            dataKey="requestsSent"
-            stroke="#30E3B9" 
+            dataKey="count_success_sent_requests"
+            stroke="#1C58CF" 
             type="linear"
-            strokeWidth={3}
-            dot={{ r: 6 }}
+            strokeWidth={4}
+            dot={{ r: 5, strokeWidth: 1}}
             activeDot={{ r: 8 }}
           />
         </ComposedChart>
