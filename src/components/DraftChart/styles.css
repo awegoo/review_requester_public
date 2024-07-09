@@ -3,4 +3,8 @@
     justify-content: space-between;
 }
 
+.recharts-legend-item-text span {
+    color: #231F20 !important;
+}
+
 /* for recharts legend ul layout */
