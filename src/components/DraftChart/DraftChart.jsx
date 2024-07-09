@@ -15,11 +15,17 @@ import CustomBarShape from './CustomBarShape';
 // import { data } from '../../utils/generatedData';
 import './styles.css'
 
+const renderColorfulLegendText = (value, entry) => {
+  const { color } = entry;
+
+  return <span style={{ color }}>{value}</span>;
+};
+
 const DraftChart = ({ data }) => {
 
   const divStyle = {
     backgroundColor: 'yellow', 
-    top: '-20px',
+    top: '-10px',
   };
   
   const monthlyDataWithDates = data.map(item => ({
@@ -35,7 +41,14 @@ const DraftChart = ({ data }) => {
           <XAxis dataKey="dayNum" /> 
           <YAxis />
           <Tooltip cursor={{ stroke: 'none'}}/>
-          <Legend iconType="circle" verticalAlign="top" wrapperStyle={divStyle}/>
+          <Legend 
+            iconType="circle" 
+            verticalAlign="top" 
+            wrapperStyle={divStyle} 
+            height={40}
+            formatter={renderColorfulLegendText}
+          /> 
+          {/* payload={[{ value: 'item name 1', type: 'line', id: 'ID01' }, { value: 'item name 2', type: 'line', id: 'ID01' }]} */}
           <Bar 
             dataKey="count_purchased_orders" 
             fill="#3DC2A233" 
