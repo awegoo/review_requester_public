@@ -13,19 +13,13 @@ import {
 } from 'recharts';
 import CustomBarShape from './CustomBarShape';
 // import { data } from '../../utils/generatedData';
+import './styles.css'
 
 const DraftChart = ({ data }) => {
 
   const divStyle = {
     backgroundColor: 'yellow', 
-    marginTop: '20px',
-    marginBottom: '20px',
-    $ul: {
-      display: 'flex',
-      justifyContent: 'space-between' 
-    } 
-    // display: 'flex',
-    // justifyContent: 'space-between'  
+    top: '-20px',
   };
   
   const monthlyDataWithDates = data.map(item => ({

@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Card, CardContent, Typography, Box, IconButton } from '@mui/material';
 import DraftChart from '../DraftChart/DraftChart';
 import ProdChart from '../DraftChart/ProdChart';
-// import { data as graph_data } from '../../utils/testData';
+import { data as graph_data } from '../../utils/testData';
 import styled from "styled-components";
 import { fetchDataForGraphs } from '../../utils/fetchData';
 import ArrowBackIosNewIcon from '@mui/icons-material/ArrowBackIosNew';
@@ -29,16 +29,16 @@ const MonthSwitchBar = styled.div`
 const ChartSection = () => {
     const [currentMonth, setCurrentMonth] = useState(0);
     // --- comment code below for use of testData ---
-    const [graph_data, setGraphData] = useState([]);
+    // const [graph_data, setGraphData] = useState([]);
 
-    useEffect(() => {
-      fetchGraphData()
-    }, [])
+    // useEffect(() => {
+    //   fetchGraphData()
+    // }, [])
   
-    async function fetchGraphData(){
-      const graphdata = await fetchDataForGraphs();
-      setGraphData(graphdata);
-    };
+    // async function fetchGraphData(){
+    //   const graphdata = await fetchDataForGraphs();
+    //   setGraphData(graphdata);
+    // };
     // --- comment code above for use of testData ---
     const months = [
       "JANUARY",
@@ -68,6 +68,8 @@ const ChartSection = () => {
     );
     
     const monthLabel = `${months[currentMonth]}, 2024`;
+
+    // if currentMonth > String(new Date().getMonth() + 1).padStart(2, '0') 
     
     return (
       <>
