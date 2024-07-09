@@ -1,23 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import { Card, CardContent, Typography, Box, IconButton } from '@mui/material';
 import DraftChart from '../DraftChart/DraftChart';
-import ProdChart from '../DraftChart/ProdChart';
 // import { data as graph_data } from '../../utils/testData';
 import styled from "styled-components";
 import { fetchDataForGraphs } from '../../utils/fetchData';
 import ArrowBackIosNewIcon from '@mui/icons-material/ArrowBackIosNew';
 import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
-import { StyledLabel } from "./styled";
-
-const MonthButton = styled.button`
-  margin: 5px;
-  padding: 10px 20px;
-  background-color: #007bff;
-  color: white;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-`;
+import { StyledLabel, StyledTitle } from "./styled";
 
 const MonthSwitchBar = styled.div`
   display: flex;
@@ -28,7 +17,7 @@ const MonthSwitchBar = styled.div`
 
 const ChartSection = () => {
     const [currentMonth, setCurrentMonth] = useState(0);
-    // --- comment code below for use of testData ---
+    const [isDisabled, setIsDisabled] = useState(false);
     const [graph_data, setGraphData] = useState([]);
 
     useEffect(() => {
@@ -39,7 +28,7 @@ const ChartSection = () => {
       const graphdata = await fetchDataForGraphs();
       setGraphData(graphdata);
     };
-    // --- comment code above for use of testData ---
+    
     const months = [
       "JANUARY",
       "FEBRUARY",
@@ -68,27 +57,52 @@ const ChartSection = () => {
     );
     
     const monthLabel = `${months[currentMonth]}, 2024`;
-    
+
+    useEffect(() => {       
+      if (currentMonth === new Date().getMonth()) {
+        setIsDisabled(true);
+      } else {
+        setIsDisabled(false);
+      }
+    }, [currentMonth]);
+
     return (
       <>
         <Card sx={{ mt: 4 }}>
           <CardContent>
-            <Typography variant="h5" component="div">
-              Order Requests
-            </Typography>
+            <StyledTitle>
+              <h3>Order Requests</h3>
+              <p>Updates Daily</p>
+            </StyledTitle>
             <MonthSwitchBar>
                 <IconButton sx={{ color: '#1C58CF' }} onClick={handlePreviousMonth}>
                   <ArrowBackIosNewIcon  sx={{ fontSize: 18 }}/>
                 </IconButton>                
                 <StyledLabel>{monthLabel}</StyledLabel>                
-                <IconButton sx={{ color: '#1C58CF' }} onClick={handleNextMonth}>
+                <IconButton sx={{ color: '#1C58CF' }} onClick={handleNextMonth} disabled={isDisabled}>
                   <ArrowForwardIosIcon sx={{ fontSize: 18 }}/>
                 </IconButton>
             </MonthSwitchBar>
             <Box sx={{ display: 'flex', justifyContent: 'center', mt: 2 }}>
               <Box sx={{ width: '100%', maxWidth: 1200 }}>               
-                <DraftChart data={filteredData}/> 
-                {/* style={{marginTop: "20px"}} */}
+                {filteredData.length > 0 ? (
+                  <DraftChart data={filteredData} />
+                ) : (
+                  <Typography 
+                    variant="h6" 
+                    align="center" 
+                    sx={{
+                      color: '#777',
+                      fontStyle: 'italic',
+                      height: 400, 
+                      display: 'flex', 
+                      alignItems: 'center',
+                      justifyContent: 'center'
+                    }}
+                  >
+                    No data found for this period
+                  </Typography>
+                )}
               </Box>
             </Box>
           </CardContent>

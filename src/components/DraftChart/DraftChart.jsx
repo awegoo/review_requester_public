@@ -12,21 +12,15 @@ import {
   Rectangle
 } from 'recharts';
 import CustomBarShape from './CustomBarShape';
-// import { data } from '../../utils/generatedData';
+import './styles.css'
+
+const renderColorfulLegendText = (value, entry) => {
+  const { color } = entry;
+
+  return <span style={{ color }}>{value==="count_purchased_orders" ? "Eligible Orders" : "Requests Sent" }</span>;
+};
 
 const DraftChart = ({ data }) => {
-
-  const divStyle = {
-    backgroundColor: 'yellow', 
-    marginTop: '20px',
-    marginBottom: '20px',
-    $ul: {
-      display: 'flex',
-      justifyContent: 'space-between' 
-    } 
-    // display: 'flex',
-    // justifyContent: 'space-between'  
-  };
   
   const monthlyDataWithDates = data.map(item => ({
     ...item,
@@ -41,7 +35,13 @@ const DraftChart = ({ data }) => {
           <XAxis dataKey="dayNum" /> 
           <YAxis />
           <Tooltip cursor={{ stroke: 'none'}}/>
-          <Legend iconType="circle" verticalAlign="top" wrapperStyle={divStyle}/>
+          <Legend 
+            iconType="circle" 
+            verticalAlign="top" 
+            wrapperStyle={{top:'-10px'}} 
+            height={40}
+            formatter={renderColorfulLegendText}
+          /> 
           <Bar 
             dataKey="count_purchased_orders" 
             fill="#3DC2A233" 
