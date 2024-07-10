@@ -13,7 +13,7 @@ const client = generateClient();
 const MainPage = () => {
 
   // useEffect(() => {
-  //   fetchDatafromApi()
+  //   fetchRequestsWithStatusMonth({year:2024, month:6})
   // },[])
 
   return (

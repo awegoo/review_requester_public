@@ -7,7 +7,6 @@
     "resolveJsonModule": true,
     "esModuleInterop": true,
     "forceConsistentCasingInFileNames": true,
-    "exclude": ["amplify/**/*"],
     "strict": true,
     "skipLibCheck": true,
     "paths": {

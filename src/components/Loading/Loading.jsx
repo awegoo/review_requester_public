@@ -18,14 +18,20 @@ const Loading = () => {
 
   useEffect(() => {
     if (isLoadingPage) {
-      setTimeout(() => {
+      const bgTimeout = setTimeout(() => {
         setIsBg(false);
       }, 2000);
-      setTimeout(() => {
+      const showTimeout = setTimeout(() => {
         setIsShow(false);
       }, 3000);
+
+      return () => {
+        clearTimeout(bgTimeout);
+        clearTimeout(showTimeout);
+      };
     }
   }, [isLoadingPage]);
+
   return (
     <StyledLoader $isBg={isBg} $isShow={isShow}>
       <StyledContainer>

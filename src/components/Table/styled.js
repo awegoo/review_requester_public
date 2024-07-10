@@ -14,7 +14,7 @@ export const StyledDiv = styled.div`
     top: 50%;
     right: 3%;
     transform: translateY(-50%);
-    z-index: 1400;
+    z-index: 9;
     width: 16px;
     height: 16px;
 

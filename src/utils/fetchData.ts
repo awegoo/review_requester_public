@@ -3,7 +3,7 @@ import { type Schema } from "../../amplify/data/resource";
 
 const client = generateClient<Schema>();
 
-// Function for fetching all existing reviews from database
+// Function for fetching all existing orders from database
 export async function getAllOrders() {
   const { data: items, errors } = await client.queries.listAllOrders();
   if (errors) {
@@ -34,10 +34,64 @@ export async function fetchDatafromApi() {
   return requests;
 }
 
+// !Function for fetch count of sended request in costume year
+export async function fetchTotalRequestYear(year: number) {
+  const { data: requests, errors } =
+    await client.queries.getTotalSendedRequestYear({ year: year });
+  if (errors !== undefined) {
+    return errors;
+  }
+  return requests;
+}
+
+type IArgumentsTotalMonth = {
+  year: number;
+  month: number;
+};
+
+// !Function for fetch count of sended requests in costume month and costume year
+export async function fetchTotalRequestInMonth(args: IArgumentsTotalMonth) {
+  const { data: requests, errors } =
+    await client.queries.getTotalSendedRequestMonth({
+      year: args.year,
+      month: args.month,
+    });
+  if (errors !== undefined) {
+    return errors;
+  }
+  return requests;
+}
+
+// !Function for fetch requests with status in costume month and costume year
+export async function fetchRequestsWithStatusMonth(args: IArgumentsTotalMonth) {
+  const { data: requests, errors } =
+    await client.queries.getRequestsWithStatusMonth({
+      year: args.year,
+      month: args.month,
+    });
+  if (errors !== undefined) {
+    return errors;
+  }
+  return requests;
+}
+
+
+// !Function for fetch requests with status in costume year
+export async function fetchRequestsWithStatusYear(args: IArgumentsTotalMonth) {
+  const { data: requests, errors } =
+    await client.queries.getRequestsWithStatusYear({
+      year: args.year,
+    });
+  if (errors !== undefined) {
+    return errors;
+  }
+  return requests;
+}
 
 //! Function for fetching all necessary data for graphs
 export async function fetchDataForGraphs() {
-  const { data: graphdata, errors } = await client.queries.listCountRequestsAndCountOrders();
+  const { data: graphdata, errors } =
+    await client.queries.listCountRequestsAndCountOrders();
   if (errors !== undefined) {
     return errors;
   }

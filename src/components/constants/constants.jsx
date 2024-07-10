@@ -7,127 +7,126 @@ import {
   useTheme,
   Link,
 } from "@aws-amplify/ui-react";
-import { confirmSignUp, signUp } from "aws-amplify/auth";
 import React from "react";
 import { styled } from "styled-components";
 
-export const data = [
-  {
-    title: "Net New Reviews",
-    number: "4,51",
-    star: "./static/images/icons/star.svg",
-    img: "./static/images/icons/box.svg",
-    className: "box",
-    text: "Average rating for all products",
-    backgroundImg: "./static/images/illustrative/Illustrative_1.png",
-  },
-  {
-    title: "Total Requests Sent",
-    number: "175,795",
-    img: "./static/images/icons/ChartChip.png",
-    className: "chart_chip",
-    text: "vs last month",
-    backgroundImg: "./static/images/illustrative/Illustrative_2.png",
-  },
-  {
-    title: "Months Requests Sent",
-    number: "11,900",
-    img: "./static/images/icons/medal.svg",
-    className: "box",
-    text: "Goal: 10,000 requests",
-    backgroundImg: "./static/images/illustrative/Illustrative_3.png",
-  },
-  {
-    title: "Total Skipped Requests",
-    number: "97",
-    img: "./static/images/icons/ChartChipGreen.png",
-    className: "chart_chip",
-    text: "vs last month",
-    backgroundImg: "./static/images/illustrative/Illustrative_4.png",
-  },
-];
+// export const data = [
+//   {
+//     title: "Net New Reviews",
+//     number: "4,51",
+//     star: "./static/images/icons/star.svg",
+//     img: "./static/images/icons/box.svg",
+//     className: "box",
+//     text: "Average rating for all products",
+//     backgroundImg: "./static/images/illustrative/Illustrative_1.png",
+//   },
+//   {
+//     title: "Total Requests Sent",
+//     number: "175,795",
+//     img: "./static/images/icons/ChartChip.png",
+//     className: "chart_chip",
+//     text: "vs last month",
+//     backgroundImg: "./static/images/illustrative/Illustrative_2.png",
+//   },
+//   {
+//     title: "Months Requests Sent",
+//     number: "11,900",
+//     img: "./static/images/icons/medal.svg",
+//     className: "box",
+//     text: "Goal: 10,000 requests",
+//     backgroundImg: "./static/images/illustrative/Illustrative_3.png",
+//   },
+//   {
+//     title: "Total Skipped Requests",
+//     number: "97",
+//     img: "./static/images/icons/ChartChipGreen.png",
+//     className: "chart_chip",
+//     text: "vs last month",
+//     backgroundImg: "./static/images/illustrative/Illustrative_4.png",
+//   },
+// ];
 
-export const list = [
-  {
-    id: "67-0384136-8086658",
-    statusRequest: true,
-    productName: {
-      img: "https://img.freepik.com/free-photo/new-pair-white-sneakers-isolated-white_93675-130969.jpg?t=st=1717503087~exp=1717506687~hmac=24a756866f8cca8874d15b950213eb74c466626f2b20be8497b5e95d946f07e7&w=1060",
-      name: "Product 2",
-    },
-    units: 23,
-    purchaseDate: new Date("2021-06-22T09:48:27.235Z"),
-  },
-  {
-    id: "403-0384136-8086658",
-    statusRequest: false,
-    productName: {
-      img: "https://img.freepik.com/free-photo/new-black-sneakers-isolated-white-background_93675-135051.jpg?t=st=1717503026~exp=1717506626~hmac=51d43aef770e5144f0ee4b2dfda1d10604826a01cdb3b0e177d04f1a7e314130&w=1380",
-      name: "Product 3",
-    },
-    units: 23,
-    purchaseDate: new Date("2023-04-15T12:32:11.118Z"),
-  },
-  {
-    id: "124-0384136-8086658",
-    statusRequest: true,
-    productName: {
-      img: "https://img.freepik.com/free-photo/new-pair-white-sneakers-isolated-white_93675-135053.jpg?t=st=1717503056~exp=1717506656~hmac=b1524be34786dcc1ec7e10f9eda21f9f735d43e3ef33f46fce6b27451772a2c1&w=1380",
-      name: "Product 5",
-    },
-    units: 67,
-    purchaseDate: new Date("2022-10-03T07:16:44.876Z"),
-  },
-  {
-    id: 945,
-    statusRequest: false,
-    productName: { img: "img1.jpg", name: "Product 1" },
-    units: 12,
-    purchaseDate: new Date("2020-11-11T03:04:55.304Z"),
-  },
-  {
-    id: 403,
-    statusRequest: true,
-    productName: { img: "img4.jpg", name: "Product 4" },
-    units: 90,
-    purchaseDate: new Date("2021-01-22T15:45:21.642Z"),
-  },
-  {
-    id: 768,
-    statusRequest: false,
-    productName: { img: "img3.jpg", name: "Product 3" },
-    units: 45,
-    purchaseDate: new Date("2020-05-14T11:37:34.198Z"),
-  },
-  {
-    id: 124,
-    statusRequest: true,
-    productName: { img: "img5.jpg", name: "Product 5" },
-    units: 34,
-    purchaseDate: new Date("2023-03-18T20:22:48.954Z"),
-  },
-  {
-    id: 657,
-    statusRequest: false,
-    productName: { img: "img2.jpg", name: "Product 2" },
-    units: 78,
-    purchaseDate: new Date("2022-07-09T19:13:27.689Z"),
-  },
-  {
-    id: 812,
-    statusRequest: true,
-    productName: { img: "img1.jpg", name: "Product 1" },
-    units: 56,
-    purchaseDate: new Date("2021-09-25T14:07:11.897Z"),
-  },
-  {
-    id: 538,
-    statusRequest: false,
-    productName: { img: "img4.jpg", name: "Product 4" },
-    units: 89,
-    purchaseDate: new Date("2020-02-19T06:41:09.729Z"),
-  },
-];
+// export const list = [
+//   {
+//     id: "67-0384136-8086658",
+//     statusRequest: true,
+//     productName: {
+//       img: "https://img.freepik.com/free-photo/new-pair-white-sneakers-isolated-white_93675-130969.jpg?t=st=1717503087~exp=1717506687~hmac=24a756866f8cca8874d15b950213eb74c466626f2b20be8497b5e95d946f07e7&w=1060",
+//       name: "Product 2",
+//     },
+//     units: 23,
+//     purchaseDate: new Date("2021-06-22T09:48:27.235Z"),
+//   },
+//   {
+//     id: "403-0384136-8086658",
+//     statusRequest: false,
+//     productName: {
+//       img: "https://img.freepik.com/free-photo/new-black-sneakers-isolated-white-background_93675-135051.jpg?t=st=1717503026~exp=1717506626~hmac=51d43aef770e5144f0ee4b2dfda1d10604826a01cdb3b0e177d04f1a7e314130&w=1380",
+//       name: "Product 3",
+//     },
+//     units: 23,
+//     purchaseDate: new Date("2023-04-15T12:32:11.118Z"),
+//   },
+//   {
+//     id: "124-0384136-8086658",
+//     statusRequest: true,
+//     productName: {
+//       img: "https://img.freepik.com/free-photo/new-pair-white-sneakers-isolated-white_93675-135053.jpg?t=st=1717503056~exp=1717506656~hmac=b1524be34786dcc1ec7e10f9eda21f9f735d43e3ef33f46fce6b27451772a2c1&w=1380",
+//       name: "Product 5",
+//     },
+//     units: 67,
+//     purchaseDate: new Date("2022-10-03T07:16:44.876Z"),
+//   },
+//   {
+//     id: 945,
+//     statusRequest: false,
+//     productName: { img: "img1.jpg", name: "Product 1" },
+//     units: 12,
+//     purchaseDate: new Date("2020-11-11T03:04:55.304Z"),
+//   },
+//   {
+//     id: 403,
+//     statusRequest: true,
+//     productName: { img: "img4.jpg", name: "Product 4" },
+//     units: 90,
+//     purchaseDate: new Date("2021-01-22T15:45:21.642Z"),
+//   },
+//   {
+//     id: 768,
+//     statusRequest: false,
+//     productName: { img: "img3.jpg", name: "Product 3" },
+//     units: 45,
+//     purchaseDate: new Date("2020-05-14T11:37:34.198Z"),
+//   },
+//   {
+//     id: 124,
+//     statusRequest: true,
+//     productName: { img: "img5.jpg", name: "Product 5" },
+//     units: 34,
+//     purchaseDate: new Date("2023-03-18T20:22:48.954Z"),
+//   },
+//   {
+//     id: 657,
+//     statusRequest: false,
+//     productName: { img: "img2.jpg", name: "Product 2" },
+//     units: 78,
+//     purchaseDate: new Date("2022-07-09T19:13:27.689Z"),
+//   },
+//   {
+//     id: 812,
+//     statusRequest: true,
+//     productName: { img: "img1.jpg", name: "Product 1" },
+//     units: 56,
+//     purchaseDate: new Date("2021-09-25T14:07:11.897Z"),
+//   },
+//   {
+//     id: 538,
+//     statusRequest: false,
+//     productName: { img: "img4.jpg", name: "Product 4" },
+//     units: 89,
+//     purchaseDate: new Date("2020-02-19T06:41:09.729Z"),
+//   },
+// ];
 
 const CustomButton = styled(Button)`
   &:hover {
@@ -422,3 +421,11 @@ export const formFields = {
   //   },
   // },
 };
+
+export const columns = [
+  'Order ID',
+  'Review Request Status',
+  'Product Name',
+  'UNITS',
+  'PURCHASE_DATE',
+];

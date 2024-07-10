@@ -1,0 +1,11 @@
+.recharts-default-legend {
+    display: flex;
+    justify-content: space-between;
+    flex-direction: row-reverse;
+}
+
+.recharts-legend-item-text span {
+    color: #231F20 !important;
+}
+
+/* for 'recharts' legend ul layout & span stylization */
