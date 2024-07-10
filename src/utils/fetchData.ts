@@ -82,6 +82,7 @@ export async function fetchRequestsWithStatusYear(args: IArgumentsTotalMonth) {
     await client.queries.getRequestsWithStatusYear({
       year: args.year,
     });
+    
   if (errors !== undefined) {
     return errors;
   }

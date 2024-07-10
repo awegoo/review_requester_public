@@ -42,6 +42,13 @@ const sqlSchema = generatedSqlSchema
       .query()
       .returns(a.ref("TotalRequestsYearandMonth").array())
       .handler(a.handler.sqlReference("./sqlQueris/getTotalSkipRequests.sql")),
+    getSkipedRequestsMonth: a
+      .query()
+      .arguments({ month: a.integer(), year: a.integer() })
+      .returns(a.ref("TotalRequestsYearandMonth").array())
+      .handler(
+        a.handler.sqlReference("./sqlQueris/getSkipedRequestsMounth.sql")
+      ),
     getRequestsWithStatusYear: a
       .query()
       .arguments({ year: a.integer() })

@@ -6,7 +6,8 @@ import SectionTable from "../../components/SectionTable/SectionTable";
 import { generateClient } from "aws-amplify/data";
 import DraftChart from "../../components/DraftChart/DraftChart";
 import ProdChart from "../../components/DraftChart/ProdChart";
-import { fetchRequestsWithStatusMonth } from "../../utils/fetchData";
+import ChartSection from "../../components/ChartSection/ChartSection";
+// import {fetchRequestsWithStatusMonth} from '../../utils/fetchData'
 
 const client = generateClient();
 
