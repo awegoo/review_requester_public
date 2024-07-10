@@ -20,8 +20,7 @@ const MainPage = () => {
   return (
     <>
       <SectionTotal />
-      {/* <DraftChart /> */}
-      <ProdChart/>
+      <ChartSection/>
       <SectionTable />
     </>
   );
