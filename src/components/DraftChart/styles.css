@@ -1,6 +1,7 @@
 .recharts-default-legend {
     display: flex;
     justify-content: space-between;
+    flex-direction: row-reverse;
 }
 
 .recharts-legend-item-text span {
