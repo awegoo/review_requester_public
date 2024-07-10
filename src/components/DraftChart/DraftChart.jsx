@@ -14,6 +14,7 @@ import {
 import CustomBarShape from './CustomBarShape';
 import './styles.css'
 
+
 const renderColorfulLegendText = (value, entry) => {
   const { color } = entry;
 
