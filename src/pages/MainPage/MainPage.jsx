@@ -7,14 +7,14 @@ import { generateClient } from "aws-amplify/data";
 import DraftChart from "../../components/DraftChart/DraftChart";
 import ProdChart from "../../components/DraftChart/ProdChart";
 import ChartSection from "../../components/ChartSection/ChartSection";
-// import {fetchRequestsWithStatusMonth} from '../../utils/fetchData'
+// import {getSkipedRequestsMonth} from '../../utils/fetchData'
 
 const client = generateClient();
 
 const MainPage = () => {
 
   // useEffect(() => {
-  //   fetchRequestsWithStatusMonth({year:2024, month:6})
+  //   getSkipedRequestsMonth({year:2024, month:6})
   // },[])
 
   return (
