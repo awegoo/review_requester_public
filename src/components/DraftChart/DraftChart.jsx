@@ -12,21 +12,16 @@ import {
   Rectangle
 } from 'recharts';
 import CustomBarShape from './CustomBarShape';
-// import { data } from '../../utils/generatedData';
 import './styles.css'
+
 
 const renderColorfulLegendText = (value, entry) => {
   const { color } = entry;
 
-  return <span style={{ color }}>{value}</span>;
+  return <span style={{ color }}>{value==="count_purchased_orders" ? "Eligible Orders" : "Requests Sent" }</span>;
 };
 
 const DraftChart = ({ data }) => {
-
-  const divStyle = {
-    backgroundColor: 'yellow', 
-    top: '-10px',
-  };
   
   const monthlyDataWithDates = data.map(item => ({
     ...item,
@@ -44,11 +39,10 @@ const DraftChart = ({ data }) => {
           <Legend 
             iconType="circle" 
             verticalAlign="top" 
-            wrapperStyle={divStyle} 
+            wrapperStyle={{top:'-10px'}} 
             height={40}
             formatter={renderColorfulLegendText}
           /> 
-          {/* payload={[{ value: 'item name 1', type: 'line', id: 'ID01' }, { value: 'item name 2', type: 'line', id: 'ID01' }]} */}
           <Bar 
             dataKey="count_purchased_orders" 
             fill="#3DC2A233" 
