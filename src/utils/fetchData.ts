@@ -97,3 +97,12 @@ export async function fetchDataForGraphs() {
   }
   return graphdata;
 }
+
+//! Function for fetching count of skipped requests
+export async function getSkipedRequests(){
+  const {data:skipedRequests, errors} = await client.queries.getTotalSkipRequests();
+  if(errors){
+    return errors
+  }
+  return skipedRequests
+} 

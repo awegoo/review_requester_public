@@ -15,14 +15,14 @@ const Logo  = ({
       <>
         {type === "rectangle" ? (
           <img
-            src="/logo/MainWhiteLogo.svg"
+            src="/logo/ReimbroFavicon.svg"
             alt="logo"
             width={widthMain}
             height={heightMain}
           />
         ) : (
           <img
-            src="/logo/SmallWhiteLogo.svg"
+            src="/logo/ReimbroFavicon.svg"
             alt="logo"
             width={widthSmall}
             height={heightSmall}
@@ -36,14 +36,14 @@ const Logo  = ({
     <>
       {type === "rectangle" ? (
         <img
-          src="/logo/MainLogo.svg"
+          src="/logo/ReimbroFavicon.svg"
           alt="logo"
           width={widthMain}
           height={heightMain}
         />
       ) : (
         <img
-          src="/logo/SmallLogo.svg"
+          src="/logo/ReimbroFavicon.svg"
           alt="logo"
           width={widthSmall}
           height={heightSmall}

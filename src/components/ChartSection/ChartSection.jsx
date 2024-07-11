@@ -5,6 +5,7 @@ import ProdChart from '../DraftChart/ProdChart';
 import { data } from '../../utils/testData';
 import styled from "styled-components";
 import { fetchDataForGraphs } from '../../utils/fetchData';
+import { useAuthStore } from "../../store/authStore";
 
 const MonthButton = styled.button`
   margin: 5px;
@@ -24,7 +25,8 @@ const MonthSwitchBar = styled.div`
 `;
 
 const ChartSection = () => {
-    const [currentMonth, setCurrentMonth] = useState(0);
+    const currentMonth = useAuthStore((state) => state.currentMonth);
+    const setCurrentMonth = useAuthStore((state) => state.setCurrentMonth);
 
     const [graph_data, setGraphData] = useState([]);
 
@@ -34,11 +36,11 @@ const ChartSection = () => {
   
     async function fetchGraphData(){
       const graphdata = await fetchDataForGraphs();
-      console.log(graphdata);
+      // console.log(graphdata);
       setGraphData(graphdata);
     };
   
-    console.log(graph_data)
+    // console.log(graph_data)
 
     const months = [
         "Jan",
@@ -56,11 +58,11 @@ const ChartSection = () => {
     ];
 
     const handlePreviousMonth = () => {
-        setCurrentMonth((prevMonth) => (prevMonth === 0 ? 11 : prevMonth - 1));
+      setCurrentMonth(currentMonth === 0 ? 11 : currentMonth - 1);
     };
 
     const handleNextMonth = () => {
-        setCurrentMonth((prevMonth) => (prevMonth === 11 ? 0 : prevMonth + 1));
+      setCurrentMonth(currentMonth === 11 ? 0 : currentMonth + 1);
     };
 
     const filteredData = graph_data.filter( //data
