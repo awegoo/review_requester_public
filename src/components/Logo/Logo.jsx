@@ -7,22 +7,22 @@ const Logo  = ({
   color = "blue",
   widthMain = 140,
   heightMain = 30,
-  widthSmall = 32,
-  heightSmall = 32,
+  widthSmall = 70,
+  heightSmall = 50,
 }) => {
   if (color === "white") {
     return (
       <>
         {type === "rectangle" ? (
           <img
-            src="/logo/MainWhiteLogo.svg"
+            src="/logo/RateQuest_icon.png"
             alt="logo"
             width={widthMain}
             height={heightMain}
           />
         ) : (
           <img
-            src="/logo/SmallWhiteLogo.svg"
+            src="/logo/RateQuest_icon.png"
             alt="logo"
             width={widthSmall}
             height={heightSmall}
@@ -36,14 +36,14 @@ const Logo  = ({
     <>
       {type === "rectangle" ? (
         <img
-          src="/logo/MainLogo.svg"
+          src="/logo/RateQuest_icon.png"
           alt="logo"
           width={widthMain}
           height={heightMain}
         />
       ) : (
         <img
-          src="/logo/SmallLogo.svg"
+          src="/logo/RateQuest_icon.png"
           alt="logo"
           width={widthSmall}
           height={heightSmall}

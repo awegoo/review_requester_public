@@ -11,6 +11,8 @@ const TotalItem = ({
   className,
   change,
 }) => {
+  const changeNumber = parseFloat(change?.replace('%', ''));
+
   return (
     <>
       <StyledItem>
@@ -34,7 +36,7 @@ const TotalItem = ({
           <div className="no_margin">
             {img ? <img src={img} alt="box" className={className} /> : null}
             {change ? (
-              change > 0 ? (
+              changeNumber > 0 ? (
                 <div className="no_margin">
                   <div className="blue_bg no_margin">
                     <img
