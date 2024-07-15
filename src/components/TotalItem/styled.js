@@ -43,8 +43,8 @@ export const StyledItem = styled.div`
     }
   }
 
-  h4 {
-    ${({ theme }) => theme.fonts.h4};
+  h3 {
+    ${({ theme }) => theme.fonts.h3};
     color: ${({ theme }) => theme.colors.black};
   }
 
