@@ -17,7 +17,7 @@ import {
   StyledTableWrapper,
 } from "./styled";
 import { CompactTable } from "@table-library/react-table-library/compact";
-import { fetchRequestsWithStatusMonth, fetchRequestsWithStatusYear, getAllOrders } from "../../utils/fetchData";
+import { fetchRequestsWithStatusMonth, fetchRequestsWithStatusYear, getAllOrders, fetchRequestsWithStatusesAll } from "../../utils/fetchData";
 import { format, parseISO } from "date-fns";
 import { themeTable } from "../../styles/theme";
 import { columns } from "../../components/constants/constants";
@@ -38,7 +38,8 @@ const TableComponent = () => {
 
   const doGet = useCallback(async (params) => {
     try {
-      const response = await getAllOrders(params);
+      // const response = await getAllOrders(params);
+      const response = await fetchRequestsWithStatusesAll(params); // change to the fetchRequestsWithStatusMonth and connect with the month switchers
       // const responseStatus = await fetchRequestsWithStatusYear({
       //   year: 2024,
       //   month: 6,
@@ -134,9 +135,12 @@ const TableComponent = () => {
     },
     {
       label: "Review Request Status",
+      // renderCell: (item) => item.amazon_order_status,
       renderCell: (item) => (
         <>
-          <div className="">Scheduled 5 days</div>
+          <div background= '#F3FEB8'>
+            {item.amazon_order_status}
+          </div>
         </>
       ),
       hide: hiddenColumns.includes("Review Request Status"),
@@ -145,16 +149,17 @@ const TableComponent = () => {
     },
     {
       label: "Product Name",
-      renderCell: (item) => (
-        <>
-          {/* <img
-            src={item.productName.img}
-            alt='product image'
-            style={{ width: '82px' }}
-          />
-          {item.productName.name} */}
-        </>
-      ),
+      // renderCell: (item) => (
+      //   <>
+      //     <img
+      //       src={item.productName.img}
+      //       alt='product image'
+      //       style={{ width: '82px' }}
+      //     />
+      //     {item.productName.name}
+      //   </>
+      // ),
+      renderCell: (item) => item.product_name,
       hide: hiddenColumns.includes("Product Name"),
       width: "4fr",
       resize: true,

@@ -5,6 +5,7 @@ import {
   fetchTotalRequestInMonth,
   fetchTotalRequestYear,
   getSkipedRequests,
+  getSkipedRequestsMonth
 } from "../../utils/fetchData";
 import { useAuthStore } from "../../store/authStore";
 
@@ -63,7 +64,7 @@ const SectionTotal = () => {
 
   const fetchSkippedCount = async () => {
     try {
-      const response = await getSkipedRequests();
+      const response = await getSkipedRequests(); // change to the getSkipedRequestsMonth and connect with month switchers
       return response[0]?.requests_count;
     } catch (error) {
       console.log(error);
@@ -116,7 +117,7 @@ const SectionTotal = () => {
       backgroundImg: "./static/images/illustrative/Illustrative_2.png",
     },
     {
-      title: "Months Requests Sent",
+      title: "Month Requests Sent",
       number: requestCurrentMonth,
       className: "chart_chip",
       change: ` ${percentageChange}% `,
@@ -124,7 +125,7 @@ const SectionTotal = () => {
       backgroundImg: "./static/images/illustrative/Illustrative_3.png",
     },
     {
-      title: "Total Skipped Requests",
+      title: "Month Skipped Requests",
       number: `${skippedRequest}`,
       className: "chart_chip",
       change: ` ${percentageChange}% `,
