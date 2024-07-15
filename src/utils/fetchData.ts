@@ -1,6 +1,11 @@
 import { generateClient } from "aws-amplify/data";
 import { type Schema } from "../../amplify/data/resource";
 
+type IArgumentsTotalMonth = {
+  year: number;
+  month: number;
+};
+
 const client = generateClient<Schema>();
 
 // Function for fetching all existing orders from database
@@ -44,11 +49,6 @@ export async function fetchTotalRequestYear(year: number) {
   return requests;
 }
 
-type IArgumentsTotalMonth = {
-  year: number;
-  month: number;
-};
-
 // !Function for fetch count of sended requests in costume month and costume year
 export async function fetchTotalRequestInMonth(args: IArgumentsTotalMonth) {
   const { data: requests, errors } =
@@ -82,6 +82,7 @@ export async function fetchRequestsWithStatusYear(args: IArgumentsTotalMonth) {
     await client.queries.getRequestsWithStatusYear({
       year: args.year,
     });
+    
   if (errors !== undefined) {
     return errors;
   }
@@ -98,11 +99,20 @@ export async function fetchDataForGraphs() {
   return graphdata;
 }
 
-//! Function for fetching count of skipped requests
+// Function for fetch all skiped requests
 export async function getSkipedRequests(){
   const {data:skipedRequests, errors} = await client.queries.getTotalSkipRequests();
   if(errors){
     return errors
   }
   return skipedRequests
-} 
+}
+
+// Function for fetch all skiped requests in month
+export async function getSkipedRequestsMonth(args: IArgumentsTotalMonth){
+  const {data:skipedRequests, errors} = await client.queries.getSkipedRequestsMonth({month:args.month,year:args.year});
+  if(errors){
+    return errors
+  }
+  return skipedRequests
+}
