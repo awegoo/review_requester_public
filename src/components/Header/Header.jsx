@@ -93,16 +93,16 @@ const Header = () => {
               onChange={handleChange}
             >
               <StyledMenuItem value="">
-                <em>Reimb.ro CA</em>
+                <em>RateQuest CA</em>
               </StyledMenuItem>
               <StyledMenuItem className="select_li" value={1}>
-                Reimb.ro CA
+                RateQuest CA
               </StyledMenuItem>
               <StyledMenuItem className="select_li" value={2}>
-                Reimb.ro CA
+                RateQuest CA
               </StyledMenuItem>
               <StyledMenuItem className="select_li" value={3}>
-                Reimb.ro CA
+                RateQuest CA
               </StyledMenuItem>
             </StyledSelector>
           </StyledButton>
