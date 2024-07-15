@@ -38,13 +38,7 @@ const TableComponent = () => {
 
   const doGet = useCallback(async (params) => {
     try {
-      // const response = await getAllOrders(params);
-      const response = await fetchRequestsWithStatusesAll(params); // change to the fetchRequestsWithStatusMonth and connect with the month switchers
-      // const responseStatus = await fetchRequestsWithStatusYear({
-      //   year: 2024,
-      //   month: 6,
-      // });
-      // console.log(responseStatus);
+      const response = await fetchRequestsWithStatusesAll(params); // change to the fetchRequestsWithStatusMonth and connect with the month switchers     
       const transformedData = transformData(response);
       setRequestData(transformedData);
     } catch (error) {
@@ -63,7 +57,7 @@ const TableComponent = () => {
   const filteredData = {
     nodes: requestData.filter((item) => {
       const matchesSearch =
-        // item.productName.name.toLowerCase().includes(search.toLowerCase()) ||
+        item.product_name.toLowerCase().includes(search.toLowerCase()) ||
         item.amazon_order_id.toLowerCase().includes(search.toLowerCase());
 
       return matchesSearch;
@@ -148,17 +142,7 @@ const TableComponent = () => {
       resize: true,
     },
     {
-      label: "Product Name",
-      // renderCell: (item) => (
-      //   <>
-      //     <img
-      //       src={item.productName.img}
-      //       alt='product image'
-      //       style={{ width: '82px' }}
-      //     />
-      //     {item.productName.name}
-      //   </>
-      // ),
+      label: "Product Name",   
       renderCell: (item) => item.product_name,
       hide: hiddenColumns.includes("Product Name"),
       width: "4fr",
