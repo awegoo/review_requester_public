@@ -1,21 +1,12 @@
-import React, { useState, useEffect } from 'react';
-import { Card, CardContent, Typography, Box } from '@mui/material';
-import DraftChart from '../DraftChart/DraftChart';
-import ProdChart from '../DraftChart/ProdChart';
-import { data } from '../../utils/testData';
+import React, { useEffect, useState } from "react";
+import { Card, CardContent, Typography, Box, IconButton } from "@mui/material";
+import DraftChart from "../DraftChart/DraftChart";
 import styled from "styled-components";
-import { fetchDataForGraphs } from '../../utils/fetchData';
+import { fetchDataForGraphs } from "../../utils/fetchData";
 import { useAuthStore } from "../../store/authStore";
-
-const MonthButton = styled.button`
-  margin: 5px;
-  padding: 10px 20px;
-  background-color: #007bff;
-  color: white;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-`;
+import ArrowBackIosNewIcon from "@mui/icons-material/ArrowBackIosNew";
+import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
+import { StyledLabel, StyledTitle } from "./styled";
 
 const MonthSwitchBar = styled.div`
   display: flex;
@@ -25,74 +16,128 @@ const MonthSwitchBar = styled.div`
 `;
 
 const ChartSection = () => {
-    const currentMonth = useAuthStore((state) => state.currentMonth);
-    const setCurrentMonth = useAuthStore((state) => state.setCurrentMonth);
+  const currentMonth = useAuthStore((state) => state.currentMonth);
+  const setCurrentMonth = useAuthStore((state) => state.setCurrentMonth);
 
-    const [graph_data, setGraphData] = useState([]);
+  const currentYear = useAuthStore((state) => state.currentYear);
+  const setCurrentYear = useAuthStore((state) => state.setCurrentYear);
 
-    useEffect(() => {
-        fetchGraphData()
-    }, [])
-  
-    async function fetchGraphData(){
-      const graphdata = await fetchDataForGraphs();
-      // console.log(graphdata);
-      setGraphData(graphdata);
-    };
-  
-    // console.log(graph_data)
+  const [isDisabled, setIsDisabled] = useState(false);
+  const [graph_data, setGraphData] = useState([]);
 
-    const months = [
-        "Jan",
-        "Feb",
-        "Mar",
-        "Apr",
-        "May",
-        "Jun",
-        "Jul",
-        "Aug",
-        "Sep",
-        "Oct",
-        "Nov",
-        "Dec",
-    ];
+  useEffect(() => {
+    fetchGraphData();
+  }, []);
 
-    const handlePreviousMonth = () => {
-      setCurrentMonth(currentMonth === 0 ? 11 : currentMonth - 1);
-    };
+  async function fetchGraphData() {
+    const graphdata = await fetchDataForGraphs();
+    setGraphData(graphdata);
+  }
 
-    const handleNextMonth = () => {
-      setCurrentMonth(currentMonth === 11 ? 0 : currentMonth + 1);
-    };
+  const months = [
+    "Jan",
+    "Feb",
+    "Mar",
+    "Apr",
+    "May",
+    "Jun",
+    "Jul",
+    "Aug",
+    "Sep",
+    "Oct",
+    "Nov",
+    "Dec",
+  ];
 
-    const filteredData = graph_data.filter( //data
-        (item) => new Date(item.purchase_date).getMonth() === currentMonth
-    );
-
-    const monthLabel = `${months[currentMonth]} 2024`;
-    
-    return (
-      <>
-        <Card sx={{ mt: 4 }}>
-          <CardContent>
-            {/* <Typography variant="h5" component="div">
-              Order Requests
-            </Typography> */}
-            <MonthSwitchBar>
-                <MonthButton onClick={handlePreviousMonth}>Prev</MonthButton>
-                <h2>{monthLabel}</h2>
-                <MonthButton onClick={handleNextMonth}>Next</MonthButton>
-            </MonthSwitchBar>
-            <Box sx={{ display: 'flex', justifyContent: 'center', mt: 2 }}>
-              <Box sx={{ width: '100%', maxWidth: 1200 }}>               
-                {/* <DraftChart data={filteredData} /> */}
-                <ProdChart data = {filteredData}/>              
-              </Box>
-            </Box>
-          </CardContent>
-        </Card>
-      </>
-    );
+  const handlePreviousMonth = () => {
+    if (currentMonth === 0) {
+      setCurrentYear((currentYear) => currentYear - 1);
+      setCurrentMonth(11);
+    } else {
+      setCurrentMonth(currentMonth - 1);
+    }
   };
-  
-  export default ChartSection;
+
+  const handleNextMonth = () => {
+    if (currentMonth === 11) {
+      setCurrentYear((currentYear) => currentYear + 1);
+      setCurrentMonth(0);
+    } else {
+      setCurrentMonth(currentMonth + 1);
+    }
+  };
+
+  const filteredData = graph_data.filter((item) => {
+    const itemDate = new Date(item.purchase_date);
+    return (
+      itemDate.getMonth() === currentMonth &&
+      itemDate.getFullYear() === currentYear
+    );
+  });
+
+  const monthLabel = `${months[currentMonth]}, ${currentYear}`;
+
+  const disabled = () => {
+    if (
+      currentMonth == new Date().getMonth() &&
+      currentYear == new Date().getFullYear()
+    ) {
+      setIsDisabled(true);
+    } else {
+      setIsDisabled(false);
+    }
+  };
+  useEffect(() => {
+    disabled();
+  }, [currentMonth]);
+
+  return (
+    <>
+      <Card sx={{ mt: 4 }}>
+        <CardContent>
+          <StyledTitle>
+            <h3>Order Requests</h3>
+            <p>Updates Daily</p>
+          </StyledTitle>
+          <MonthSwitchBar>
+            <IconButton sx={{ color: "#1C58CF" }} onClick={handlePreviousMonth}>
+              <ArrowBackIosNewIcon sx={{ fontSize: 18 }} />
+            </IconButton>
+            <StyledLabel>{monthLabel}</StyledLabel>
+            <IconButton
+              sx={{ color: "#1C58CF" }}
+              onClick={handleNextMonth}
+              disabled={isDisabled}
+            >
+              <ArrowForwardIosIcon sx={{ fontSize: 18 }} />
+            </IconButton>
+          </MonthSwitchBar>
+          <Box sx={{ display: "flex", justifyContent: "center", mt: 2 }}>
+            <Box sx={{ width: "100%", maxWidth: 1200 }}>
+              {filteredData.length > 0 ? (
+                <DraftChart data={filteredData} />
+              ) : (
+                <Typography
+                  variant="h6"
+                  align="center"
+                  sx={{
+                    color: "#777",
+                    fontStyle: "italic",
+                    height: 400,
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                  }}
+                >
+                  No data found for this period
+                </Typography>
+              )}
+            </Box>
+          </Box>
+        </CardContent>
+      </Card>
+    </>
+  );
+};
+
+export default ChartSection;
