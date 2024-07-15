@@ -73,8 +73,11 @@ const SectionTotal = () => {
 
 
   const calculatePercentageChange = (current, past) => {
+    console.log(current, past);
+    if (current === past) return 0;
     if (past === 0) return 100;
     if (current === 0) return -100;
+    
     return parseInt(((current - past) / past) * 100);
   };
 

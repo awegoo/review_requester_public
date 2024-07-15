@@ -39,11 +39,11 @@ const TableComponent = () => {
   const doGet = useCallback(async (params) => {
     try {
       const response = await getAllOrders(params);
-      // const responseStatus = await fetchRequestsWithStatusYear({
-      //   year: 2024,
-      //   month: 6,
-      // });
-      // console.log(responseStatus);
+      const responseStatus = await fetchRequestsWithStatusYear({
+        year: 2024,
+        month: 6,
+      });
+      console.log(responseStatus);
       const transformedData = transformData(response);
       setRequestData(transformedData);
     } catch (error) {

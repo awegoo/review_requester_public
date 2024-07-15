@@ -189,7 +189,7 @@ export const themeTable = useTheme([
   },
   {
     HeaderRow: `
-      background: #E0FFF2;
+      background: #3DC2A233;
   `,
   },
   {
