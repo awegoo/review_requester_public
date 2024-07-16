@@ -17,7 +17,7 @@ import {
   StyledTableWrapper,
 } from "./styled";
 import { CompactTable } from "@table-library/react-table-library/compact";
-import { fetchRequestsWithStatusMonth, fetchRequestsWithStatusYear, getAllOrders, fetchRequestsWithStatusesAll } from "../../utils/fetchData";
+import { fetchRequestsWithStatusesAll } from "../../utils/fetchData";
 import { format, parseISO } from "date-fns";
 import { themeTable } from "../../styles/theme";
 import { columns } from "../../components/constants/constants";
@@ -28,6 +28,11 @@ const TableComponent = () => {
   const [hiddenColumns, setHiddenColumns] = useState([]);
   const [requestData, setRequestData] = useState([]);
   const LIMIT = 20;
+  const statusColor = {
+    sent: "#C7FFCD",
+    error: "#FEC8C8",
+    pending: "#FEF1AE",
+  };
 
   const transformData = (data) => {
     return data.map((item) => ({
@@ -38,13 +43,7 @@ const TableComponent = () => {
 
   const doGet = useCallback(async (params) => {
     try {
-      // const response = await getAllOrders(params);
-      const response = await fetchRequestsWithStatusesAll(params); // change to the fetchRequestsWithStatusMonth and connect with the month switchers
-      // const responseStatus = await fetchRequestsWithStatusYear({
-      //   year: 2024,
-      //   month: 6,
-      // });
-      // console.log(responseStatus);
+      const response = await fetchRequestsWithStatusesAll(params);
       const transformedData = transformData(response);
       setRequestData(transformedData);
     } catch (error) {
@@ -63,7 +62,7 @@ const TableComponent = () => {
   const filteredData = {
     nodes: requestData.filter((item) => {
       const matchesSearch =
-        // item.productName.name.toLowerCase().includes(search.toLowerCase()) ||
+        item.product_name.toLowerCase().includes(search.toLowerCase()) ||
         item.amazon_order_id.toLowerCase().includes(search.toLowerCase());
 
       return matchesSearch;
@@ -94,7 +93,11 @@ const TableComponent = () => {
       sortFns: {
         UNITS: (array) => array.sort((a, b) => a.quantity - b.quantity),
         PURCHASE_DATE: (array) =>
-          array.sort((a, b) => b.purchase_date - a.purchase_date),
+          array.sort((a, b) => {
+            const dateA = new Date(a.purchase_date);
+            const dateB = new Date(b.purchase_date);
+            return dateB - dateA;
+          }),
       },
     }
   );
@@ -107,16 +110,13 @@ const TableComponent = () => {
     }
   };
 
-  const pagination = usePagination(
-    filteredData,
-    {
-      state: {
-        page: 0,
-        size: LIMIT,
-      },
-      onChange: onPaginationChange,
+  const pagination = usePagination(filteredData, {
+    state: {
+      page: 0,
+      size: LIMIT,
     },
-  );
+    onChange: onPaginationChange,
+  });
 
   function onPaginationChange(action, state) {
     doGet({
@@ -135,30 +135,43 @@ const TableComponent = () => {
     },
     {
       label: "Review Request Status",
-      // renderCell: (item) => item.amazon_order_status,
-      renderCell: (item) => (
-        <>
-          <div background= '#F3FEB8'>
+      renderCell: (item) => {
+        console.log(item);
+        if (item.amazon_order_status === "Sent") {
+          return (
+            <StyledDiv
+              className="status_request"
+              style={{ background: statusColor.sent }}
+            >
+              {item.amazon_order_status}
+            </StyledDiv>
+          );
+        } else if (item.amazon_order_status === "Error") {
+          return (
+            <StyledDiv
+              className="status_request"
+              style={{ background: statusColor.error }}
+            >
+              {item.amazon_order_status}
+            </StyledDiv>
+          );
+        }
+        return (
+          <StyledDiv
+            className="status_request"
+            style={{ background: statusColor.pending }}
+          >
             {item.amazon_order_status}
-          </div>
-        </>
-      ),
+          </StyledDiv>
+        );
+      },
+
       hide: hiddenColumns.includes("Review Request Status"),
       width: "2fr",
       resize: true,
     },
     {
       label: "Product Name",
-      // renderCell: (item) => (
-      //   <>
-      //     <img
-      //       src={item.productName.img}
-      //       alt='product image'
-      //       style={{ width: '82px' }}
-      //     />
-      //     {item.productName.name}
-      //   </>
-      // ),
       renderCell: (item) => item.product_name,
       hide: hiddenColumns.includes("Product Name"),
       width: "4fr",
@@ -216,61 +229,82 @@ const TableComponent = () => {
   const renderPaginationButtons = () => {
     const { page, getTotalPages } = pagination.state;
     const totalPages = getTotalPages(filteredData.nodes);
-  
+
     const pages = [];
-  
+
     if (page > 0) {
       pages.push(
-        <StyledPaginationButton className="str" key="first" onClick={() => pagination.fns.onSetPage(0)}>
+        <StyledPaginationButton
+          className="str"
+          key="first"
+          onClick={() => pagination.fns.onSetPage(0)}
+        >
           &lt;&lt;
         </StyledPaginationButton>
       );
       pages.push(
-        <StyledPaginationButton className="str" key="prev" onClick={() => pagination.fns.onSetPage(page - 1)}>
+        <StyledPaginationButton
+          className="str"
+          key="prev"
+          onClick={() => pagination.fns.onSetPage(page - 1)}
+        >
           &lt;
         </StyledPaginationButton>
       );
     }
-  
+
     if (page > 1) {
       pages.push(
-        <StyledPaginationButton key={page - 1} onClick={() => pagination.fns.onSetPage(page - 1)}>
+        <StyledPaginationButton
+          key={page - 1}
+          onClick={() => pagination.fns.onSetPage(page - 1)}
+        >
           {page}
         </StyledPaginationButton>
       );
     }
-  
+
     pages.push(
       <StyledPaginationButton key={page} style={{ fontWeight: "bold" }}>
         {page + 1}
       </StyledPaginationButton>
     );
-  
+
     if (page < totalPages - 2) {
       pages.push(
-        <StyledPaginationButton key={page + 1} onClick={() => pagination.fns.onSetPage(page + 1)}>
+        <StyledPaginationButton
+          key={page + 1}
+          onClick={() => pagination.fns.onSetPage(page + 1)}
+        >
           {page + 2}
         </StyledPaginationButton>
       );
     }
-  
+
     if (page < totalPages - 1) {
       pages.push(
-        <StyledPaginationButton className="str" key="next" onClick={() => pagination.fns.onSetPage(page + 1)}>
+        <StyledPaginationButton
+          className="str"
+          key="next"
+          onClick={() => pagination.fns.onSetPage(page + 1)}
+        >
           &gt;
         </StyledPaginationButton>
       );
       pages.push(
-        <StyledPaginationButton className="str" key="last" onClick={() => pagination.fns.onSetPage(totalPages - 1)}>
+        <StyledPaginationButton
+          className="str"
+          key="last"
+          onClick={() => pagination.fns.onSetPage(totalPages - 1)}
+        >
           &gt;&gt;
         </StyledPaginationButton>
       );
     }
-  
+
     return pages;
   };
 
-  // console.log(filteredData);
   return (
     <StyledTableWrapper>
       <StyledLabel htmlFor="search">

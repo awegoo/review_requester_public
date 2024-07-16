@@ -46,6 +46,7 @@ export const StyledItem = styled.div`
   h3 {
     ${({ theme }) => theme.fonts.h3};
     color: ${({ theme }) => theme.colors.black};
+    letter-spacing: -0.4px;
   }
 
   p {   

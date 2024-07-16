@@ -61,6 +61,7 @@ export async function fetchTotalRequestInMonth(args: IArgumentsTotalMonth) {
   }
   return requests;
 }
+console.log(fetchTotalRequestInMonth({year: 2024, month: 7}));
 
 // !Function for fetch requests with statuses
 export async function fetchRequestsWithStatusesAll() {

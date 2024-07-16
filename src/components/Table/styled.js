@@ -9,6 +9,7 @@ export const StyledHeaderRow = styled(HeaderRow)`
 export const StyledDiv = styled.div`
   display: inline-block;
   position: relative;
+  
   img {
     position: absolute;
     top: 50%;
@@ -22,6 +23,14 @@ export const StyledDiv = styled.div`
     left: 5%;
     }
   }
+    &.status_request {
+    display: flex;    
+    padding: 2px 16px;
+    border-radius: 16px;
+    justify-content: center;
+    align-items: center;
+    gap: 8px;
+    }
 `;
 export const StyledLabelInput = styled.input`
   display: flex;  
