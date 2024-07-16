@@ -66,6 +66,15 @@ export const schema = configure({
         "sku",
         "asin"
     ]),
+    "ratings_ca": a.model({
+        seller_id: a.string().required(),
+        seller_name: a.string(),
+        avg_rating: a.string(),
+        rating_date: a.date().required()
+    }).identifier([
+        "rating_date",
+        "seller_id"
+    ]),
     "sent_requests_ca": a.model({
         amazon_order_id: a.string().required(),
         purchase_date: a.date(),
