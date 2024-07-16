@@ -49,6 +49,12 @@ const sqlSchema = generatedSqlSchema
       .handler(
         a.handler.sqlReference("./sqlQueris/getSkipedRequestsMounth.sql")
       ),
+    getRequestsWithStatusesAll: a
+      .query()
+      .returns(a.ref("RequestsWithStatusesAll").array())
+      .handler(
+        a.handler.sqlReference("./sqlQueris/getRequestsWithStatusesAll.sql")
+      ),
     getRequestsWithStatusYear: a
       .query()
       .arguments({ year: a.integer() })
@@ -65,8 +71,17 @@ const sqlSchema = generatedSqlSchema
       ),
     RequestsWithStatus: a.customType({
       amazon_order_id: a.string(),
-      purchase_date: a.date(),
       amazon_order_status: a.string(),
+      product_name: a.string(),
+      quantity: a.integer(),
+      purchase_date: a.date(),
+    }),
+    RequestsWithStatusesAll: a.customType({
+      amazon_order_id: a.string(),
+      amazon_order_status: a.string(),
+      product_name: a.string(),
+      quantity: a.integer(),
+      purchase_date: a.date(),
     }),
     CountRequestsAndCountOrders: a.customType({
       purchase_date: a.date(),
