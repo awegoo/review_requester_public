@@ -54,6 +54,12 @@ const sqlSchema = generatedSqlSchema
       .arguments({ month: a.integer(), year: a.integer() })
       .returns(a.ref("RatingMonth").array())
       .handler(a.handler.sqlReference("./sqlQueris/getRatingsMonth.sql")),
+    getRequestsWithStatusesAll: a
+      .query()
+      .returns(a.ref("RequestsWithStatusesAll").array())
+      .handler(
+        a.handler.sqlReference("./sqlQueris/getRequestsWithStatusesAll.sql")
+      ),
     getRequestsWithStatusYear: a
       .query()
       .arguments({ year: a.integer() })
