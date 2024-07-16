@@ -132,11 +132,8 @@ export async function getSkipedRequestsMonth(args: IArgumentsTotalMonth) {
   return skipedRequests;
 }
 
-export async function getRatingMonth(args: IArgumentsTotalMonth) {
-  const { data: rating, errors } = await client.queries.getRatingMonth({
-    month: args.month,
-    year: args.year,
-  });
+export async function getRatingMax(args: IArgumentsTotalMonth) {
+  const { data: rating, errors } = await client.queries.getRatingMax();
   if (errors) {
     return errors;
   }

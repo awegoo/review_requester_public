@@ -5,6 +5,7 @@ import {
   fetchTotalRequestInMonth,
   fetchTotalRequestYear,
   getSkipedRequestsMonth,
+  getRatingMax,
 } from "../../utils/fetchData";
 import { useAuthStore } from "../../store/authStore";
 
@@ -14,16 +15,15 @@ const SectionTotal = () => {
   const [requestPastData, setRequestPastData] = useState(0);
   const [percentageChange, setPercentageChange] = useState(0);
   // const [skippedRequest, setSkippedRequest] = useState(0);
-
   const [skippedRequestPast, setSkippedRequestPast] = useState(0);
+  // const [skippedRequestCurrent, setSkippedRequestCurrent] = useState(0);
   const [skippedRequestCurrent, setSkippedRequestCurrent] = useState(0);
-
-  const [skippedRequestCurrent, setSkippedRequestCurrent] = useState(0);
-
   const [percentageChangeSentRequest, setPercentageChangeSentRequest] =
     useState(0);
   const [percentageChangeSkippedRequest, setPercentageChangeSkippedRequest] =
     useState(0);
+
+  const [avgRatingData, setavgRatingData] = useState([])
 
   const currentDate = new Date();
   const currentYear = currentDate.getFullYear();
@@ -72,7 +72,7 @@ const SectionTotal = () => {
   const fetchSkippedRequestsMonthPast = async () => {
     try {
       const response = await getSkipedRequestsMonth(dataPastForRequest);
-      console.log(response)
+      // console.log(response)
       return response[0]?.requests_count;
     } catch (error) {
       console.log(error);
@@ -82,7 +82,7 @@ const SectionTotal = () => {
   const fetchSkippedRequestsMonthCurrent = async () => {
     try {
       const response = await getSkipedRequestsMonth(dataCurrentForRequest);
-      console.log(response)
+      // console.log(response)
       return response[0]?.requests_count;
     } catch (error) {
       console.log(error);
@@ -97,6 +97,16 @@ const SectionTotal = () => {
   //     console.log(error);
   //   }
   // };
+
+  const fetchMaxAvgRating = async () => {
+    try {
+      const response = await getRatingMax();
+      // console.log(response);
+      return [response[0]?.avg_rating, response[0]?.rating_date];
+    } catch (error) {
+      console.log(error);
+    }
+  };
  
 
   const calculatePercentageChangeSentRequest = (current, past) => {
@@ -138,6 +148,9 @@ const SectionTotal = () => {
         pastSkippedRequest
       );
       setPercentageChangeSkippedRequest(changeSkippedRequest);
+
+      const ratingData = await fetchMaxAvgRating();
+      setavgRatingData(ratingData)
     };
 
     fetchData();
@@ -145,12 +158,12 @@ const SectionTotal = () => {
 
   const data = [
     {
-      title: "Net New Reviews",
-      number: "4,51",
+      title: "Average rating for all products",
+      number: `${avgRatingData[0]}`,
       star: "./static/images/icons/star.svg",
       img: "./static/images/icons/box.svg",
       className: "box",
-      text: "Average rating for all products",
+      text: `Last updated date: ${avgRatingData[1]}`,
       backgroundImg: "./static/images/illustrative/Illustrative_1.png",
     },
     {
