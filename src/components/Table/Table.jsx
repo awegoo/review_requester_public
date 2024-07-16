@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useCallback } from "react";
 import { useSort } from "@table-library/react-table-library/sort";
 import { useRowSelect } from "@table-library/react-table-library/select";
 import {
@@ -13,40 +13,48 @@ import {
   StyledDiv,
   StyledLabel,
   StyledLabelInput,
+  StyledPaginationButton,
   StyledTableWrapper,
 } from "./styled";
 import { CompactTable } from "@table-library/react-table-library/compact";
-import { getAllOrders } from "../../utils/fetchData";
+import { fetchRequestsWithStatusMonth, fetchRequestsWithStatusYear, getAllOrders, fetchRequestsWithStatusesAll } from "../../utils/fetchData";
 import { format, parseISO } from "date-fns";
 import { themeTable } from "../../styles/theme";
 import { columns } from "../../components/constants/constants";
+import { usePagination } from "@table-library/react-table-library/pagination";
 
 const TableComponent = () => {
   const [search, setSearch] = useState("");
   const [hiddenColumns, setHiddenColumns] = useState([]);
   const [requestData, setRequestData] = useState([]);
+  const LIMIT = 20;
 
   const transformData = (data) => {
-    return data.map(item => ({
+    return data.map((item) => ({
       ...item,
-      id: item.amazon_order_id
+      id: item.amazon_order_id,
     }));
   };
 
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const response = await getAllOrders();
-        const transformedData = transformData(response);
-        setRequestData(transformedData);
-      } catch (error) {
-        console.log(error);
-      }
-    };
-    fetchData();
-
-
+  const doGet = useCallback(async (params) => {
+    try {
+      // const response = await getAllOrders(params);
+      const response = await fetchRequestsWithStatusesAll(params); // change to the fetchRequestsWithStatusMonth and connect with the month switchers
+      // const responseStatus = await fetchRequestsWithStatusYear({
+      //   year: 2024,
+      //   month: 6,
+      // });
+      // console.log(responseStatus);
+      const transformedData = transformData(response);
+      setRequestData(transformedData);
+    } catch (error) {
+      console.log(error);
+    }
   }, []);
+
+  useEffect(() => {
+    doGet({ offset: 0, limit: LIMIT });
+  }, [doGet]);
 
   const handleSearch = (event) => {
     setSearch(event.target.value);
@@ -99,6 +107,24 @@ const TableComponent = () => {
     }
   };
 
+  const pagination = usePagination(
+    filteredData,
+    {
+      state: {
+        page: 0,
+        size: LIMIT,
+      },
+      onChange: onPaginationChange,
+    },
+  );
+
+  function onPaginationChange(action, state) {
+    doGet({
+      offset: state.page * LIMIT,
+      limit: LIMIT,
+    });
+  }
+
   const COLUMNS = [
     {
       label: "Order ID",
@@ -109,9 +135,12 @@ const TableComponent = () => {
     },
     {
       label: "Review Request Status",
+      // renderCell: (item) => item.amazon_order_status,
       renderCell: (item) => (
         <>
-          <div className="">Scheduled 5 days</div>
+          <div background= '#F3FEB8'>
+            {item.amazon_order_status}
+          </div>
         </>
       ),
       hide: hiddenColumns.includes("Review Request Status"),
@@ -120,16 +149,17 @@ const TableComponent = () => {
     },
     {
       label: "Product Name",
-      renderCell: (item) => (
-        <>
-          {/* <img
-            src={item.productName.img}
-            alt='product image'
-            style={{ width: '82px' }}
-          />
-          {item.productName.name} */}
-        </>
-      ),
+      // renderCell: (item) => (
+      //   <>
+      //     <img
+      //       src={item.productName.img}
+      //       alt='product image'
+      //       style={{ width: '82px' }}
+      //     />
+      //     {item.productName.name}
+      //   </>
+      // ),
+      renderCell: (item) => item.product_name,
       hide: hiddenColumns.includes("Product Name"),
       width: "4fr",
       resize: true,
@@ -183,6 +213,64 @@ const TableComponent = () => {
     setHiddenColumns(typeof value === "string" ? value.split(",") : value);
   };
 
+  const renderPaginationButtons = () => {
+    const { page, getTotalPages } = pagination.state;
+    const totalPages = getTotalPages(filteredData.nodes);
+  
+    const pages = [];
+  
+    if (page > 0) {
+      pages.push(
+        <StyledPaginationButton className="str" key="first" onClick={() => pagination.fns.onSetPage(0)}>
+          &lt;&lt;
+        </StyledPaginationButton>
+      );
+      pages.push(
+        <StyledPaginationButton className="str" key="prev" onClick={() => pagination.fns.onSetPage(page - 1)}>
+          &lt;
+        </StyledPaginationButton>
+      );
+    }
+  
+    if (page > 1) {
+      pages.push(
+        <StyledPaginationButton key={page - 1} onClick={() => pagination.fns.onSetPage(page - 1)}>
+          {page}
+        </StyledPaginationButton>
+      );
+    }
+  
+    pages.push(
+      <StyledPaginationButton key={page} style={{ fontWeight: "bold" }}>
+        {page + 1}
+      </StyledPaginationButton>
+    );
+  
+    if (page < totalPages - 2) {
+      pages.push(
+        <StyledPaginationButton key={page + 1} onClick={() => pagination.fns.onSetPage(page + 1)}>
+          {page + 2}
+        </StyledPaginationButton>
+      );
+    }
+  
+    if (page < totalPages - 1) {
+      pages.push(
+        <StyledPaginationButton className="str" key="next" onClick={() => pagination.fns.onSetPage(page + 1)}>
+          &gt;
+        </StyledPaginationButton>
+      );
+      pages.push(
+        <StyledPaginationButton className="str" key="last" onClick={() => pagination.fns.onSetPage(totalPages - 1)}>
+          &gt;&gt;
+        </StyledPaginationButton>
+      );
+    }
+  
+    return pages;
+  };
+
+  // console.log(filteredData);
   return (
     <StyledTableWrapper>
       <StyledLabel htmlFor="search">
@@ -275,7 +363,13 @@ const TableComponent = () => {
         select={select}
         sort={sort}
         style={{ gridTemplateColumns }}
+        pagination={pagination}
       />
+      <br />
+      <div style={{ display: "flex", justifyContent: "center" }}>
+        {renderPaginationButtons()}
+      </div>
+      <br />
     </StyledTableWrapper>
   );
 };

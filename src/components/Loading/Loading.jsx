@@ -20,10 +20,10 @@ const Loading = () => {
     if (isLoadingPage) {
       const bgTimeout = setTimeout(() => {
         setIsBg(false);
-      }, 2000);
+      }, 4000);
       const showTimeout = setTimeout(() => {
         setIsShow(false);
-      }, 3000);
+      }, 5000);
 
       return () => {
         clearTimeout(bgTimeout);
@@ -36,7 +36,7 @@ const Loading = () => {
     <StyledLoader $isBg={isBg} $isShow={isShow}>
       <StyledContainer>
         <StyledLogoDiv $isBg={isBg}>
-          <Logo type="square" widthSmall={80} heightSmall={80} />
+          <Logo type="square"  />
         </StyledLogoDiv>
         <StyledNameLogoDiv $isBg={isBg}>
           <NameLogo />

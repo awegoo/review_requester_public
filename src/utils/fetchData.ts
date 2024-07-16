@@ -62,6 +62,16 @@ export async function fetchTotalRequestInMonth(args: IArgumentsTotalMonth) {
   return requests;
 }
 
+// !Function for fetch requests with statuses
+export async function fetchRequestsWithStatusesAll() {
+  const { data: requests, errors } =
+    await client.queries.getRequestsWithStatusesAll();
+  if (errors !== undefined) {
+    return errors;
+  }
+  return requests;
+}
+
 // !Function for fetch requests with status in costume month and costume year
 export async function fetchRequestsWithStatusMonth(args: IArgumentsTotalMonth) {
   const { data: requests, errors } =

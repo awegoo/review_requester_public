@@ -59,3 +59,31 @@ export const StyledTableWrapper = styled.div`
   min-height: 300px;
   margin-top: 20px;
 `;
+
+export const StyledPaginationButton = styled.button`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 8px 16px;
+  border-radius: 50%;
+  background-color: #3DC2A2;
+  color: #231F20;
+  border: none;
+  margin-right: 4px;
+  transition: transform 0.3s ease-in-out;
+    
+    &:hover {
+      transform: scale(0.90);
+    }
+
+  &&.str {
+    background-color: #fff;
+    border-radius: 100px;
+    padding: 0;
+
+    &:hover {
+      border: 0.5px solid #3DC2A2;
+
+    }
+
+  `;
