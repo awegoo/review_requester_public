@@ -27,7 +27,7 @@ const TableComponent = () => {
   const [search, setSearch] = useState("");
   const [hiddenColumns, setHiddenColumns] = useState([]);
   const [requestData, setRequestData] = useState([]);
-  const LIMIT = 20;
+  const LIMIT = 5;
   const statusColor = {
     sent: "#C7FFCD",
     error: "#FEC8C8",
