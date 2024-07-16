@@ -20,10 +20,10 @@ const Loading = () => {
     if (isLoadingPage) {
       const bgTimeout = setTimeout(() => {
         setIsBg(false);
-      }, 2000);
+      }, 4000);
       const showTimeout = setTimeout(() => {
         setIsShow(false);
-      }, 3000);
+      }, 5000);
 
       return () => {
         clearTimeout(bgTimeout);
