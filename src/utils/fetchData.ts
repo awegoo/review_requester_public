@@ -75,14 +75,13 @@ export async function fetchRequestsWithStatusMonth(args: IArgumentsTotalMonth) {
   return requests;
 }
 
-
 // !Function for fetch requests with status in costume year
 export async function fetchRequestsWithStatusYear(args: IArgumentsTotalMonth) {
   const { data: requests, errors } =
     await client.queries.getRequestsWithStatusYear({
       year: args.year,
     });
-    
+
   if (errors !== undefined) {
     return errors;
   }
@@ -100,19 +99,35 @@ export async function fetchDataForGraphs() {
 }
 
 // Function for fetch all skiped requests
-export async function getSkipedRequests(){
-  const {data:skipedRequests, errors} = await client.queries.getTotalSkipRequests();
-  if(errors){
-    return errors
+export async function getSkipedRequests() {
+  const { data: skipedRequests, errors } =
+    await client.queries.getTotalSkipRequests();
+  if (errors) {
+    return errors;
   }
-  return skipedRequests
+  return skipedRequests;
 }
 
 // Function for fetch all skiped requests in month
-export async function getSkipedRequestsMonth(args: IArgumentsTotalMonth){
-  const {data:skipedRequests, errors} = await client.queries.getSkipedRequestsMonth({month:args.month,year:args.year});
-  if(errors){
-    return errors
+export async function getSkipedRequestsMonth(args: IArgumentsTotalMonth) {
+  const { data: skipedRequests, errors } =
+    await client.queries.getSkipedRequestsMonth({
+      month: args.month,
+      year: args.year,
+    });
+  if (errors) {
+    return errors;
   }
-  return skipedRequests
+  return skipedRequests;
+}
+
+export async function getRatingMonth(args: IArgumentsTotalMonth) {
+  const { data: rating, errors } = await client.queries.getRatingMonth({
+    month: args.month,
+    year: args.year,
+  });
+  if (errors) {
+    return errors;
+  }
+  return rating;
 }

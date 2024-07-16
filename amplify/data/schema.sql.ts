@@ -38,6 +38,7 @@ export const schema = configure({
         last_updated_date: a.string(),
         sku: a.string().required(),
         asin: a.string().required(),
+        product_name: a.string(),
         order_status: a.string(),
         item_status: a.string(),
         quantity: a.integer(),
@@ -56,7 +57,7 @@ export const schema = configure({
         ship_promotion_discount: a.float(),
         promotion_ids: a.string(),
         is_business_order: a.boolean(),
-        purchase_order_number: a.string(),
+        purchase_order_number: a.integer(),
         price_designation: a.string(),
         partition_0: a.string(),
         partition_1: a.string()
@@ -64,6 +65,15 @@ export const schema = configure({
         "amazon_order_id",
         "sku",
         "asin"
+    ]),
+    "ratings_ca": a.model({
+        seller_id: a.string().required(),
+        seller_name: a.string(),
+        avg_rating: a.string(),
+        rating_date: a.date().required()
+    }).identifier([
+        "rating_date",
+        "seller_id"
     ]),
     "sent_requests_ca": a.model({
         amazon_order_id: a.string().required(),
