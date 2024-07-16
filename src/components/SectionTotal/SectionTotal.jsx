@@ -4,29 +4,26 @@ import { StyledContainer } from "./styled";
 import {
   fetchTotalRequestInMonth,
   fetchTotalRequestYear,
-  getSkipedRequests,
-  getSkipedRequestsMonth
+  getSkipedRequestsMonth,
 } from "../../utils/fetchData";
 import { useAuthStore } from "../../store/authStore";
 
 const SectionTotal = () => {
-  const [requestCurrentYear, setRequestCurrentYear] = useState(0); 
-  const [requestCurrentMonth, setRequestCurrentMonth] = useState(0);  
-  const [requestPastData, setRequestPastData] = useState(0);
-  const [percentageChange, setPercentageChange] = useState(0);
-  // const [skippedRequest, setSkippedRequest] = useState(0);
+  const [requestCurrentYear, setRequestCurrentYear] = useState(0);
+  const [requestCurrentMonth, setRequestCurrentMonth] = useState(0);
 
-  const [skippedRequestPast, setSkippedRequestPast] = useState(0);
   const [skippedRequestCurrent, setSkippedRequestCurrent] = useState(0);
 
+  const [percentageChangeSentRequest, setPercentageChangeSentRequest] =
+    useState(0);
+  const [percentageChangeSkippedRequest, setPercentageChangeSkippedRequest] =
+    useState(0);
 
   const currentDate = new Date();
   const currentYear = currentDate.getFullYear();
-  // const currentMonth = currentDate.getMonth() + 1;
   const monthFromChart = useAuthStore((state) => state.currentMonth);
   const currentMonth = monthFromChart + 1;
   const pastMonth = currentMonth - 1;
-  // const pastMonth = currentMonth - 1;
 
   const dataCurrentForRequest = {
     year: currentYear,
@@ -39,7 +36,7 @@ const SectionTotal = () => {
   };
 
   const fetchTotalYear = async () => {
-    try{
+    try {
       const response = await fetchTotalRequestYear(currentYear);
       return response[0]?.requests_count;
     } catch (error) {
@@ -65,11 +62,9 @@ const SectionTotal = () => {
     }
   };
 
-
   const fetchSkippedRequestsMonthPast = async () => {
     try {
       const response = await getSkipedRequestsMonth(dataPastForRequest);
-      console.log(response)
       return response[0]?.requests_count;
     } catch (error) {
       console.log(error);
@@ -79,26 +74,21 @@ const SectionTotal = () => {
   const fetchSkippedRequestsMonthCurrent = async () => {
     try {
       const response = await getSkipedRequestsMonth(dataCurrentForRequest);
-      console.log(response)
       return response[0]?.requests_count;
     } catch (error) {
       console.log(error);
     }
   };
 
-  // const fetchSkippedCount = async () => {
-  //   try {
-  //     const response = await getSkipedRequests(); // change to the getSkipedRequestsMonth and connect with month switchers
-  //     return response[0]?.requests_count;
-  //   } catch (error) {
-  //     console.log(error);
-  //   }
-  // };
- 
+  const calculatePercentageChangeSentRequest = (current, past) => {
+    if (current === past) return 0;
+    if (past === 0) return 100;
+    if (current === 0) return -100;
+    return parseInt(((current - past) / past) * 100);
+  };
 
-
-  const calculatePercentageChange = (current, past) => {
-    console.log(current, past);
+  const calculatePercentageChangeSkippedRequest = (current, past) => {
+    if (current === past) return 0;
     if (past === 0) return 100;
     if (current === 0) return -100;
     return parseInt(((current - past) / past) * 100);
@@ -108,20 +98,27 @@ const SectionTotal = () => {
     const fetchData = async () => {
       const currentData = await fetchCurrentData();
       const pastData = await fetchPastData();
+
       const totalYear = await fetchTotalYear();
-      // const skippedRequestValue = await fetchSkippedCount();
-      const skippedRequestValueCurrent = await fetchSkippedRequestsMonthCurrent();
-      const skippedRequestValuePast = await fetchSkippedRequestsMonthPast();
+
+      const currentSkippedRequest = await fetchSkippedRequestsMonthCurrent();
+      const pastSkippedRequest = await fetchSkippedRequestsMonthPast();
 
       setRequestCurrentYear(totalYear);
       setRequestCurrentMonth(currentData);
-      setRequestPastData(pastData);
-      // setSkippedRequest(skippedRequestValue);
-      setSkippedRequestCurrent(skippedRequestValueCurrent);
-      setSkippedRequestPast(skippedRequestValuePast);
+      setSkippedRequestCurrent(currentSkippedRequest);
 
-      const change = calculatePercentageChange(currentData, pastData);
-      setPercentageChange(change);      
+      const changeSentRequest = calculatePercentageChangeSentRequest(
+        currentData,
+        pastData
+      );
+      setPercentageChangeSentRequest(changeSentRequest);
+
+      const changeSkippedRequest = calculatePercentageChangeSkippedRequest(
+        currentSkippedRequest,
+        pastSkippedRequest
+      );
+      setPercentageChangeSkippedRequest(changeSkippedRequest);
     };
 
     fetchData();
@@ -141,7 +138,7 @@ const SectionTotal = () => {
       title: "Total Requests Sent",
       number: requestCurrentYear,
       img: "./static/images/icons/medal.svg",
-      className: "box",      
+      className: "box",
       text: "Goal: 10,000 requests",
       backgroundImg: "./static/images/illustrative/Illustrative_2.png",
     },
@@ -149,15 +146,15 @@ const SectionTotal = () => {
       title: "Month Requests Sent",
       number: `${requestCurrentMonth}`,
       className: "chart_chip",
-      change: ` ${percentageChange}% `,
-      text: 'vs last month',
+      change: ` ${percentageChangeSentRequest}% `,
+      text: "vs last month",
       backgroundImg: "./static/images/illustrative/Illustrative_3.png",
     },
     {
       title: "Month Skipped Requests",
       number: `${skippedRequestCurrent}`,
       className: "chart_chip",
-      change: ` ${percentageChange}% `,
+      change: ` ${percentageChangeSkippedRequest}% `,
       text: "vs last month",
       backgroundImg: "./static/images/illustrative/Illustrative_4.png",
     },

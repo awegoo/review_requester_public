@@ -329,18 +329,6 @@ export const components = {
 
 export const formFields = {
   signIn: {
-    username: {
-      placeholder: "oooo.yellow@gmail.com",
-
-      color: "#231F20",
-      label: "Email",
-      fontFamily: "Wix Madefor Text",
-      fontSize: "16px",
-      fontStyle: "normal",
-      fontWeight: 600,
-      lineHeight: "24px",
-      marginBottom: "8px",
-    },
     password: {
       placeholder: "Enter your password",
       label: "Password",
@@ -352,17 +340,6 @@ export const formFields = {
     },
   },
   signUp: {
-    username: {
-      placeholder: "oooo.yellow@gmail.com",
-      color: "#231F20",
-      label: "Email",
-      fontFamily: "Wix Madefor Text",
-      fontSize: "16px",
-      fontStyle: "normal",
-      fontWeight: 600,
-      lineHeight: "24px",
-      marginBottom: "8px",
-    },
     password: {
       placeholder: "Enter your password",
       label: "Password",
