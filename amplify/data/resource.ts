@@ -49,6 +49,11 @@ const sqlSchema = generatedSqlSchema
       .handler(
         a.handler.sqlReference("./sqlQueris/getSkipedRequestsMounth.sql")
       ),
+    getRatingMonth: a
+      .query()
+      .arguments({ month: a.integer(), year: a.integer() })
+      .returns(a.ref("RatingMonth").array())
+      .handler(a.handler.sqlReference("./sqlQueris/getRatingsMonth.sql")),
     getRequestsWithStatusesAll: a
       .query()
       .returns(a.ref("RequestsWithStatusesAll").array())
@@ -90,6 +95,9 @@ const sqlSchema = generatedSqlSchema
     }),
     TotalRequestsYearandMonth: a.customType({
       requests_count: a.integer(),
+    }),
+    RatingMonth: a.customType({
+      avg_rating: a.integer(),
     }),
   });
 
