@@ -279,3 +279,23 @@ export const themeTable = useTheme([
     },
   },
 ]);
+
+export const CustomStyleForSelector = {
+  borderRadius: "6px",
+  background: "#FFFFFF",
+  "& .MuiSelect-select": {
+    padding: "13px 36px",
+    fontFamily: "Wix Madefor Text",
+    fontSize: "16px",
+    fontStyle: "normal",
+    fontWeight: 400,
+    lineHeight: "24px",
+    textAlign: "left",
+  },
+  "& .MuiOutlinedInput-notchedOutline": {
+    border: "1.5px solid #D7DCE4",
+  },
+  "& .MuiSvgIcon-root": {
+    color: "#231F20",
+  },
+};

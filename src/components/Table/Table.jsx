@@ -20,14 +20,19 @@ import { CompactTable } from "@table-library/react-table-library/compact";
 import { fetchRequestsWithStatusesAll } from "../../utils/fetchData";
 import { format, parseISO } from "date-fns";
 import { themeTable } from "../../styles/theme";
-import { columns } from "../../components/constants/constants";
+import { columns, MenuProps } from "../../components/constants/constants";
 import { usePagination } from "@table-library/react-table-library/pagination";
+import ArrowBackIosNewIcon from "@mui/icons-material/ArrowBackIosNew";
+import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
+import KeyboardDoubleArrowRightIcon from '@mui/icons-material/KeyboardDoubleArrowRight';
+import KeyboardDoubleArrowLeftIcon from '@mui/icons-material/KeyboardDoubleArrowLeft';
+import { CustomStyleForSelector } from "../../styles/theme";
 
 const TableComponent = () => {
   const [search, setSearch] = useState("");
   const [hiddenColumns, setHiddenColumns] = useState([]);
   const [requestData, setRequestData] = useState([]);
-  const LIMIT = 20;
+  const LIMIT = 5;
   const statusColor = {
     sent: "#C7FFCD",
     error: "#FEC8C8",
@@ -99,7 +104,7 @@ const TableComponent = () => {
             return dateB - dateA;
           }),
       },
-    }
+    },
   );
 
   const toggleColumn = (column) => {
@@ -136,7 +141,6 @@ const TableComponent = () => {
     {
       label: "Review Request Status",
       renderCell: (item) => {
-        console.log(item);
         if (item.amazon_order_status === "Sent") {
           return (
             <StyledDiv
@@ -165,7 +169,6 @@ const TableComponent = () => {
           </StyledDiv>
         );
       },
-
       hide: hiddenColumns.includes("Review Request Status"),
       width: "2fr",
       resize: true,
@@ -205,20 +208,6 @@ const TableComponent = () => {
     " "
   );
 
-  const ITEM_HEIGHT = 40;
-  const ITEM_PADDING_TOP = 8;
-  const MenuProps = {
-    PaperProps: {
-      style: {
-        maxHeight: ITEM_HEIGHT * 4.5 + ITEM_PADDING_TOP,
-        width: 250,
-      },
-    },
-    sx: {
-      zIndex: 1500,
-    },
-  };
-
   const handleChange = (event) => {
     const {
       target: { value },
@@ -239,7 +228,7 @@ const TableComponent = () => {
           key="first"
           onClick={() => pagination.fns.onSetPage(0)}
         >
-          &lt;&lt;
+          <KeyboardDoubleArrowLeftIcon fontSize="large" sx={{ fontSize: 28, color: "#1C58CF" }}/>
         </StyledPaginationButton>
       );
       pages.push(
@@ -248,7 +237,7 @@ const TableComponent = () => {
           key="prev"
           onClick={() => pagination.fns.onSetPage(page - 1)}
         >
-          &lt;
+           <ArrowBackIosNewIcon sx={{ fontSize: 18, color: "#1C58CF"}} />
         </StyledPaginationButton>
       );
     }
@@ -288,7 +277,7 @@ const TableComponent = () => {
           key="next"
           onClick={() => pagination.fns.onSetPage(page + 1)}
         >
-          &gt;
+          <ArrowForwardIosIcon sx={{ fontSize: 18, color: "#1C58CF" }} />         
         </StyledPaginationButton>
       );
       pages.push(
@@ -297,7 +286,7 @@ const TableComponent = () => {
           key="last"
           onClick={() => pagination.fns.onSetPage(totalPages - 1)}
         >
-          &gt;&gt;
+          <KeyboardDoubleArrowRightIcon fontSize="large" sx={{ fontSize: 28, color: "#1C58CF" }} />
         </StyledPaginationButton>
       );
     }
@@ -351,25 +340,7 @@ const TableComponent = () => {
               inputProps={{
                 "aria-label": "Without label",
               }}
-              sx={{
-                borderRadius: "6px",
-                background: "#FFFFFF",
-                "& .MuiSelect-select": {
-                  padding: "13px 36px",
-                  fontFamily: "Wix Madefor Text",
-                  fontSize: "16px",
-                  fontStyle: "normal",
-                  fontWeight: 400,
-                  lineHeight: "24px",
-                  textAlign: "left",
-                },
-                "& .MuiOutlinedInput-notchedOutline": {
-                  border: "1.5px solid #D7DCE4",
-                },
-                "& .MuiSvgIcon-root": {
-                  color: "#231F20",
-                },
-              }}
+              sx={CustomStyleForSelector}
             >
               {columns.map((column) => (
                 <MenuItem key={column} value={column}>
