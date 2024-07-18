@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import {
   StyledContainer,
   StyledHeader,
@@ -16,10 +16,29 @@ import { signOut } from "aws-amplify/auth";
 
 const Header = () => {
   const [region, setRegion] = React.useState("");
+  const [initials, setInitials] = useState('');
 
   const handleChange = (event) => {
     setRegion(event.target.value);
   };
+
+  useEffect(() => {
+    const localStorageKey = 'CognitoIdentityServiceProvider.3sbran2qgccm80qfi3v0h3qivp.cccd85e8-b041-7029-8a18-ec47a8ac9eb8.signInDetails';
+    const data = localStorage.getItem(localStorageKey);
+
+    if (data) {
+      try {
+        const parsedData = JSON.parse(data);
+        const loginId = parsedData.loginId;
+        if (loginId && loginId.length >= 2) {
+          const initials = loginId.substring(0, 2).toUpperCase();
+          setInitials(initials);
+        }
+      } catch (e) {
+        console.error('Error parsing localStorage data', e);
+      }
+    }
+  }, []);
 
   return (
     <StyledHeader>
@@ -112,8 +131,8 @@ const Header = () => {
               alt="icon notifications"
             />
           </StyledDiv>
-          <StyledButton className="avatar">
-            <a href="#">DB</a>
+          <StyledButton className="avatar">         
+            <a href="#">{initials}</a>
           </StyledButton>
           <StyledButton className="bt_sign_out">
             <a href="#" onClick={signOut}>
