@@ -10,13 +10,9 @@ import {
 import { useAuthStore } from "../../store/authStore";
 
 const SectionTotal = () => {
-  const [requestCurrentYear, setRequestCurrentYear] = useState(0); 
-  const [requestCurrentMonth, setRequestCurrentMonth] = useState(0);  
-  const [requestPastData, setRequestPastData] = useState(0);
-  const [percentageChange, setPercentageChange] = useState(0);
-  // const [skippedRequest, setSkippedRequest] = useState(0);
-  const [skippedRequestPast, setSkippedRequestPast] = useState(0);
-  // const [skippedRequestCurrent, setSkippedRequestCurrent] = useState(0);
+  const [requestCurrentYear, setRequestCurrentYear] = useState(0);
+  const [requestCurrentMonth, setRequestCurrentMonth] = useState(0);
+
   const [skippedRequestCurrent, setSkippedRequestCurrent] = useState(0);
   const [percentageChangeSentRequest, setPercentageChangeSentRequest] =
     useState(0);
@@ -68,11 +64,9 @@ const SectionTotal = () => {
     }
   };
 
-
   const fetchSkippedRequestsMonthPast = async () => {
     try {
       const response = await getSkipedRequestsMonth(dataPastForRequest);
-      // console.log(response)
       return response[0]?.requests_count;
     } catch (error) {
       console.log(error);
@@ -82,7 +76,6 @@ const SectionTotal = () => {
   const fetchSkippedRequestsMonthCurrent = async () => {
     try {
       const response = await getSkipedRequestsMonth(dataCurrentForRequest);
-      // console.log(response)
       return response[0]?.requests_count;
     } catch (error) {
       console.log(error);

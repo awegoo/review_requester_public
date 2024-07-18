@@ -35,7 +35,7 @@ button {
   display: flex;
   justify-content: end;
   height: 100vh;
-  background: url('./static/images/bg_sign.png')  no-repeat;
+  background: url('../static/images/bg_sign.png')  no-repeat;
   background-size: cover;
   flex-wrap: wrap;
 }
