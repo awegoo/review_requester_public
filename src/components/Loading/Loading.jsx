@@ -1,5 +1,3 @@
-"use client";
-
 import React, { useEffect, useState } from "react";
 import { useAuthStore } from "../../store/authStore";
 import Logo from "../Logo/Logo";
@@ -36,7 +34,7 @@ const Loading = () => {
     <StyledLoader $isBg={isBg} $isShow={isShow}>
       <StyledContainer>
         <StyledLogoDiv $isBg={isBg}>
-          <Logo type="square"  />
+          <Logo type="square" />
         </StyledLogoDiv>
         <StyledNameLogoDiv $isBg={isBg}>
           <NameLogo />

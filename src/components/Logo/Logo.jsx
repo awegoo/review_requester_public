@@ -1,8 +1,6 @@
 import React from "react";
-// import Image from "next/image"; //?
 
-
-const Logo  = ({
+const Logo = ({
   type = "rectangle",
   color = "blue",
   widthMain = 140,

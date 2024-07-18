@@ -1,4 +1,4 @@
-import { Menu, Select } from "@mui/material";
+import { Select } from "@mui/material";
 import { HeaderRow } from "@table-library/react-table-library";
 import styled from "styled-components";
 
@@ -9,6 +9,7 @@ export const StyledHeaderRow = styled(HeaderRow)`
 export const StyledDiv = styled.div`
   display: inline-block;
   position: relative;
+  
   img {
     position: absolute;
     top: 50%;
@@ -21,6 +22,15 @@ export const StyledDiv = styled.div`
     &.icon_filter{
     left: 5%;
     }
+  }
+
+  &.status_request {
+    display: flex;    
+    padding: 2px 16px;
+    border-radius: 16px;
+    justify-content: center;
+    align-items: center;
+    gap: 8px;
   }
 `;
 export const StyledLabelInput = styled.input`
@@ -72,18 +82,12 @@ export const StyledPaginationButton = styled.button`
   margin-right: 4px;
   transition: transform 0.3s ease-in-out;
     
-    &:hover {
-      transform: scale(0.90);
-    }
+  &:hover {
+    transform: scale(1.2);
+  }
 
   &&.str {
     background-color: #fff;
     border-radius: 100px;
     padding: 0;
-
-    &:hover {
-      border: 0.5px solid #3DC2A2;
-
-    }
-
-  `;
+`;

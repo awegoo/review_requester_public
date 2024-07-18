@@ -51,7 +51,7 @@ const ChartSection = () => {
 
   const handlePreviousMonth = () => {
     if (currentMonth === 0) {
-      setCurrentYear((currentYear) => currentYear - 1);
+      setCurrentYear(currentYear - 1);
       setCurrentMonth(11);
     } else {
       setCurrentMonth(currentMonth - 1);
@@ -60,7 +60,7 @@ const ChartSection = () => {
 
   const handleNextMonth = () => {
     if (currentMonth === 11) {
-      setCurrentYear((currentYear) => currentYear + 1);
+      setCurrentYear(currentYear + 1);
       setCurrentMonth(0);
     } else {
       setCurrentMonth(currentMonth + 1);

@@ -17,17 +17,27 @@ import {
   StyledTableWrapper,
 } from "./styled";
 import { CompactTable } from "@table-library/react-table-library/compact";
-import { fetchRequestsWithStatusMonth, fetchRequestsWithStatusYear, getAllOrders, fetchRequestsWithStatusesAll } from "../../utils/fetchData";
+import { fetchRequestsWithStatusesAll } from "../../utils/fetchData";
 import { format, parseISO } from "date-fns";
 import { themeTable } from "../../styles/theme";
-import { columns } from "../../components/constants/constants";
+import { columns, MenuProps } from "../../components/constants/constants";
 import { usePagination } from "@table-library/react-table-library/pagination";
+import ArrowBackIosNewIcon from "@mui/icons-material/ArrowBackIosNew";
+import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
+import KeyboardDoubleArrowRightIcon from '@mui/icons-material/KeyboardDoubleArrowRight';
+import KeyboardDoubleArrowLeftIcon from '@mui/icons-material/KeyboardDoubleArrowLeft';
+import { CustomStyleForSelector } from "../../styles/theme";
 
 const TableComponent = () => {
   const [search, setSearch] = useState("");
   const [hiddenColumns, setHiddenColumns] = useState([]);
   const [requestData, setRequestData] = useState([]);
-  const LIMIT = 20;
+  const LIMIT = 5;
+  const statusColor = {
+    sent: "#C7FFCD",
+    error: "#FEC8C8",
+    pending: "#FEF1AE",
+  };
 
   const transformData = (data) => {
     return data.map((item) => ({
@@ -38,13 +48,7 @@ const TableComponent = () => {
 
   const doGet = useCallback(async (params) => {
     try {
-      // const response = await getAllOrders(params);
-      const response = await fetchRequestsWithStatusesAll(params); // change to the fetchRequestsWithStatusMonth and connect with the month switchers
-      // const responseStatus = await fetchRequestsWithStatusYear({
-      //   year: 2024,
-      //   month: 6,
-      // });
-      // console.log(responseStatus);
+      const response = await fetchRequestsWithStatusesAll(params);
       const transformedData = transformData(response);
       setRequestData(transformedData);
     } catch (error) {
@@ -63,7 +67,7 @@ const TableComponent = () => {
   const filteredData = {
     nodes: requestData.filter((item) => {
       const matchesSearch =
-        // item.productName.name.toLowerCase().includes(search.toLowerCase()) ||
+        item.product_name.toLowerCase().includes(search.toLowerCase()) ||
         item.amazon_order_id.toLowerCase().includes(search.toLowerCase());
 
       return matchesSearch;
@@ -94,9 +98,13 @@ const TableComponent = () => {
       sortFns: {
         UNITS: (array) => array.sort((a, b) => a.quantity - b.quantity),
         PURCHASE_DATE: (array) =>
-          array.sort((a, b) => b.purchase_date - a.purchase_date),
+          array.sort((a, b) => {
+            const dateA = new Date(a.purchase_date);
+            const dateB = new Date(b.purchase_date);
+            return dateB - dateA;
+          }),
       },
-    }
+    },
   );
 
   const toggleColumn = (column) => {
@@ -107,16 +115,13 @@ const TableComponent = () => {
     }
   };
 
-  const pagination = usePagination(
-    filteredData,
-    {
-      state: {
-        page: 0,
-        size: LIMIT,
-      },
-      onChange: onPaginationChange,
+  const pagination = usePagination(filteredData, {
+    state: {
+      page: 0,
+      size: LIMIT,
     },
-  );
+    onChange: onPaginationChange,
+  });
 
   function onPaginationChange(action, state) {
     doGet({
@@ -135,30 +140,41 @@ const TableComponent = () => {
     },
     {
       label: "Review Request Status",
-      // renderCell: (item) => item.amazon_order_status,
-      renderCell: (item) => (
-        <>
-          <div background= '#F3FEB8'>
+      renderCell: (item) => {
+        if (item.amazon_order_status === "Sent") {
+          return (
+            <StyledDiv
+              className="status_request"
+              style={{ background: statusColor.sent }}
+            >
+              {item.amazon_order_status}
+            </StyledDiv>
+          );
+        } else if (item.amazon_order_status === "Error") {
+          return (
+            <StyledDiv
+              className="status_request"
+              style={{ background: statusColor.error }}
+            >
+              {item.amazon_order_status}
+            </StyledDiv>
+          );
+        }
+        return (
+          <StyledDiv
+            className="status_request"
+            style={{ background: statusColor.pending }}
+          >
             {item.amazon_order_status}
-          </div>
-        </>
-      ),
+          </StyledDiv>
+        );
+      },
       hide: hiddenColumns.includes("Review Request Status"),
       width: "2fr",
       resize: true,
     },
     {
       label: "Product Name",
-      // renderCell: (item) => (
-      //   <>
-      //     <img
-      //       src={item.productName.img}
-      //       alt='product image'
-      //       style={{ width: '82px' }}
-      //     />
-      //     {item.productName.name}
-      //   </>
-      // ),
       renderCell: (item) => item.product_name,
       hide: hiddenColumns.includes("Product Name"),
       width: "4fr",
@@ -192,20 +208,6 @@ const TableComponent = () => {
     " "
   );
 
-  const ITEM_HEIGHT = 40;
-  const ITEM_PADDING_TOP = 8;
-  const MenuProps = {
-    PaperProps: {
-      style: {
-        maxHeight: ITEM_HEIGHT * 4.5 + ITEM_PADDING_TOP,
-        width: 250,
-      },
-    },
-    sx: {
-      zIndex: 1500,
-    },
-  };
-
   const handleChange = (event) => {
     const {
       target: { value },
@@ -216,61 +218,82 @@ const TableComponent = () => {
   const renderPaginationButtons = () => {
     const { page, getTotalPages } = pagination.state;
     const totalPages = getTotalPages(filteredData.nodes);
-  
+
     const pages = [];
-  
+
     if (page > 0) {
       pages.push(
-        <StyledPaginationButton className="str" key="first" onClick={() => pagination.fns.onSetPage(0)}>
-          &lt;&lt;
+        <StyledPaginationButton
+          className="str"
+          key="first"
+          onClick={() => pagination.fns.onSetPage(0)}
+        >
+          <KeyboardDoubleArrowLeftIcon fontSize="large" sx={{ fontSize: 28, color: "#1C58CF" }}/>
         </StyledPaginationButton>
       );
       pages.push(
-        <StyledPaginationButton className="str" key="prev" onClick={() => pagination.fns.onSetPage(page - 1)}>
-          &lt;
+        <StyledPaginationButton
+          className="str"
+          key="prev"
+          onClick={() => pagination.fns.onSetPage(page - 1)}
+        >
+           <ArrowBackIosNewIcon sx={{ fontSize: 18, color: "#1C58CF"}} />
         </StyledPaginationButton>
       );
     }
-  
+
     if (page > 1) {
       pages.push(
-        <StyledPaginationButton key={page - 1} onClick={() => pagination.fns.onSetPage(page - 1)}>
+        <StyledPaginationButton
+          key={page - 1}
+          onClick={() => pagination.fns.onSetPage(page - 1)}
+        >
           {page}
         </StyledPaginationButton>
       );
     }
-  
+
     pages.push(
       <StyledPaginationButton key={page} style={{ fontWeight: "bold" }}>
         {page + 1}
       </StyledPaginationButton>
     );
-  
+
     if (page < totalPages - 2) {
       pages.push(
-        <StyledPaginationButton key={page + 1} onClick={() => pagination.fns.onSetPage(page + 1)}>
+        <StyledPaginationButton
+          key={page + 1}
+          onClick={() => pagination.fns.onSetPage(page + 1)}
+        >
           {page + 2}
         </StyledPaginationButton>
       );
     }
-  
+
     if (page < totalPages - 1) {
       pages.push(
-        <StyledPaginationButton className="str" key="next" onClick={() => pagination.fns.onSetPage(page + 1)}>
-          &gt;
+        <StyledPaginationButton
+          className="str"
+          key="next"
+          onClick={() => pagination.fns.onSetPage(page + 1)}
+        >
+          <ArrowForwardIosIcon sx={{ fontSize: 18, color: "#1C58CF" }} />         
         </StyledPaginationButton>
       );
       pages.push(
-        <StyledPaginationButton className="str" key="last" onClick={() => pagination.fns.onSetPage(totalPages - 1)}>
-          &gt;&gt;
+        <StyledPaginationButton
+          className="str"
+          key="last"
+          onClick={() => pagination.fns.onSetPage(totalPages - 1)}
+        >
+          <KeyboardDoubleArrowRightIcon fontSize="large" sx={{ fontSize: 28, color: "#1C58CF" }} />
         </StyledPaginationButton>
       );
     }
-  
+
     return pages;
   };
 
-  // console.log(filteredData);
   return (
     <StyledTableWrapper>
       <StyledLabel htmlFor="search">
@@ -317,25 +340,7 @@ const TableComponent = () => {
               inputProps={{
                 "aria-label": "Without label",
               }}
-              sx={{
-                borderRadius: "6px",
-                background: "#FFFFFF",
-                "& .MuiSelect-select": {
-                  padding: "13px 36px",
-                  fontFamily: "Wix Madefor Text",
-                  fontSize: "16px",
-                  fontStyle: "normal",
-                  fontWeight: 400,
-                  lineHeight: "24px",
-                  textAlign: "left",
-                },
-                "& .MuiOutlinedInput-notchedOutline": {
-                  border: "1.5px solid #D7DCE4",
-                },
-                "& .MuiSvgIcon-root": {
-                  color: "#231F20",
-                },
-              }}
+              sx={CustomStyleForSelector}
             >
               {columns.map((column) => (
                 <MenuItem key={column} value={column}>

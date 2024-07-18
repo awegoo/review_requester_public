@@ -189,7 +189,7 @@ export const themeTable = useTheme([
   },
   {
     HeaderRow: `
-      background: #E0FFF2;
+      background: #3DC2A233;
   `,
   },
   {
@@ -213,7 +213,8 @@ export const themeTable = useTheme([
   {
     Row: `
     &.row-select-single-selected {
-      background: #E0FFF2;}`,
+      background: #3DC2A233;
+    }`,
   },
   {
     BaseCell: `
@@ -224,10 +225,26 @@ export const themeTable = useTheme([
       &:first-of-type {
         text-align: left;
         border-right: 1px solid #D7DCE4;
+        
+        div {
+        display: flex;
+        align-items: center;
+        justify-content: flex-start;  
+        }
       }
 
       &:nth-of-type(3) {
-        text-align: left;
+        div {
+          display: flex;
+          flex-wrap: wrap;
+          align-items: center;
+          justify-content: flex-start;
+          overflow-wrap: break-word;
+          text-align: left;
+          overflow: hidden;
+          text-overflow: ellipsis; 
+          white-space: normal;         
+        }
       }
 
       &:focus {
@@ -237,6 +254,7 @@ export const themeTable = useTheme([
       div {
         display: flex;
         align-items: center;
+        justify-content: center;  
       }
 
       img {
@@ -261,3 +279,23 @@ export const themeTable = useTheme([
     },
   },
 ]);
+
+export const CustomStyleForSelector = {
+  borderRadius: "6px",
+  background: "#FFFFFF",
+  "& .MuiSelect-select": {
+    padding: "13px 36px",
+    fontFamily: "Wix Madefor Text",
+    fontSize: "16px",
+    fontStyle: "normal",
+    fontWeight: 400,
+    lineHeight: "24px",
+    textAlign: "left",
+  },
+  "& .MuiOutlinedInput-notchedOutline": {
+    border: "1.5px solid #D7DCE4",
+  },
+  "& .MuiSvgIcon-root": {
+    color: "#231F20",
+  },
+};
