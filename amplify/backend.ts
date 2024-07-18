@@ -25,7 +25,7 @@ const backend = defineBackend({
   checkReviewRequest,
   sendReviewRequest,
   getDates,
-  getRatings
+  getRatings,
 });
 
 const apiStack = backend.createStack("api-stack");
