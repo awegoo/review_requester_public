@@ -67,13 +67,13 @@ export const schema = configure({
         "asin"
     ]),
     "ratings_ca": a.model({
-        seller_id: a.string().required(),
+        record_id: a.integer().required(),
+        seller_id: a.string(),
         seller_name: a.string(),
         avg_rating: a.string(),
-        rating_date: a.date().required()
+        rating_date: a.date()
     }).identifier([
-        "rating_date",
-        "seller_id"
+        "record_id"
     ]),
     "sent_requests_ca": a.model({
         amazon_order_id: a.string().required(),

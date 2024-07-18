@@ -13,6 +13,7 @@ import { getAccessToken } from "./functions/getAccessToken/resource";
 import { checkReviewRequest } from "./functions/checkReviewRequest/resource";
 import { sendReviewRequest } from "./functions/postReviewRequest/resource";
 import { getDates } from "./functions/getDates/resource";
+import { getRatings } from "./functions/getRatings/resource";
 
 /**
  * @see https://docs.amplify.aws/react/build-a-backend/ to add storage, functions, and more
@@ -24,6 +25,7 @@ const backend = defineBackend({
   checkReviewRequest,
   sendReviewRequest,
   getDates,
+  getRatings,
 });
 
 const apiStack = backend.createStack("api-stack");
