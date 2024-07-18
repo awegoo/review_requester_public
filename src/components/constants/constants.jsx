@@ -132,14 +132,22 @@ export const components = {
         <Heading
           padding={`${tokens.space.xl} 0 0 ${tokens.space.xl}`}
           level={3}
+          style={{
+            color: "#231F20",
+            fontFamily: "Wix Madefor Text",
+            fontSize: "36px",
+            fontStyle: "normal",
+            fontWeight: 700,
+            lineHeight: "46px",
+          }}
         >
           Enter Information:
         </Heading>
       );
     },
-    Footer() {
-      return <Text>Footer Information</Text>;
-    },
+    // Footer() {
+    //   return <Text>Footer Information</Text>;
+    // },
   },
   // SetupTotp: {
   //   Header() {
