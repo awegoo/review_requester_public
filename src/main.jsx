@@ -11,21 +11,21 @@ import { components, formFields } from "./components/constants/constants.jsx";
 import Loading from "./components/Loading/Loading.jsx";
 import outputs from "../amplify_outputs.json";
 
-Amplify.configure(outputs);
+// Amplify.configure(outputs);
 
 ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>
     <Loading />
       <ThemeProvider theme={theme}>
-        <div className="authenticator-container">
+        {/* <div className="authenticator-container">
           <Authenticator
             className="authenticator-custom"
             formFields={formFields}
             components={components}
-          >
+          > */}
             <App />
-          </Authenticator>
-        </div>
+          {/* </Authenticator> */}
+        {/* </div> */}
       </ThemeProvider>
   </React.StrictMode>
 );

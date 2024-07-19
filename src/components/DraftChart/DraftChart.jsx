@@ -18,7 +18,7 @@ import {theme} from '../../styles/theme'
 
 const CustomTooltip = ({ active, payload, label }) => {
   const tooltipStyle = {
-    color: theme.colors.turquoise,
+    color: theme.colors.blue,
     backgroundColor: theme.colors.white,
     borderColor: theme.colors.lightGrey,
     fontFamily: theme.fonts.textLinkSmall,
