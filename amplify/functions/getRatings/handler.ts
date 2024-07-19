@@ -1,8 +1,8 @@
 import { Handler } from "aws-lambda";
-import { env } from "$amplify/env/getRatings";
 import { load } from "cheerio";
 import { Client } from "pg";
 import { addRating } from "./sqlQuerys";
+import { env } from "$amplify/env/getRatings";
 
 interface IRate {
   seller_id: string;
@@ -26,12 +26,16 @@ const client = new Client({
 // }); - for development environment
 
 export const handler: Handler = async (event) => {
-  await client.connect();
-
+  let isConnected = false;
   //   const url = import.meta.env.VITE_URL;
   const url = env.URL;
 
   try {
+    if (!isConnected) {
+      await client.connect();
+      isConnected = true;
+    }
+
     // Fetch html document from url
     const res = await fetch(url);
     if (!res.ok) {
@@ -75,8 +79,6 @@ export const handler: Handler = async (event) => {
         ratingObject.avg_rating,
         ratingObject.rating_date,
       ]);
-
-      await client.end();
       return "Scrapping rating successfuly saved to the data base";
     }
     return "Cant scrapping url";
@@ -89,5 +91,8 @@ export const handler: Handler = async (event) => {
         }),
       };
     }
+  } finally {
+    await client.end();
+    isConnected = false;
   }
 };
