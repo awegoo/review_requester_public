@@ -23,7 +23,7 @@ const Header = () => {
   };
 
   useEffect(() => {
-    const localStorageKey = 'CognitoIdentityServiceProvider.3sbran2qgccm80qfi3v0h3qivp.cccd85e8-b041-7029-8a18-ec47a8ac9eb8.signInDetails';
+    const localStorageKey = 'CognitoIdentityServiceProvider.7l3lekomg2svbfetq8j1qjatmt.bc4d05d8-1071-70e3-b99b-a5c802a00540.signInDetails';
     const data = localStorage.getItem(localStorageKey);
 
     if (data) {

@@ -13,6 +13,31 @@ import {
 } from 'recharts';
 import CustomBarShape from './CustomBarShape';
 import './styles.css'
+import {theme} from '../../styles/theme'
+
+
+const CustomTooltip = ({ active, payload, label }) => {
+  const tooltipStyle = {
+    color: theme.colors.turquoise,
+    backgroundColor: theme.colors.white,
+    borderColor: theme.colors.lightGrey,
+    fontFamily: theme.fonts.textLinkSmall,
+    borderRadius: "5px",
+    borderStyle: "solid"
+  };
+  if (active && payload && payload.length) {
+    return (
+      <div className="custom-tooltip">
+        <div className='label' style={tooltipStyle}>
+        {`Shipped orders: ${payload[0].value}`}<br/>
+        {`Sent requests: ${payload[1].value}`}
+        </div>
+      </div>
+    );
+  }
+
+  return null;
+};
 
 
 const renderColorfulLegendText = (value, entry) => {
@@ -35,7 +60,7 @@ const DraftChart = ({ data }) => {
           <CartesianGrid strokeDasharray="0" vertical={false}/>
           <XAxis dataKey="dayNum" /> 
           <YAxis />
-          <Tooltip cursor={{ stroke: 'none'}}/>
+          <Tooltip cursor={{ stroke: 'none'}} content={<CustomTooltip/>}/>
           <Legend 
             iconType="circle" 
             verticalAlign="top" 
