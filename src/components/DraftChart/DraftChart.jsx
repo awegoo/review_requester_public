@@ -14,6 +14,7 @@ import {
 import CustomBarShape from './CustomBarShape';
 import './styles.css'
 import {theme} from '../../styles/theme'
+import {data} from '../../utils/testData'
 
 
 const CustomTooltip = ({ active, payload, label }) => {
@@ -48,15 +49,15 @@ const renderColorfulLegendText = (value, entry) => {
 
 const DraftChart = ({ data }) => {
   
-  const monthlyDataWithDates = data.map(item => ({
-    ...item,
-    dayNum: new Date(item.purchase_date).getDate()
-  }));
+  // const monthlyDataWithDates = data.map(item => ({
+  //   ...item,
+  //   dayNum: new Date(item.purchase_date).getDate()
+  // }));
   
   return (
     <>      
       <ResponsiveContainer width="100%" height={400}>
-        <ComposedChart data={monthlyDataWithDates}>
+        <ComposedChart data={data}>
           <CartesianGrid strokeDasharray="0" vertical={false}/>
           <XAxis dataKey="dayNum" /> 
           <YAxis />

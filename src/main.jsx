@@ -9,7 +9,7 @@ import { Amplify } from "aws-amplify";
 import { Authenticator } from "@aws-amplify/ui-react";
 import { components, formFields } from "./components/constants/constants.jsx";
 import Loading from "./components/Loading/Loading.jsx";
-import outputs from "../amplify_outputs.json";
+// import outputs from "../amplify_outputs.json";
 
 // Amplify.configure(outputs);
 

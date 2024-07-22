@@ -23,7 +23,7 @@ const Header = () => {
   };
 
   useEffect(() => {
-    const localStorageKey = 'CognitoIdentityServiceProvider.7l3lekomg2svbfetq8j1qjatmt.bc4d05d8-1071-70e3-b99b-a5c802a00540.signInDetails';
+    const localStorageKey = 'CognitoIdentityServiceProvider...';
     const data = localStorage.getItem(localStorageKey);
 
     if (data) {
@@ -132,7 +132,7 @@ const Header = () => {
             />
           </StyledDiv>
           <StyledButton className="avatar">         
-            <a href="#">{initials}</a>
+            <a href="#">{"RQ"}</a>
           </StyledButton>
           <StyledButton className="bt_sign_out">
             <a href="#" onClick={signOut}>

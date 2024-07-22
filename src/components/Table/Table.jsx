@@ -27,6 +27,7 @@ import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
 import KeyboardDoubleArrowRightIcon from '@mui/icons-material/KeyboardDoubleArrowRight';
 import KeyboardDoubleArrowLeftIcon from '@mui/icons-material/KeyboardDoubleArrowLeft';
 import { CustomStyleForSelector } from "../../styles/theme";
+import {testDataTable} from './testTableData';
 
 const TableComponent = () => {
   const [search, setSearch] = useState("");
@@ -48,9 +49,9 @@ const TableComponent = () => {
 
   const doGet = useCallback(async (params) => {
     try {
-      const response = await fetchRequestsWithStatusesAll(params);
-      const transformedData = transformData(response);
-      setRequestData(transformedData);
+      // const response = await fetchRequestsWithStatusesAll(params);
+      // const transformedData = transformData(testDataTable);
+      setRequestData(testDataTable);
     } catch (error) {
       console.log(error);
     }

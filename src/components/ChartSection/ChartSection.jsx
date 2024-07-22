@@ -7,6 +7,7 @@ import { useAuthStore } from "../../store/authStore";
 import ArrowBackIosNewIcon from "@mui/icons-material/ArrowBackIosNew";
 import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
 import { StyledLabel, StyledTitle } from "./styled";
+import {data} from '../../utils/testData'
 
 const MonthSwitchBar = styled.div`
   display: flex;
@@ -30,8 +31,8 @@ const ChartSection = () => {
   }, []);
 
   async function fetchGraphData() {
-    const graphdata = await fetchDataForGraphs();
-    setGraphData(graphdata);
+    // const graphdata = await fetchDataForGraphs();
+    setGraphData(data); //test data from utils/testData.js
   }
 
   const months = [
@@ -96,7 +97,7 @@ const ChartSection = () => {
       <Card sx={{ mt: 4 }}>
         <CardContent>
           <StyledTitle>
-            <h3>Order Requests</h3>
+            <h3>Order Requests (test data)</h3>
             <p>Updates Daily</p>
           </StyledTitle>
           <MonthSwitchBar>
