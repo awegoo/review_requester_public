@@ -5,9 +5,6 @@ export const getAccessToken = defineFunction({
     entry:'./handler.ts',
     // ! for dev
     environment:{
-        // REFRESH_TOKEN: '', 
-        // LWA_APP_ID: '', 
-        // LWA_CLIENT_SECRET: "",
-        // BASE_URL: ''
+       
     }
 })

@@ -4,8 +4,6 @@ export const getRatings = defineFunction({
   name: "getRatings",
   entry: "./handler.ts",
   environment: {
-    // URL: "", 
-    // SELLER_ID: "",
-    // STRING_CONNECTION: "" 
+   
   },
 });
